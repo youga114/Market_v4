@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>마을마켓 - 공지사항</title>
+<script src="/js/jquery-3.1.1.js"></script>
+<script src="/js/header.js"></script>
+<script src="/js/loginCheck.js"></script>
+<link rel="stylesheet" type="text/css" charset="utf-8" href="/css/main.css" />
+<link rel="stylesheet" type="text/css" href="/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+<script type="text/javascript" src="/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="/js/counsel.js"></script>
+<script src="/js/service.js"></script>
+<style>
+	#service_header, #service_header h2{
+		width:1100px;
+	}
+
+	#board_area{
+		position: relative;
+		top:40px;
+		width:1206px;
+	}
+
+	#board_bt_area{
+		width:840px;
+		margin:auto;
+		margin-top: 60px;
+	}
+
+	#board_bt_area table{
+		width:840px;
+		padding:0px;
+		border-spacing:0px 0px;
+		border-style: solid;
+		border: 1px solid darkgray;		
+	}
+
+	#board_bt_area tr{
+		position: relative;
+		padding:0px;
+
+	}
+
+	#board_bt_area td{
+		position: relative;
+		height:100px;
+		width:140px;
+		padding:0px;
+		border-style: solid;
+		border: 1px solid darkgray;
+		cursor: pointer;
+	}
+
+	.img_area{
+		position: relative;
+		margin:auto;
+		width:40px;
+		height:50px;
+	}
+
+	#board_bt_area img{
+		width:40px;
+		margin:0 auto;		
+	}
+
+	#board_bt_area h4{
+		width:140px;
+		margin: auto;
+		text-align: center;
+	}
+
+	#menu_header{
+		width:1100px;
+		margin:auto;
+		margin-top: 60px;
+	}
+</style>
+</head>
+<body>
+	<div id="page-wrapper" align="center">
+		<div>
+			<header id="header">
+				<div class="main-bg isTop">
+					<div class="main-bg-bar">
+						<ul class="main-bg-bar-nav">
+							<li style="border-right: 0;">
+								<a id="cart_a" href="">장바구니</a>
+							</li>
+							<li>
+								<a href="/service/home">고객센터</a>
+							</li>
+							<li>
+								<a id="myInfo_a" href="">마이페이지</a>
+							</li>
+							<li>
+								<a href="/joinAgree.html">회원가입</a>
+							</li>
+							<li>
+								<a id="login_a" href="">로그인</a>
+							</li>
+						</ul>
+					</div>
+					<div class="main-bg-header">
+						<div class="main-bg-header-container">
+							<a href="/" class="main-bg-header-container-logo">
+								<div style="font-family: 'Yoon_러브레터M';font-size: 40px;font-weight: lighter;">마을마켓</div>
+								<div style="font-family: 'Yoon_러브레터M';font-size: 180px;font-weight: lighter;margin-top: -85px;height: 80px;margin-left: 30px;">소소</div>
+							</a>
+							<div id="magnifier" align="right" style="margin-top: 10px;">
+								<span style="border: 1px solid #ddd;padding: 0px 5px;">
+									<img src="img/main/magnifier.png" width="14" height="14">
+									<input type="text" name="search" style="border: none;font-size: 15px;margin-left: 2px;">
+								</span>
+							</div>
+							<div class="main-bg-header-container-catchcopy">
+								<font style="vertical-align: inherit;">
+									상품 하나하나에 이웃의 이야기와 자부심이 있습니다.
+								</font>
+								<br>
+							</div>
+							<div style="text-align: left;">
+								<a href="./" class="main-bg-header-container-home"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">홈</font></font></a>
+								<div class="main-bg-header-container-nav">
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/category.html?high_num=1&view=2">식품</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/category.html?high_num=2&view=2">생활</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											기획
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/news_list">마마톡</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list" style="border-right: 0px;">
+										<font style="vertical-align: inherit;">
+											이웃마을
+										</font>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+
+			<div id="container">
+				<div id="board_area" align="center">
+					<div id="service_header" align="center">
+						<h2>마을마켓 고객센터</h2>
+					</div>
+
+					<div id="board_bt_area" align="center">
+						<table align="center">
+							<tr>
+								<% if(kind == "home"){ %>
+								<td onclick="menu_bt('home');" style="background-color: black;">
+									<div class="img_area"><img src="/img/service_bt/home_w.png" alt="home"></div>
+									<h4 style="color:white">마을마켓이란</h4>
+								</td>
+								<% }else{ %>
+								<td class="board_bt" onclick="menu_bt('home');">
+									<div class="img_area"><img src="/img/service_bt/home.png" alt="home"></div>
+									<h4>마을마켓이란</h4>
+								</td>			
+								<% } %>
+								<% if(kind == "notice"){ %>
+								<td onclick="menu_bt('notice');" style="background-color: black;">
+									<div class="img_area"><img src="/img/service_bt/notice_w.png" alt="notice"></div>
+									<h4 style="color:white">공지사항</h4>
+								</td>
+								<% }else{ %>
+								<td class="board_bt" onclick="menu_bt('notice');">
+									<div class="img_area"><img src="/img/service_bt/notice.png" alt="notice"></div>
+									<h4>공지사항</h4>
+								</td>			
+								<% } %>
+
+								<% if(kind == "faq"){ %>
+								<td onclick="menu_bt('faq');" style="background-color: black;">
+									<div class="img_area"><img src="/img/service_bt/question_w.png" alt="FAQ"></div>
+									<h4 style="color:white">Q&A</h4>
+								</td>
+								<% }else{ %>
+								<td class="board_bt" onclick="menu_bt('faq');">
+									<div class="img_area"><img src="/img/service_bt/question.png" alt="FAQ"></div>
+									<h4>Q&A</h4>
+								</td>							
+								<% } %>
+								<% if(kind == "delivery"){ %>
+								<td onclick="menu_bt('delivery');" style="background-color: black;">
+									<div class="img_area"><img src="/img/service_bt/transport_w.png" alt="delivery"></div>
+									<h4 style="color:white">배송안내</h4>
+								</td>
+								<% }else{ %>
+								<td class="board_bt" onclick="menu_bt('delivery');">
+									<div class="img_area"><img src="/img/service_bt/transport.png" alt="delivery"></div>
+									<h4>배송안내</h4>
+								</td>							
+								<% } %>
+								<% if(kind == "exchange"){ %>
+								<td onclick="menu_bt('exchange');" style="background-color: black;">
+									<div class="img_area"><img src="/img/service_bt/package_w.png" alt="exchange"></div>
+									<h4 style="color:white">교환/반품</h4>
+								</td>
+								<% }else{ %>
+								<td class="board_bt" onclick="menu_bt('exchange');">
+									<div class="img_area"><img src="/img/service_bt/package.png" alt="exchange"></div>
+									<h4>교환/반품</h4>
+								</td>							
+								<% } %>	
+								<% if(kind == "counsel"){ %>
+								<td onclick="menu_bt('counsel');" style="background-color: black;">
+									<div class="img_area"><img src="/img/service_bt/mallin_w.png" alt="counsel"></div>
+									<h4 style="color:white">입점상담</h4>
+								</td>
+								<% }else{ %>
+								<td class="board_bt" onclick="menu_bt('counsel');">
+									<div class="img_area"><img src="/img/service_bt/mallin.png" alt="counsel"></div>
+									<h4>입점상담</h4>
+								</td>							
+								<% } %>																													
+							</tr>
+						</table>
+					</div>
+
+					<div id="menu_header" align="center">
+						<h3>입점상담</h3>
+					</div>
+
+					<div id="content_area" align="center">
+					<div style="width:1000px;">
+						<div style="width: 1000px;margin-top: 30px;">
+							<div style="margin:100px 0px;"><strong>입점신청서 작성 >> 상품개발팀 내부 검토 후 회신 >> 입점 상담 >> 입점 결정 >> 입점 계약 >> 상품 등록 및 판매</strong></div>
+						</div>
+					</div>
+					<div id="content_area" align="center">
+						<div style="width:1000px;margin-top: 60px;">
+							<div align="right"><button style="background-color:#aaa;border:0px;color:white;font-size:15px;padding:8px;margin-bottom:5px;font-weight:bold;cursor:pointer;border-radius:3px;" onclick="location.href='/counselAdd.html'">입점신청서 작성</button></div>
+							<table id="noticeTb" style="width:100%;border-top:solid 1px #ddd;font-size: 14px;border-spacing: 0px;text-align:center;color: #333;">
+								<tr>
+									<td style="padding:10px 10px;width: 50px;border-bottom: solid 1px #ddd;">번호</td><td style="padding:10px 10px;border-bottom: solid 1px #ddd;">제목</td>
+									<td style="padding:10px 10px;width: 100px;border-bottom: solid 1px #ddd;">등록일</td>
+								</tr>
+								<tr id="noNotice"><td colspan="3" style="height:100px;border-bottom:solid 1px #ddd;">입점신청내역이 없습니다.</td></tr>
+							</table>
+						</div>
+					</div>
+						
+					</div>
+				</div>
+			</div>
+
+
+			<footer id="footer">
+				<div class="footer-container">
+					<div class="footer-top" align="center">
+						상품에 대하여 배송, 교환, 반품의 민원 A/S 등은  "다시 뛰는 사람들" 에서 처리하며 모든 책임은 "다시 뛰는 사람들"에 있습니다.​
+	민원 담당자 : 마을마켓 소소 고객센터 /  연락처 : 031-963-2900 
+					</div>
+					<div class="footer-mid" align="left">
+						<p style="font-size: 12px;">
+							<b>다시 뛰는 사람들</b>
+						</p>
+						<p style="font-size: 11px;">
+							우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+						</p>
+						<p style="font-size: 11px;">
+							| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+						</p>
+					</div>
+					<div class="footer-bottom" align="left">
+						<p style="font-size: 12px;">
+							<b>고객센터</b>
+						</p>
+						<p style="font-size: 11px;">
+							| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+						</p>
+						<p style="font-size: 11px;">
+							| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+						</p>
+					</div>
+					<div class="pageTop">
+						<a href="#" class="pageTop-a">
+							<img src="/img/main/pageTop.png" width="100">
+						</a>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+</body>
+</html>

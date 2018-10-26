@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<script src="js/jquery-3.1.1.js"></script>
+	<script src="js/header.js"></script>
+	<script src="js/loginCheck.js"></script>
+	<link rel="stylesheet" type="text/css" charset="utf-8" href="/css/main.css" />
+	<link rel="stylesheet" type="text/css" charset="utf-8" href="css/myPage.css" />
+	<link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.css"/>
+	<script type="text/javascript" src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<title>마을마켓 - 주문/배송 조회</title>
+	<style>
+		.pageButton{
+			background-color: white;
+			border: 1px solid #ee2c28;
+			color: #ee2c28;
+			padding: 6px 12px;
+			cursor: pointer;
+			font-size: 14px;
+			margin: 0px 4px;
+		}
+		.pageButton:hover{
+			background-color: #eee;
+		}
+		.pageButton2{
+			background-color: white;
+			border: 1px solid #cfcfcf;
+			color: #605f60;
+			padding: 6px 12px;
+			cursor: pointer;
+			font-size: 14px;
+			margin: 0px 4px;
+		}
+		.pageButton2:hover{
+			background-color: #eee;
+		}
+	</style>
+	<script>
+		var dataCount=0;
+		$(document).ready(function(){
+			$.get('/bringHighCategory',function(data){
+				var output='<li><a href=\"/\">HOME</a></li>';
+				for(var i=0;i<data.length;i++){
+					output+='<li><a href=\"/category.html?high_num='+data[i].CG_PK+'&view=3\">'+data[i].CG_CATEGORY_NM+'</a></li>';
+				}
+				$('#menu').append(output);
+			});
+
+			$( "#dialog" ).dialog({
+				autoOpen: false,
+				width: 600
+			});
+
+			var parameterPage=parseInt(getParameterByName("page"));
+			$.get("/bringMyAddress?page="+parameterPage+"&ex=1",function(data){
+				if(data!=''){
+					$("#noAddress").remove();
+					var output='';
+					for(var i=0;i<data.length;i++){
+						var number;
+						if(data[i].AD_NO!=null){
+							number=data[i].AD_NO;
+						}
+						else{
+							number="";
+						}
+						var phone=data[i].AD_PHONE_NO;
+						var ymd=data[i].AD_REGDATE_YMD;
+						output+='<tr>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);">'+ymd.slice(0,4)+'.'+ymd.slice(4,6)+'.'+ymd.slice(6,8)+'</td>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);">'+data[i].AD_NM+'</td>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);text-align:left;">('+data[i].AD_ZIP_NO+') '+data[i].AD_AD1+'</br>'+data[i].AD_AD2+'</td>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);">'+number.slice(0,number.length-8)+'-'+number.slice(number.length-8,number.length-4)+'-'+number.slice(number.length-4,number.length)+'</br>'+phone.slice(0,phone.length-8)+'-'+phone.slice(phone.length-8,phone.length-4)+'-'+phone.slice(phone.length-4,phone.length)+'</td>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);"><button style="background-color:white;border:1px solid #ee2c28;color:#ee2c28;border-radius:3px;cursor:pointer;" onclick="modifyFun('+data[i].AD_PK+')">자주쓰는배송지</button> <button style="background-color:white;border:1px solid #cfcfcf;border-radius:3px;cursor:pointer;" onclick="deleteFun('+data[i].AD_PK+')">삭제</button></td>';
+						output+='</tr>';
+					}
+					$("#addressTb").append(output);
+					$.get("/bringMyAddressCount?ex=1",function(data){
+						var output='';
+						var i=1;
+						while((parameterPage-i)%10!=0){
+							var instant=parameterPage-i;
+							output='<a href="/addressBook2.html?page='+instant+'" class="pageButton2">'+instant+'</a>'+output;
+							i++;
+						}
+						if((parameterPage-i)%10==0&&parameterPage>10){
+							output='<a href="/addressBook2.html?page='+(parameterPage-i)+'" class="pageButton2"><</a>'+output;
+						}
+						output+='<a href="/addressBook2.html?page='+parameterPage+'" class="pageButton">'+parameterPage+'</a>';
+						var i=1;
+						while((parameterPage+i-1)*10<data.count&&(parameterPage+i)%10!=1){
+							var instant=parameterPage+i;
+							output+='<a href="/addressBook2.html?page='+instant+'" class="pageButton2">'+instant+'</a>';
+							i++;
+						}
+						if((parameterPage+i)%10==1){
+							output+='<a href="/addressBook2.html?page='+(parameterPage+i)+'" class="pageButton2">></a>';
+						}
+						dataCount=data.count;
+						$("#page").empty().append(output);
+					})
+				}
+			})
+		})
+
+		function deleteFun(pk){
+			$.post("/deleteAddress",{pk:pk},function(){
+				if((parseInt(getParameterByName("page"))!=1)&&(dataCount%10==1)&&(dataCount/10==parseInt(getParameterByName("page"))-0.9)){
+					location.href="/addressBook.html?page="+(parseInt(getParameterByName("page"))-1);
+				}
+				else{
+					location.href=location.href;
+				}
+			})
+		}
+
+		function getParameterByName(name) {
+		    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		        results = regex.exec(location.search);
+		    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		}
+
+		function modifyFun(pk){
+			$.post("/address2Modify",{pk:pk},function(){
+				if((parseInt(getParameterByName("page"))!=1)&&(dataCount%10==1)&&(dataCount/10==parseInt(getParameterByName("page"))-0.9)){
+					location.href="/addressBook.html?page="+(parseInt(getParameterByName("page"))-1);
+				}
+				else{
+					location.href=location.href;
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<div id="page-wrapper" align="center">
+		<div>
+			<header id="header">
+				<div class="main-bg isTop">
+					<div class="main-bg-bar">
+						<ul class="main-bg-bar-nav">
+							<li style="border-right: 0;">
+								<a id="cart_a" href="">장바구니</a>
+							</li>
+							<li>
+								<a href="/service/home">고객센터</a>
+							</li>
+							<li>
+								<a id="myInfo_a" href="">마이페이지</a>
+							</li>
+							<li>
+								<a href="/joinAgree.html">회원가입</a>
+							</li>
+							<li>
+								<a id="login_a" href="">로그인</a>
+							</li>
+						</ul>
+					</div>
+					<div class="main-bg-header">
+						<div class="main-bg-header-container">
+							<a href="/" class="main-bg-header-container-logo">
+								<div style="font-family: 'Yoon_러브레터M';font-size: 40px;font-weight: lighter;">마을마켓</div>
+								<div style="font-family: 'Yoon_러브레터M';font-size: 180px;font-weight: lighter;margin-top: -85px;height: 80px;margin-left: 30px;">소소</div>
+							</a>
+							<div id="magnifier" align="right" style="margin-top: 10px;">
+								<span style="border: 1px solid #ddd;padding: 0px 5px;">
+									<img src="img/main/magnifier.png" width="14" height="14">
+									<input type="text" name="search" style="border: none;font-size: 15px;margin-left: 2px;">
+								</span>
+							</div>
+							<div class="main-bg-header-container-catchcopy">
+								<font style="vertical-align: inherit;">
+									상품 하나하나에 이웃의 이야기와 자부심이 있습니다.
+								</font>
+								<br>
+							</div>
+							<div style="text-align: left;">
+								<a href="./" class="main-bg-header-container-home"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">홈</font></font></a>
+								<div class="main-bg-header-container-nav">
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/category.html?high_num=1&view=2">식품</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/category.html?high_num=2&view=2">생활</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											기획
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/news_list">마마톡</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list" style="border-right: 0px;">
+										<font style="vertical-align: inherit;">
+											이웃마을
+										</font>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+			<div id = 'container' align='center'>
+				<div style="width: 1050px;padding:50px 0px;">
+					<div style="width: 185px;float: left;border: 1px solid #cfcfcf;background: #fff;">
+						<ul style="list-style: none;padding: 0;margin:0px;border:0px;text-align:left;">
+							<a href="/myPage.html"><li style="display: block;border-bottom: 1px solid #cfcfcf;padding: 10px 0;font-size: 16px;color: white;font-family: NanumGothic !important;background-color:#f65c50;text-align:center;">마이 페이지</li></a>
+							<li style="display: block;border-bottom: 1px solid #cfcfcf;padding: 10px 0 10px 20px;font-size: 16px;color: #565656;font-family: NanumGothic !important;">MY 쇼핑 리스트</li>
+							<li style="padding: 15px 0px;">
+								<table style="width: 100%;font-size: 12px;color: #000000;">
+									<tr>
+										<td style="padding:3px 20px 3px 20px;"><a href="/myInfo.html" class="myPageHover">주문배송정보</a></td>
+									</tr>
+									<tr>
+										<td style="padding:3px 20px 3px 20px;"><a href="/cart.html" class="myPageHover">장바구니</a></td>
+									</tr>
+									<tr>
+										<td style="padding:3px 20px 3px 20px;"><a href="/addressBook.html?page=1" class="myPageHover">배송지 관리</a></td>
+									</tr>
+									<tr>
+										<td style="padding:3px 20px 3px 20px;"><a href="/myReturn.html" class="myPageHover">반품/교환 내역</a></td>
+									</tr>
+								</table>
+							</li>
+						</ul>
+						<!-- <ul style="list-style: none;padding: 0;margin: 0px;border:0px;text-align:left;">
+							<li style="display: block;border-bottom: 1px solid #cfcfcf;border-top: 1px solid #cfcfcf;padding: 10px 0 10px 20px;font-size: 16px;color: #565656;font-family: NanumGothic !important;">MY 쇼핑혜택</li>
+							<li style="padding: 15px 0px;">
+								<table style="width: 100%;font-size: 12px;color: #000000;">
+									<tr>
+										<td style="padding:3px 20px 3px 20px;"><a href="savedMoney.html" class="myPageHover">적립금 내역</a></td>
+									</tr>
+								</table>
+							</li>
+						</ul> -->
+						<ul style="list-style: none;padding: 0;margin: 0px;border:0px;text-align:left;">
+							<li style="display: block;border-bottom: 1px solid #cfcfcf;border-top: 1px solid #cfcfcf;padding: 10px 0 10px 20px;font-size: 16px;color: #565656;font-family: NanumGothic !important;">MY 쇼핑정보</li>
+							<li style="padding: 15px 0px;">
+								<table style="width: 100%;font-size: 12px;color: #000000;">
+									<tr>
+										<td style="padding:3px 20px 3px 20px;"><a href="/myInfoModify.html" class="myPageHover">회원정보수정</a></td>
+									</tr>
+									<tr>
+										<td style="padding:3px 20px 3px 20px;"><a href="/userDelete.html" class="myPageHover">회원탈퇴</a></td>
+									</tr>
+								</table>
+							</li>
+						</ul>
+					</div>
+					<div style='width:830px;float: right;'>
+						<div style='width: 810px;'>
+							<div style="width:100%;font-size:22px;margin-bottom:10px;text-align:left;font-weight: bold;color: #555;">배송지 관리</div>
+							<div style="height:10px;"></div>
+							<table width="98%" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size: 13px;">
+								<tbody>
+									<tr height="30">
+										<td width="10"></td>
+										<td width="20%" style="text-align: center;padding: 2px;border: 1px solid #565656 ;height: 35px;border-bottom: 0px;">
+											<a href="/addressBook.html?page=1" style="color: #515151;">자주쓰는 배송지</a>
+										</td>
+										<td width="20%" style="text-align: center;padding: 2px;border: 1px solid #565656 ;background: #f65c50 !important;height: 35px;border-bottom: 0px;">
+											<a href="" style="color: #fff !important;">최근 배송지</a></td>
+										<td>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div style="height:10px;border-top: 1px solid #565656;"></div>
+							<table id='addressTb' style='width: 790px;border-top:solid 2px;font-size: 12px;border-spacing: 0px;text-align:center;margin-bottom: 20px;'>
+								<tr>
+									<td style="padding:5px 10px 5px 10px;border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);border-right: solid 1px rgb(204,204,204);width:100px;">날짜</td>
+									<td style="padding:5px 10px 5px 10px;border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);border-right: solid 1px rgb(204,204,204);width:80px;">받는분</td>
+									<td style="padding:5px 10px 5px 10px;width: 260px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);">주소</td>
+									<td style="padding:5px 1px 5px 1px;width: 110px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);">연락처</td>
+									<td style="padding:5px 10px 5px 10px;border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);">관리</td>
+								</tr>
+								<tr id="noAddress"><td colspan="5" style="height:100px;">최근 배송지가 없습니다.</td></tr>
+							</table>
+							<div id="page"></div>
+						</div>
+					</div>
+
+
+				</div>
+			<footer id="footer">
+				<div class="footer-container">
+					<div class="footer-top" align="center">
+						상품에 대하여 배송, 교환, 반품의 민원 A/S 등은  "다시 뛰는 사람들" 에서 처리하며 모든 책임은 "다시 뛰는 사람들"에 있습니다.​
+	민원 담당자 : 마을마켓 소소 고객센터 /  연락처 : 031-963-2900 
+					</div>
+					<div class="footer-mid" align="left">
+						<p style="font-size: 12px;">
+							<b>다시 뛰는 사람들</b>
+						</p>
+						<p style="font-size: 11px;">
+							우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+						</p>
+						<p style="font-size: 11px;">
+							| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+						</p>
+					</div>
+					<div class="footer-bottom" align="left">
+						<p style="font-size: 12px;">
+							<b>고객센터</b>
+						</p>
+						<p style="font-size: 11px;">
+							| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+						</p>
+						<p style="font-size: 11px;">
+							| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+						</p>
+					</div>
+					<div class="pageTop">
+						<a href="#" class="pageTop-a">
+							<img src="/img/main/pageTop.png" width="100">
+						</a>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+</body>
+</html>

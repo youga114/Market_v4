@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>마을마켓 - 관리자페이지</title>
+	<script src="js/jquery-3.1.1.js"></script>
+	<script src="js/numberWithCommas.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/admin.css" rel="stylesheet">
+	<script type="text/javascript" src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.css"/>
+</head>
+<body>
+	<div id="page-wrapper">
+		<div>
+			<header align="right">
+				<a href="/logout"><button style="background-color: rgb(154,154,154);border: 0px;font-size: 12px;color: white;width: 70px;height: 30px;margin-top: 18px;margin-right: 20px;">로그아웃</button></a>
+			</header>
+			<div class="left">
+				<ul align="left">
+					<a href="/goodList.html"><li>상품목록</li></a>
+					<a href="/goodRegist.html"><li>상품등록</li></a>
+					<a href="/providerManage.html"><li>공급자 관리</li></a>
+					<a href="/tradeManage.html"><li>거래 상태별 주문관리</li></a>
+					<a href="/noticeList.html"><li>공지사항 관리</li></a>
+					<a href="/questionList.html"><li>Q&A 관리</li></a>
+					<a href="/slideBannerList.html"><li style="background-color: rgb(12,63,78);">슬라이드배너 관리</li></a>
+					<a href="/newsManage"><li>기사 관리</li></a>
+					<a href="/mainManage"><li>메인페이지 관리</li></a>
+					<a href="/counselAdmin.html"><li>입점신청서 관리</li></a>
+				</ul>
+			</div>
+			<div id = "container" align="left">
+				<div style="border-bottom: 2px solid;font-size: 25px;width: 1100px;margin:20px 0px 0px 30px;">슬라이드배너 추가</div>
+				<div style="margin:5px 0px 0px 30px;">
+					<form id="add" action="/bannerAdd" method="post" enctype="multipart/form-data">
+						<table style="margin-top: 10px;">
+							<tr>
+								<td style="padding: 5px;">
+									이미지
+								</td>
+								<td style="padding: 10px;">
+									<input type="file" name="file" maxlength="100" style="font-weight:bold;font-size:16px;color: #555;padding: 5px;width: 810px;border:1px solid #aaa;">
+								</td>
+							</tr>
+							<tr>
+								<td style="padding: 5px;">
+									링크
+								</td>
+								<td style="padding: 10px;">
+									<input type="text" name="link" maxlength="100" style="font-weight:bold;font-size:16px;color: #555;padding: 5px;width: 410px;border:1px solid #aaa;">
+								</td>
+							</tr>
+						</table>
+					</form>
+					<div style="width: 858px;" align="right"><input type="submit" value="확인" onclick="addFun()" style="border:0px;background-color:#555;font-size:14px;padding:10px 20px;color:white;font-weight:bold;cursor:pointer;border-radius:3px;margin-right: 10px;"><button onclick='location.href="/slideBannerList.html"' style="border:0px;background-color:#eee;font-size:14px;padding:10px 20px;color:#555;font-weight:bold;cursor:pointer;border-radius:3px;">취소</button></div>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<div style="float:left; margin-top: 50px; margin-left: 300px; color: white;" align="left">
+				<p style="font-size: 12px;">
+					<b>다시 뛰는 사람들</b>
+				</p>
+				<p style="font-size: 11px;">
+					우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+				</p>
+				<p style="font-size: 11px;">
+					| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+				</p>
+			</div>
+			<div style="float:left; margin-top: 50px; margin-left: 99px; color: white;" align="left">
+				<p style="font-size: 12px;">
+					<b>고객센터</b>
+				</p>
+				<p style="font-size: 11px;">
+					| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+				</p>
+				<p style="font-size: 11px;">
+					| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+				</p>
+			</div>
+		</footer>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$.get("/adminConfirm",function(data){
+				if(data=="success"){
+
+				}
+				else{
+					location.href="/login.html?url="+location.href;
+				}
+			})
+		})
+
+		function addFun(){
+			$("#add").submit();
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+.hover2:hover{
+	color: black;
+}
+#service_header, #service_header h2{
+	width:1100px;
+}
+#board_area{
+	position: relative;
+	top:40px;
+	width:1206px;
+	min-height:800px;
+}
+#board_bt_area{
+	width:840px;
+	margin:auto;
+	margin-top: 60px;
+}
+#board_bt_area table{
+	width:840px;
+	padding:0px;
+	border-spacing:0px 0px;
+	border-style: solid;
+	border: 1px solid darkgray;		
+}
+#board_bt_area tr{
+	position: relative;
+	padding:0px;
+
+}
+#board_bt_area td{
+	position: relative;
+	height:100px;
+	width:140px;
+	padding:0px;
+	border-style: solid;
+	border: 1px solid darkgray;
+	cursor: pointer;
+}
+.img_area{
+	position: relative;
+	margin:auto;
+	width:40px;
+	height:50px;
+}
+#board_bt_area img{
+	width:40px;
+	margin:0 auto;		
+}
+#board_bt_area h4{
+	width:140px;
+	margin: auto;
+	text-align: center;
+}
+#menu_header{
+	width:1100px;
+	margin:auto;
+	margin-top: 60px;
+}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>마을마켓 - 관리자페이지</title>
+	<script src="js/jquery-3.1.1.js"></script>
+	<link href="/css/admin.css" rel="stylesheet">
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div id="page-wrapper">
+		<div>
+			<header align="right">
+				<a href="/logout"><button style="background-color: rgb(154,154,154);border: 0px;font-size: 12px;color: white;width: 70px;height: 30px;margin-top: 18px;margin-right: 20px;">로그아웃</button></a>
+			</header>
+			<div class="left">
+				<ul align="left">
+					<a href="/goodList.html"><li>상품목록</li></a>
+					<a href="/goodRegist.html"><li>상품등록</li></a>
+					<a href="/providerManage.html"><li>공급자 관리</li></a>
+					<a href="/tradeManage.html"><li style="background-color: rgb(12,63,78);">거래 상태별 주문관리</li></a>
+					<a href="/noticeList.html"><li>공지사항 관리</li></a>
+					<a href="/questionList.html"><li>Q&A 관리</li></a>
+					<a href="/slideBannerList.html"><li>슬라이드배너 관리</li></a>
+					<a href="/newsManage"><li>기사 관리</li></a>
+					<a href="/mainManage"><li>메인페이지 관리</li></a>
+					<a href="/counselAdmin.html"><li>입점신청서 관리</li></a>
+				</ul>
+			</div>
+			<div id = "container" align="left">
+				<div style="border-bottom: 2px solid;font-size: 25px;width: 1100px;margin:20px 0px 0px 30px;">
+					전체 주문현황
+				</div>
+				<div style="border: 5px solid #8be3dc;width: 1100px;margin:20px 0px 0px 30px;padding: 10px;">
+					<span style="font-size: 18px;font-weight: bold;margin-left: 20px;">총 주문건수 : <a id="all" href="/tradeManage.html" style="text-decoration: none;color: black;"></a></span>
+				</div>
+				<div style="width: 1100px;margin:20px 0px 0px 30px;">
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #8be3dc;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">입금확인중</div>
+						<div style="font-size: 12px;">구매자 입금전인 주문건</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #6ed3cb;padding: 5px;margin-top: 10px;"><a id="st1" href="/depositCheck.html" style="text-decoration: none;color: black;"></a></div>
+					</div>
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #8be3dc;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">신규주문</div>
+						<div style="font-size: 12px;">결제완료된 주문건</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #6ed3cb;padding: 5px;margin-top: 10px;"><a id="st2" href="/newOrder.html" style="text-decoration: none;color: black;"></a></div>
+					</div>
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #8be3dc;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">배송준비중</div>
+						<div style="font-size: 12px;">송장등록 대기</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #6ed3cb;padding: 5px;margin-top: 10px;"><a id="st3" href="/deliveryReady.html" style="text-decoration: none;color: black;"></a></div>
+					</div>
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #8be3dc;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">배송중</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #6ed3cb;padding: 5px;margin-top: 27px;"><a id="st4" href="/delivering.html" style="text-decoration: none;color: black;"></a></div>
+					</div>
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #8be3dc;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">배송완료</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #6ed3cb;padding: 5px;margin-top: 27px;"><a id="st5" href="/deliveryEnd.html" style="text-decoration: none;color: black;"></a></div>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<div style="float:left; margin-top: 50px; margin-left: 300px; color: white;" align="left">
+					<p style="font-size: 12px;">
+						<b>다시 뛰는 사람들</b>
+					</p>
+					<p style="font-size: 11px;">
+						우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+					</p>
+					<p style="font-size: 11px;">
+						| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+					</p>
+				</div>
+				<div style="float:left; margin-top: 50px; margin-left: 99px; color: white;" align="left">
+					<p style="font-size: 12px;">
+						<b>고객센터</b>
+					</p>
+					<p style="font-size: 11px;">
+						| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+					</p>
+					<p style="font-size: 11px;">
+						| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+					</p>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var allOrderLength=0;
+		$(document).ready(function(){
+			$.get("/adminConfirm",function(data){
+				if(data=="success"){
+					orderCheck2(1);
+					for(var i=2;i<6;i++){
+						orderCheck(i);
+					}
+				}
+				else{
+					location.href="/login.html?url="+location.href;
+				}
+			})
+		})
+
+		function orderCheck2(x){
+			$.post("/orderStateConfirm",{st:x},function(data){
+				var orderLength=0;
+				if(data[0]!=undefined){
+					orderLength=1;
+					for(var i=0;i<data.length-1;i++){
+						if(data[i].OD_ORDER_NO!=data[i+1].OD_ORDER_NO){
+							orderLength++;
+						}
+					}
+				}
+				$("#st"+x).empty().append(orderLength+"건");
+				allOrderLength+=orderLength;
+				$("#all").empty().append(allOrderLength+"건");
+			})
+		}
+
+		function orderCheck(x){
+			$.post("/orderStateConfirm",{st:x},function(data){
+
+				var orderNum=data.length;
+				for(var o=1;o<data.length;o++){
+					for(var p=1;o-p>=0;p++){
+						if(data[o].OD_ORDER_NO==data[o-p].OD_ORDER_NO){
+							if(data[o].OD_GD_FK==data[o-p].OD_GD_FK){
+								orderNum--;
+								break;
+							}
+						}
+						else{
+							break;
+						}
+					}
+				}
+
+				$("#st"+x).empty().append(orderNum+"건");
+				allOrderLength+=orderNum;
+				$("#all").empty().append(allOrderLength+"건");
+			})
+		}
+
+	</script>
+</body>
+</html>

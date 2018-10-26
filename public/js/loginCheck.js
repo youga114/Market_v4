@@ -1,0 +1,14 @@
+$(document).ready(function(){
+	$.get("/login_check",function(data){
+		if(data){
+			$('#login_a').attr('href','/logout').empty().append('로그아웃');
+			$('#cart_a').attr('href','/cart.html');
+			$('#myInfo_a').attr('href','/myInfo.html');
+		}
+		else{
+			$('#login_a').attr('href','/login.html?url='+location.href).empty().append('로그인');
+			$('#cart_a').attr('href','/login.html?url=cart.html');
+			$('#myInfo_a').attr('href','/login.html?url=myInfo.html');
+		}
+	});
+})

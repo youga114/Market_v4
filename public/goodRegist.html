@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>마을마켓 - 관리자페이지</title>
+	<script src="js/jquery-3.1.1.js"></script>
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script src="js/daumAddress.js"></script>
+	<link href="/css/admin.css" rel="stylesheet">
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="summernote/summernote.css" rel="stylesheet">
+	<script src="summernote/summernote.js"></script>
+	<script src="summernote/lang/summernote-ko-KR.js"></script>
+	<script type="text/javascript" src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.css"/> 
+</head>
+<style type="text/css">
+#registTb td{
+	border-bottom: 1px solid rgb(234,234,234);
+}
+.noBorderTd tr td{
+	border: 0!important;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.filebox input[type="file"] {
+	position: absolute; 
+	width: 1px; 
+	height: 1px; 
+	padding: 0; 
+	margin: -1px; 
+	overflow: hidden; 
+	clip:rect(0,0,0,0); 
+	border: 0; 
+} 
+.filebox label { 
+	display: inline-block; 
+	padding: .5em .75em; 
+	color: #999; 
+	font-size: inherit; 
+	line-height: normal; 
+	vertical-align: middle; 
+	background-color: #fdfdfd; 
+	cursor: pointer; 
+	border: 1px solid #ebebeb; 
+	border-bottom-color: #e2e2e2; 
+	border-radius: .25em; 
+} /* named upload */ 
+.filebox .upload-name { 
+	display: inline-block; 
+	padding: .5em .75em; /* label의 패딩값과 일치 */ 
+	font-size: inherit; 
+	font-family: inherit; 
+	line-height: normal; 
+	vertical-align: middle; 
+	background-color: #f5f5f5; 
+	border: 1px solid #ebebeb; 
+	border-bottom-color: #e2e2e2; 
+	border-radius: .25em; 
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */ 
+	-moz-appearance: none; 
+	appearance: none; 
+}
+p{
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+}
+</style>
+<body>
+	<div id="page-wrapper">
+		<div>
+			<header align="right">
+				<a href="/logout"><button style="background-color: rgb(154,154,154);border: 0px;font-size: 12px;color: white;width: 70px;height: 30px;margin-top: 18px;margin-right: 20px;">로그아웃</button></a>
+			</header>
+			<div class="left">
+				<ul align="left">
+					<a href="/goodList.html"><li>상품목록</li></a>
+					<a href="/goodRegist.html"><li style="background-color: rgb(12,63,78);">상품등록</li></a>
+					<a href="/providerManage.html"><li>공급자 관리</li></a>
+					<a href="/tradeManage.html"><li>거래 상태별 주문관리</li></a>
+					<a href="/noticeList.html"><li>공지사항 관리</li></a>
+					<a href="/questionList.html"><li>Q&A 관리</li></a>
+					<a href="/slideBannerList.html"><li>슬라이드배너 관리</li></a>
+					<a href="/newsManage"><li>기사 관리</li></a>
+					<a href="/mainManage"><li>메인페이지 관리</li></a>
+					<a href="/counselAdmin.html"><li>입점신청서 관리</li></a>
+					<li></li>
+				</ul>
+			</div>
+			<div id = "container" align="left">
+				<div style="border-bottom: 2px solid;font-size: 25px;width: 1100px;margin:20px 0px 0px 30px;">상품등록</div>
+				<div style="margin:10px 0px 0px 30px;">
+					<table id="registTb" style="border-spacing: 0px;width: 1100px;font-size: 12px;">
+						<form id="registForm" action="/upload" method="post" enctype="multipart/form-data">
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;border-top: 1px solid rgb(234,234,234);">카테고리</td>
+							<td style="border-top: 1px solid rgb(234,234,234);padding: 5px 10px 5px 10px;">
+								<select id="categorySelect" name="category" style="padding: 3px 3px 3px 3px;width: 150px;">
+
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">상품명</td>
+							<td style="padding: 5px 10px 5px 10px;">
+								<input id="goodName" type="text" name="goodName" style="width: 900px;" maxlength="100" onfocusout="checkNumber2(this)">
+							</td>
+						</tr>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">상품부제목</td>
+							<td style="padding: 5px 10px 5px 10px;">
+								<input id="goodSubname" type="text" name="goodSubname" style="width: 900px;" maxlength="200" onfocusout="checkNumber2(this)">
+							</td>
+						</tr>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">상품가격</td>
+							<td style="padding: 5px 10px 5px 10px;">
+								<table class="noBorderTd">
+									<tr>
+										<td style="width: 110px;">■ 소비자가</td>
+										<td><input id="consumerPrice" type="text" name="consumerPrice" style="width: 120px;text-align: right;" maxlength="7"> 원</td>
+									</tr>
+									<tr>
+										<td>■ 판매가(필수)</td>
+										<td><input id="sellPrice" type="text" name="sellPrice" style="width: 120px;text-align: right;" maxlength="7"> 원</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">수량</td>
+							<td style="padding: 5px 10px 5px 10px;">
+								<input id="goodAmount" type="text" name="goodAmount" style="width: 60px;" maxlength="5"> 개
+							</td>
+						</tr>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">공급자</td>
+							<td style="padding: 5px 10px 5px 10px;">
+								<div style="font-size: 12px;background-color: white;border: 1px solid rgb(184,184,184);color: rgb(154,154,154);cursor: pointer;width: 120px;height: 23px;float: left;text-align: center;padding: 3px 5px 3px 5px;" onclick="bringProviderFun()">등록된 공급자 검색</div>
+								<input id="provider2" type="text" name="provider2" style="margin-left: 5px;" readonly>
+								<input id="provider" type="text" name="provider" hidden>
+							</td>
+						</tr>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">원산지</td>
+							<td style="padding: 5px 10px 5px 10px;">
+								<input type="text" name="origin" style="width: 100px;" maxlength="40" onfocusout="checkNumber2(this)">
+							</td>
+						</tr>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">제조사</td>
+							<td style="padding: 5px 10px 5px 10px;">
+								<input type="text" name="maker" style="width: 100px;" maxlength="40" onfocusout="checkNumber2(this)">
+							</td>
+						</tr>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">배송비 설정</td>
+							<td style="padding: 5px 10px 5px 10px;">
+								<input type="radio" name="deliveryPriceCheck" id="free" checked> 택배비 포함(무료배송)
+								<input type="radio" name="deliveryPriceCheck" id="noFree" style="margin-left: 10px;"> 배송비 설정
+								<input type="hidden" name="deliveryPrice" id="deliveryPrice" style="margin-left: 10px;width: 100px;" value="0" maxlength="5">
+							</td>
+						</tr>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">반품/교환 정보 설정</td>
+							<td style="padding: 5px 10px 5px 10px;">
+								<table class="noBorderTd">
+									<tr>
+										<td style="width: 130px;">■ 판매자 지정 택배사</td>
+										<td>
+											<input type="text" name="deliveryCompany" style="width: 130px;">
+											<span style="color: rgb(0,130,153);font-size: 11px;margin-left: 5px;" onfocusout="checkNumber2(this)">* 공급자와 협의된 택배사를 입력해주세요.</span>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											■ 반품/교환 기본 배송비(편도 기준)<input id="returnDeliveryPrice" type="text" name="returnDeliveryPrice" style="margin-left: 10px;width: 62px;text-align: right;" maxlength="5"> 원
+										</td>
+									</tr>
+									<tr>
+										<td>■ 업체명</td>
+										<td>
+											<input type="text" name="returnCompany" style="width: 130px;" maxlength="40" onfocusout="checkNumber2(this)">
+										</td>
+									</tr>
+									<tr>
+										<td>■ 반품/교환 주소</td>
+										<td>
+										<input type="text" name="returnZipcode" id="sample6_postcode" maxlength="10" placeholder="우편번호" style="width: 60px;"><input type="button" onclick="sample6_execDaumPostcode()" value="주소 찾기" style="height: 24px;margin-left: 5px;">
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td>
+											<input type="text" name="returnAddress1" id="sample6_address" maxlength="100" placeholder="주소" style="width: 760px;" onfocusout="checkNumber2(this)">
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td>
+											<input type="text" name="returnAddress2" id="sample6_address2" maxlength="100" placeholder="상세주소" style="width: 760px;" onfocusout="checkNumber2(this)">
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">대표이미지</td>
+							<td style="padding: 5px 10px 5px 10px;">
+								<div class="filebox" style="width: 600px;"><input class="upload-name" value="파일선택" disabled="disabled"> <label id="focusFile" for="ex_filename" style="margin: 0;">업로드</label> <input type="file" id="ex_filename" name="recfile" class="upload-hidden"></div>
+								<div class="filebox" style="width: 600px;"><input class="upload-name" value="파일선택" disabled="disabled"> <label for="ex_filename2" style="margin: 0;">업로드</label> <input type="file" id="ex_filename2" name="recfile2" class="upload-hidden"></div>
+								<div class="filebox" style="width: 600px;"><input class="upload-name" value="파일선택" disabled="disabled"> <label for="ex_filename3" style="margin: 0;">업로드</label> <input type="file" id="ex_filename3" name="recfile3" class="upload-hidden"></div>
+								<div class="filebox" style="width: 600px;"><input class="upload-name" value="파일선택" disabled="disabled"> <label for="ex_filename4" style="margin: 0;">업로드</label> <input type="file" id="ex_filename4" name="recfile4" class="upload-hidden"></div>
+								<div class="filebox" style="width: 600px;"><input class="upload-name" value="파일선택" disabled="disabled"> <label for="ex_filename5" style="margin: 0;">업로드</label> <input type="file" id="ex_filename5" name="recfile5" class="upload-hidden"></div>
+							</td>
+						</tr>
+						<input id="goodEx" type="hidden" name="goodEx" >
+						<input id="relate" type="hidden" name="relate" >
+						<input id="relate2" type="hidden" name="relate2" >
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">상품설명</td>
+							<td style="padding: 5px 10px 5px 10px;font-size: initial;">
+								<textarea id="goodEx2" class="summernote" name="goodEx2"></textarea>
+							</td>
+						</tr>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">관련상품목록 제목</td>
+							<td style="padding: 5px 10px 5px 10px;font-size: initial;">
+								<input type="text" name="relateSubject" style="width: 900px;height: 40px;font-size: 20px;" maxlength="100" onfocusout="checkNumber2(this)">
+							</td>
+						</tr>
+						</form>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">관련상품</td>
+							<td style="padding: 5px 10px 5px 10px;font-size: initial;">
+								<div style="margin: 5px 5px 20px;">
+									<button style="display: inline-block;padding: .5em .75em;color: black;font-size: inherit;line-height: normal;vertical-align: middle;background-color: #fdfdfd;border: 1px solid #ebebeb;border-bottom-color: #e2e2e2;border-radius: .25em;" onclick="addRecommendDialog()">선택</button>
+								</div>
+								<table id="relateGoods" style="width:100%;text-align:center;font-size: 13px;">
+									<tr>
+										<th style="font-weight: lighter;text-align:inherit;width: 171px;">
+											이미지
+										</th>
+										<th style="font-weight: lighter;text-align:inherit;">
+											상품명
+										</th>
+										<th style="font-weight: lighter;text-align:inherit;width: 123px;">
+											삭제
+										</th>
+									</tr>
+								</table>
+								<div id="noRelateGoods" style="height: 140px;text-align: center;padding-top: 60px;font-size: 13px;">
+									등록된 관련상품이 없습니다.
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">관련기사</td>
+							<td style="padding: 5px 10px 5px 10px;font-size: initial;">
+								<div style="margin: 5px 5px 20px;">
+									<button style="display: inline-block;padding: .5em .75em;color: black;font-size: inherit;line-height: normal;vertical-align: middle;background-color: #fdfdfd;border: 1px solid #ebebeb;border-bottom-color: #e2e2e2;border-radius: .25em;" onclick="addNewsDialog()">선택</button>
+								</div>
+								<table id="relateNews" style="width:100%;text-align:center;font-size: 13px;">
+									<tr>
+										<th style="font-weight: lighter;text-align:inherit;width: 171px;">
+											이미지
+										</th>
+										<th style="font-weight: lighter;text-align:inherit;">
+											기사명
+										</th>
+										<th style="font-weight: lighter;text-align:inherit;width: 123px;">
+											삭제
+										</th>
+									</tr>
+								</table>
+								<div id="noRelateNews" style="height: 140px;text-align: center;padding-top: 60px;font-size: 13px;">
+									등록된 관련기사가 없습니다.
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div align="center" style="margin-top: 20px;">
+					<button onclick="clickFun()" style="color: white;background-color: black;height: 50px;width: 150px;border: 0;font-size: 15px;">상품등록</button>
+				</div>
+			</div>
+			<footer>
+				<div style="float:left; margin-top: 50px; margin-left: 300px; color: white;" align="left">
+					<p style="font-size: 12px;">
+						<b>다시 뛰는 사람들</b>
+					</p>
+					<p style="font-size: 11px;">
+						우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+					</p>
+					<p style="font-size: 11px;">
+						| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+					</p>
+				</div>
+				<div style="float:left; margin-top: 50px; margin-left: 99px; color: white;" align="left">
+					<p style="font-size: 12px;">
+						<b>고객센터</b>
+					</p>
+					<p style="font-size: 11px;">
+						| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+					</p>
+					<p style="font-size: 11px;">
+						| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+					</p>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+			$.get("/adminConfirm",function(data){
+				if(data=="success"){
+					$(document.body).append('<div id="dialog" title="알림" style="font-size:13px;padding-top:20px;" align="center"></div>');
+					$( "#dialog" ).dialog({
+						autoOpen: false,
+						width: 500,
+						height: 400,
+						modal: true
+					});
+					$(document.body).append('<div id="dialog_reg" title="등록" style="font-size:13px;padding-top:20px;" align="center"></div>');
+
+					$( "#dialog_reg" ).dialog({
+						autoOpen: false,
+						width: 800,
+						height: 600,
+						modal: true
+					});
+
+					$('.summernote').summernote({
+						maxWidth:908,
+						height: 400,
+						callbacks: {
+				          	onImageUpload: function(files, editor, welEditable) {
+				            	for (var i = files.length - 1; i >= 0; i--) {
+				            	  	sendFile(files[0], this);
+				            	}
+				          	}
+				        },
+					    lang: 'ko-KR' // default: 'en-US'
+					});
+
+					$.get("/bringHighCategory",function(data){
+						var output="";
+						for(var i=0;i<data.length;i++){
+							output+="<option>"+data[i].CG_CATEGORY_NM+"</option>";
+						}
+						$("#categorySelect").append(output);
+					})
+
+					var fileTarget = $('.filebox .upload-hidden');
+					fileTarget.on('change', function(){
+						if(window.FileReader){
+							var filename = $(this)[0].files[0].name;
+						} 
+						else {
+							var filename = $(this).val().split('/').pop().split('\\').pop();
+						}
+						$(this).siblings('.upload-name').val(filename);
+					});
+
+					$( "input[type=radio]" ).on( "click", radioChecked );
+				}
+				else{
+					location.href="/login.html?url="+location.href;
+				}
+			})
+		})
+
+		function radioChecked(){
+			if($( 'input[type=radio]:checked' ).attr('id')=='free'){
+				$('#deliveryPrice').attr('type','hidden').attr('value','0');
+			}
+			else{
+				$('#deliveryPrice').attr('type','text').attr('value','');
+			}
+		}
+
+		function sendFile(file, el) {
+	      	var form_data = new FormData();
+	      	form_data.append('file', file);
+	      	$.ajax({
+	        	data: form_data,
+	        	type: "POST",
+	        	url: '/image',
+	        	cache: false,
+	        	contentType: false,
+	        	enctype: 'multipart/form-data',
+	        	processData: false,
+	        	success: function(url) {
+	          		$(el).summernote('editor.insertImage', url);
+	          		$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+	        	}
+	      	});
+	    }
+
+	    function clickFun(){
+			if($("#goodName").val()==""){
+				$("#goodName").focus();
+				dialogOpen('상품명 항목은 필수입니다.');
+				return;
+			}
+			if($("#goodSubname").val()==""){
+				$("#goodSubname").focus();
+				dialogOpen('상품부제목 항목은 필수입니다.');
+				return;
+			}
+			if($("#consumerPrice").val()==""){
+				$("#consumerPrice").focus();
+				dialogOpen('소비자가 항목은 필수입니다.');
+				return;
+			}
+			if(!isNumber($("#consumerPrice").val())){
+				$("#consumerPrice").focus();
+				dialogOpen('소비자가 항목은 숫자 이외에는 입력할 수 없습니다.');
+				return;
+			}
+			if($("#sellPrice").val()==""){
+				$("#sellPrice").focus();
+				dialogOpen('판매가 항목은 필수입니다.');
+				return;
+			}
+			if(!isNumber($("#sellPrice").val())){
+				$("#sellPrice").focus();
+				dialogOpen('판매가 항목은 숫자 이외에는 입력할 수 없습니다.');
+				return;
+			}
+			if($("#goodAmount").val()==""){
+				$("#goodAmount").focus();
+				dialogOpen('수량 항목은 필수입니다.');
+				return;
+			}
+			if(!isNumber($("#goodAmount").val())){
+				$("#goodAmount").focus();
+				dialogOpen('수량 항목은 숫자 이외에는 입력할 수 없습니다.');
+				return;
+			}
+			if(!isNumber($("#deliveryPrice").val())){
+				$("#deliveryPrice").focus();
+				dialogOpen('배송비 항목은 숫자 이외에는 입력할 수 없습니다.');
+				return;
+			}
+			if($("#returnDeliveryPrice").val()==""){
+				$("#returnDeliveryPrice").focus();
+				dialogOpen('배송비 항목은 필수입니다.');
+				return;
+			}
+			if(!isNumber($("#returnDeliveryPrice").val())){
+				$("#returnDeliveryPrice").focus();
+				dialogOpen('배송비 항목은 숫자 이외에는 입력할 수 없습니다.');
+				return;
+			}
+			if($("#provider2").val()==""){
+				$("#provider2").focus();
+				dialogOpen('공급자 항목은 필수입니다.');
+				return;
+			}
+			if($("#sample6_postcode").val()==""){
+				$("#sample6_postcode").focus();
+				dialogOpen('반품/교환 주소 항목은 필수입니다.');
+				return;
+			}
+			if(!isNumber($("#sample6_postcode").val())){
+				$("#sample6_postcode").focus();
+				dialogOpen('우편번호 항목은 숫자 이외에는 입력할 수 없습니다.');
+				return;
+			}
+			var flag=0;
+			$(".upload-name").each(function(index,item){
+				if($(item).val()!="파일선택"){
+					flag=1;
+				}
+			})
+			if(flag==0){
+				$("#focusFile").focus();
+				dialogOpen('대표이미지는 필수입니다.');
+				return;
+			}
+	    	$('#goodEx').attr('value',$('#goodEx2').val());
+	    	var dataArr=[];
+	    	$('.relateGood').each(function(index,item){
+	    		dataArr.push($(item).attr("data-index"));
+	    	})
+	    	dataArr=dataArr.join(',');
+	    	$('#relate').attr('value',dataArr);
+	    	dataArr=[];
+	    	$('.relateNews').each(function(index,item){
+	    		dataArr.push($(item).attr("data-index"));
+	    	})
+	    	dataArr=dataArr.join(',');
+	    	$('#relate2').attr('value',dataArr);
+	    	$('#registForm').submit();
+	    }
+
+	    function bringProviderFun(){
+			$( "#dialog" ).dialog({
+				autoOpen: false,
+				width: 500,
+				height: 400,
+				modal: true
+			});
+			var output='';
+			output+='<div style="width:100%;height:280px;overflow:cursor;">';
+			output+='	<table id="providerTb" style="border-spacing: 0px;width: 400px;">';
+			output+='		<tr>';
+			output+='			<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 15px;width: 150px;text-align: center;">';
+			output+='				공급자명';
+			output+='			</th>';
+			output+='			<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 15px;width: 150px;text-align: center;">';
+			output+='				ID';
+			output+='			</th>';
+			output+='			<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 15px;width: 100px;text-align: center;">';
+			output+='				선택';
+			output+='			</th>';
+			output+='		</tr>';
+			output+='		<tr id="noProvider">';
+			output+='			<td colspan="13" style="text-align: center;font-size: 12px;padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);">등록된 계정이 없습니다.</td>';
+			output+='		</tr>';
+			output+='	</table>';
+			output+='</div>';
+			output+='<div style="padding-top:10px;"><button onclick="$( \'#dialog\' ).dialog( \'close\' );" style="margin-left:10px;">취소</button></div>';
+			$( "#dialog" ).empty().append(output).dialog( "open" );
+	    	$.get("/sellerList",function(data){
+	    		for(var i=0;i<data.length;i++){
+	    			$("#noProvider").remove();
+	    			var output='';
+	    			output+='<tr>';
+					output+='	<td id="sellerName'+data[i].SEL_US_FK+'" style="text-align: center;font-size: 12px;padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);">'+data[i].SEL_SELLER_NM+'</td>';
+	    			output+='	<td id="sellerId'+data[i].SEL_US_FK+'" style="text-align: center;font-size: 12px;padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);"></td>';
+	    			output+='	<td style="text-align: center;font-size: 12px;padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);">';
+					output+='		<button onclick="selectSellerFun(\''+data[i].SEL_US_FK+'\',\''+data[i].SEL_PK+'\')">선택하기</button>';
+					output+='	</td>';
+	    			output+='</tr>';
+	    			$("#providerTb").append(output);
+	    			$.post("/bringUserId",{pk:data[i].SEL_US_FK},function(data){
+	    				$("#sellerId"+data[0].US_PK).append(data[0].US_USER_ID);
+	    			})
+	    		}
+	    	})
+	    }
+
+	    function selectSellerFun(x,y){
+	    	$("#provider2").empty().val(document.getElementById("sellerName"+x).childNodes[0].nodeValue+"("+document.getElementById("sellerId"+x).childNodes[0].nodeValue+")");
+	    	$("#provider").empty().val(y);
+	    	$("#dialog").dialog("close");
+	    }
+		//숫자만 입력, 길이 체크
+		function isNumber(num){
+			for(var inx=0;inx<num.length;inx++){
+				if(num.charAt(inx)<'0'||num.charAt(inx)>'9'){
+					return false;
+				}
+			}
+			return true;
+		}
+		function dialogOpen(message){
+			$( "#dialog" ).dialog({
+				autoOpen: false,
+				width: 400,
+				height: 160,
+				modal: true
+			});
+			var output='';
+			output+='<div>'+message+'</div>';
+			output+='<div style="padding-top:10px;"><button onclick=\'$("#dialog").dialog( "close" );\' style="margin-left:5px;">확인</button></div>';
+			$( "#dialog" ).empty().append(output).dialog( "open" );
+		}
+
+
+		function checkNumber2(x)
+		{
+			var str=$(x).val();
+			for(var i=0;i<str.length;i++){
+				if(str[i]=="<"||str[i]==">"||str[i]=="'"||str[i]=="\""||str[i]=="\\"){
+		  			alert("<,>,',\",\\ 문자는 입력하실 수 없습니다.");
+		  			$(x).val("");
+		  			break;
+				}
+			}
+		} 
+
+		function addRecommendDialog(){
+			$.get("/bringAllItem",function(data){
+				var output='';
+				output+='<table style="width:100%;text-align:center;">'
+				output+='<tr>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;">';
+				output+='		No.';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;">';
+				output+='		이미지';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;">';
+				output+='		상품명';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;">';
+				output+='		선택';
+				output+='	</th>';
+				output+='</tr>';
+				var alreadySelect=[];
+				$(".relateGood").each(function(index,item){
+					alreadySelect.push($(item).attr("data-index"));
+				})
+				for(var i=0;i<data.length;i++){
+					var flag=0;
+					for(var j=0;j<alreadySelect.length;j++){
+						if(alreadySelect[j]==data[i].GD_PK){
+							flag=1;
+							break;
+						}
+					}
+					output+='<tr>';
+					output+='	<td>';
+					output+='		'+(data.length-i);
+					output+='	</td>';
+					output+='	<td>';
+					output+='		<img src="'+data[i].GD_MAIN_IM.split(',')[0]+'" width="70px" height="70px;">';
+					output+='	</td>';
+					output+='	<td style="text-align:left;">';
+					output+='		'+data[i].GD_GOOD_NM;
+					output+='	</td>';
+					output+='	<td>';
+					if(flag==0){
+						output+='		<div><button data-index="'+data[i].GD_PK+'" style="width:50px;height: 22px;border: 1px solid rgb(36,166,189);color:rgb(36,166,189);background-color: white;font-size: 11px;" onclick=\'selectFun(this)\'>선택</button></div>';
+					}
+					else{
+						output+='		<div><button class="selected" data-index="'+data[i].GD_PK+'" style="width:50px;height: 22px;border: 1px solid rgb(36,166,189);color:white;background-color: rgb(36,166,189);font-size: 11px;" onclick=\'selectFun(this)\'>선택</button></div>';
+					}
+					output+='	</td>';
+					output+='</tr>';
+				}
+				output+='</table>';
+				output+='<div style="margin-top:10px;">';
+				output+='<button style="display: inline-block;padding: .5em 1.75em;color: #999;font-size: inherit;line-height: normal;vertical-align: middle;background-color: #fdfdfd;border: 1px solid #ebebeb;border-bottom-color: #e2e2e2;border-radius: .25em;margin-right:10px;" onclick="realteConfirmFun()">확인</button>';
+				output+='<button style="display: inline-block;padding: .5em 1.75em;color: #999;font-size: inherit;line-height: normal;vertical-align: middle;background-color: #fdfdfd;border: 1px solid #ebebeb;border-bottom-color: #e2e2e2;border-radius: .25em;" onclick="realteCancelFun()">취소</button>';
+				output+='</div>';
+				
+				$( "#dialog_reg" ).empty().append(output).dialog( "open" );
+			})			
+		}
+
+		function addNewsDialog(){
+			$.get("/bringNews",function(data){
+				var output='';
+				output+='<table style="width:100%;text-align:center;">'
+				output+='<tr>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;">';
+				output+='		No.';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;">';
+				output+='		이미지';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;">';
+				output+='		기사명';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;">';
+				output+='		선택';
+				output+='	</th>';
+				output+='</tr>';
+				var alreadySelect=[];
+				$(".relateNews").each(function(index,item){
+					alreadySelect.push($(item).attr("data-index"));
+				})
+				for(var i=0;i<data.length;i++){
+					var flag=0;
+					for(var j=0;j<alreadySelect.length;j++){
+						if(alreadySelect[j]==data[i].NEWS_PK){
+							flag=1;
+							break;
+						}
+					}
+					output+='<tr>';
+					output+='	<td>';
+					output+='		'+(data.length-i);
+					output+='	</td>';
+					output+='	<td>';
+					output+='		<img src="'+data[i].NEWS_MAIN_IM+'" width="70px" height="70px;">';
+					output+='	</td>';
+					output+='	<td style="text-align:left;">';
+					output+='		'+data[i].NEWS_NM;
+					output+='	</td>';
+					output+='	<td>';
+					if(flag==0){
+						output+='		<div><button data-index="'+data[i].NEWS_PK+'" style="width:50px;height: 22px;border: 1px solid rgb(36,166,189);color:rgb(36,166,189);background-color: white;font-size: 11px;" onclick=\'selectFun(this)\'>선택</button></div>';
+					}
+					else{
+						output+='		<div><button class="selected" data-index="'+data[i].NEWS_PK+'" style="width:50px;height: 22px;border: 1px solid rgb(36,166,189);color:white;background-color: rgb(36,166,189);font-size: 11px;" onclick=\'selectFun(this)\'>선택</button></div>';
+					}
+					output+='	</td>';
+					output+='</tr>';
+				}
+				output+='</table>';
+				output+='<div style="margin-top:10px;">';
+				output+='<button style="display: inline-block;padding: .5em 1.75em;color: #999;font-size: inherit;line-height: normal;vertical-align: middle;background-color: #fdfdfd;border: 1px solid #ebebeb;border-bottom-color: #e2e2e2;border-radius: .25em;margin-right:10px;" onclick="realteNewsConfirmFun()">확인</button>';
+				output+='<button style="display: inline-block;padding: .5em 1.75em;color: #999;font-size: inherit;line-height: normal;vertical-align: middle;background-color: #fdfdfd;border: 1px solid #ebebeb;border-bottom-color: #e2e2e2;border-radius: .25em;" onclick="realteCancelFun()">취소</button>';
+				output+='</div>';
+				
+				$( "#dialog_reg" ).empty().append(output).dialog( "open" );
+			})			
+		}
+
+		function selectFun(select){
+			if($(select).css('color')=="rgb(36, 166, 189)"){
+				$(select).css('color','white').css('background-color','rgb(36,166,189)').addClass("selected");
+			}
+			else{
+				$(select).css('color','rgb(36,166,189)').css('background-color','white').removeClass("selected");
+			}
+		}
+
+		function realteConfirmFun(){
+			var pk=[];
+			$(".selected").each(function(index,item){
+				pk.push($(item).attr('data-index'));
+			})
+			$.post("/goodAmountConfirm",{pk:pk},function(data){
+				var output='';
+				output+='<tr>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;width: 171px;">';
+				output+='		이미지';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;">';
+				output+='		상품명';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;width: 123px;">';
+				output+='		선택';
+				output+='	</th>';
+				output+='</tr>';
+				for(var i=0;i<data.length;i++){
+					output+='<tr id="relateGood'+data[i].GD_PK+'" class="relateGood" data-index="'+data[i].GD_PK+'">';
+					output+='	<td>';
+					output+='		<img src="'+data[i].GD_MAIN_IM.split(',')[0]+'" width="70px" height="70px;">';
+					output+='	</td>';
+					output+='	<td style="text-align:left;">';
+					output+='		'+data[i].GD_GOOD_NM;
+					output+='	</td>';
+					output+='	<td>';
+					output+='		<div><button data-index="'+data[i].GD_PK+'" style="width:50px;height: 22px;border: 1px solid #ff6969;color:#ff6969;background-color: white;font-size: 11px;" onclick=\'selectDeleteFun("'+data[i].GD_PK+'")\'>삭제</button></div>';
+					output+='	</td>';
+					output+='</tr>';
+				}
+				$("#noRelateGoods").hide();
+				$("#relateGoods").empty().append(output);
+
+				$( "#dialog_reg" ).dialog("close");
+			})
+		}
+
+		function realteNewsConfirmFun(){
+			var pk=[];
+			$(".selected").each(function(index,item){
+				pk.push($(item).attr('data-index'));
+			})
+			$.post("/newsConfirm",{pk:pk},function(data){
+				var output='';
+				output+='<tr>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;width: 171px;">';
+				output+='		이미지';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;">';
+				output+='		상품명';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;text-align:inherit;width: 123px;">';
+				output+='		선택';
+				output+='	</th>';
+				output+='</tr>';
+				for(var i=0;i<data.length;i++){
+					output+='<tr id="relateNews'+data[i].NEWS_PK+'" class="relateNews" data-index="'+data[i].NEWS_PK+'">';
+					output+='	<td>';
+					output+='		<img src="'+data[i].NEWS_MAIN_IM+'" width="70px" height="70px;">';
+					output+='	</td>';
+					output+='	<td style="text-align:left;">';
+					output+='		'+data[i].NEWS_NM;
+					output+='	</td>';
+					output+='	<td>';
+					output+='		<div><button data-index="'+data[i].NEWS_PK+'" style="width:50px;height: 22px;border: 1px solid #ff6969;color:#ff6969;background-color: white;font-size: 11px;" onclick=\'newsSelectDeleteFun("'+data[i].NEWS_PK+'")\'>삭제</button></div>';
+					output+='	</td>';
+					output+='</tr>';
+				}
+				$("#noRelateNews").hide();
+				$("#relateNews").empty().append(output);
+
+				$( "#dialog_reg" ).dialog("close");
+			})
+		}
+
+		function realteCancelFun(){
+			$( "#dialog_reg" ).dialog("close");
+		}
+
+		function selectDeleteFun(pk){
+			$("#relateGood"+pk).remove();
+			if($(".relateGood").length==0){
+				$("#noRelateGoods").show();
+			}
+		}
+
+		function newsSelectDeleteFun(pk){
+			$("#relateNews"+pk).remove();
+			if($(".relateNews").length==0){
+				$("#noRelateNews").show();
+			}
+		}
+	</script>
+</body>
+</html>

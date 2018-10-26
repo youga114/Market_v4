@@ -1,0 +1,302 @@
+@font-face{
+    font-family: 'Yoon_러브레터M';
+    src: url(font/Yoon_러브레터M.ttf) format('truetype');
+}
+#banner{
+    position: relative;
+    margin: 0 auto;
+    box-sizing: content-box;
+}
+.slider_panel{
+    position: relative;
+}
+.slider_panel-container{
+    position: relative;
+}
+.slider_panel-container-mask{
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    width: 1200px;
+    height: 500px;
+    border:1px solid #aaaaaa;
+    border-left:2px solid #aaaaaa;
+}
+.slider_panel-container-mask-slides{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.slider_panel-container-mask-slides-slide{
+    position: absolute;
+    opacity: 0.5;
+    width: 1200px;
+    height: 500px;
+}
+.slider_panel-container-mask-slides-slide.selected{
+    opacity: 1 !important;
+}
+.slider_panel-container-mask-slides-slide-container{
+    overflow: hidden;
+}
+.slider_panel-container-mask-slides-slide-image{
+    max-width: none;
+    max-height: none;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    -webkit-transition: none;
+    position: relative;
+    display: block;
+    width: 1200px;
+    height: 500px;
+}
+.arrow{
+    position: absolute;
+    width:1%;
+    height: 5%;
+    top:40%;
+    padding: 3mm;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 2s, opacity 0.5s linear;
+}
+.slider_panel-container-mask:hover > .arrow{
+  visibility: visible;
+  opacity: 1;
+}
+.slider_panel-buttons{
+    position: relative;
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+}
+.slider_panel-button{
+    width: 12px;
+    height: 12px;
+    border: 2px solid #999;
+    background-color: #999;
+    border-radius: 50%;
+    margin: 4px 10px;
+    display: inline-block;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.slider_panel-selected-button{
+    border-color: #000;
+    background-color: #000;
+}
+.secondMenu{
+    display: block;
+    width: 100%;
+    margin: 50px auto 80px auto;
+    min-height:30px; 
+}
+.secondMenu ul{
+    width: 70%;
+    margin: 0;
+    padding: 0;
+}
+.secondMenu ul li{
+    width: 25%;
+    float: left;
+    list-style: none;
+    text-align: center;
+    font-size: 30px;
+    font-family: 'Yoon_러브레터M';
+}
+.secondMenu ul li a:hover{
+    opacity: 0.6;
+}
+.info{
+    margin: 0 auto 40px;
+    text-align: center;
+    clear: both;
+    background-color: #f6f6f6;
+}
+.info-inner{
+    text-align: center;
+    width: 95%;
+    margin-bottom: 70px;
+    padding: 15px 0;
+    margin: 0 auto;
+}
+.info ul{
+    margin: 0;
+    padding: 0;
+}
+.info ul li{
+    padding: 0;
+    margin: 0 0 5px 20px;
+    text-align: left;
+}
+.info ul li .date{
+    padding-right: 1.5em;
+}
+.recomendItem{
+    width: 95%;
+    margin: 40px auto;
+}
+.recomendItem ul{
+    width: 100%;
+    float: left;
+    margin: 0px;
+    padding: 0;
+}
+.recomendItem ul li{
+    width: 32%;
+    margin-right: 2%;
+    float: left;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+}
+.recomendItem ul li:nth-child(3n) {
+    margin-right: 0;
+}
+.c-product-list__image-wrap {
+    width: 100%;
+    height: 300px;
+    max-height: 300px;
+}
+.c-image-wrap--link {
+    cursor: pointer;
+}
+.c-image-wrap {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    transition: background .2s;
+    background: rgba(0, 0, 0, .03);
+}
+.image-box{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity .2s;
+    word-break: break-all;
+}
+.image-box-image{
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: inherit;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+.image-main{
+    opacity: 1;
+}
+/*.image-main:hover{
+    opacity: 0;
+}
+.image-other{
+    opacity: 0;
+}
+.image-other:hover{
+    opacity: 1;
+}*/
+.c-product-list__name {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.3;
+    display: block;
+    margin-top: .5em;
+    transition: opacity .2s;
+    text-decoration: none;
+    color: #333;
+}
+.c-product-list__name:hover {
+    opacity: .66;
+    transition: .2s;
+}
+@media screen and (min-width: 600px)
+.c-product-list__price {
+    margin-top: 0;
+}
+.c-product-list__price {
+    font-weight: bold;
+    /* margin-top: 1em; */
+    margin-bottom: 10px;
+}
+@media screen and (min-width: 600px)
+.c-product-list__expl {
+    font-size: 90%;
+    line-height: 1.45;
+}
+.c-product-list__expl {
+    text-align: left;
+}
+.categoryMenu ul{
+    width: 765px;
+    justify-content: flex-start;
+    display: flex;
+    text-align: left;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0 auto;
+}
+.categoryMenu ul li{
+    width: 140px;
+    margin: 0 15px 10px 0;
+    padding: 0;
+    list-style: none;
+}
+.categoryMenu ul li img{
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+.categoryMenu ul li:nth-child(5n) {
+    margin-right: 0;
+}
+.storyDiv{
+    margin:900px 0px 0px 0px;
+    padding: 40px 40px;
+    background-color: #F5E8B9;
+}
+.recommendUnderDiv{
+    margin:1100px 0px 0px 0px;
+    padding: 40px 40px;
+}
+.c-product-list__index {
+    /* font-family: 'Montserrat', sans-serif; */
+    font-size: 12px;
+    line-height: 31px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    color: #fff;
+    border: 1px solid #c0c0c0;
+    border-radius: 30px;
+    background: #c0c0c0;
+}
+.c-product-list__index--1 {
+    background: #d9b225;
+    border-color: #d9b225;
+}
+.c-product-list__index--2 {
+    background: #96ad6f;
+    border-color: #96ad6f;
+}
+.c-product-list__index--3 {
+    background: #2dbae8;
+    border-color: #2dbae8;
+}
+.noneTextdecoHover{
+    vertical-align: inherit;
+}
+.noneTextdecoHover:hover{
+    color: #999999;
+}

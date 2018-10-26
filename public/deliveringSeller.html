@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>마을마켓 - 판매자페이지</title>
+	<script src="js/jquery-3.1.1.js"></script>
+	<link href="/css/admin.css" rel="stylesheet">
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.css"/>
+</head>
+<style type="text/css">
+.ui-datepicker-year{
+	color: black!important;
+}
+ .ui-datepicker-month{
+	color: black!important;
+}
+</style>
+<body>
+	<div id="page-wrapper">
+		<div>
+			<header align="right">
+				<button style="background-color: rgb(154,154,154);border: 0px;font-size: 12px;color: white;width: 90px;height: 30px;margin-top: 18px;margin-right: 10px;" onclick="modifyPwFun()">비밀번호변경</button>
+				<a href="/logout"><button style="background-color: rgb(154,154,154);border: 0px;font-size: 12px;color: white;width: 70px;height: 30px;margin-top: 18px;margin-right: 20px;">로그아웃</button></a>
+			</header>
+			<div class="left">
+				<ul align="left">
+					<a href="/tradeManageSeller.html"><li style="background-color: rgb(12,63,78);">거래 상태별 주문관리</li></a>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+			<div id = "container" align="left" style="padding-left: 200px;padding-top:5%;">
+				<div style="border-bottom: 2px solid;font-size: 25px;width: 1100px;margin:20px 0px 0px 30px;">
+					배송중
+					<span style="font-size: 11px;color: rgb(104,104,104);">* 송장번호가 입력된 거래를 확인할 수 있습니다.</span>
+				</div>
+				<div style="border: 5px solid #8be3dc;width: 1100px;margin:20px 0px 0px 30px;padding: 10px;">
+					<span style="font-size: 18px;font-weight: bold;margin-left: 20px;">총 주문건수 : <a id="all" href="/tradeManageSeller.html" style="text-decoration: none;color: black;"></a></span>
+				</div>
+				<div style="width: 1100px;margin:20px 0px 0px 30px;">
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #8be3dc;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">신규주문</div>
+						<div style="font-size: 12px;">결제완료된 주문건</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #6ed3cb;padding: 5px;margin-top: 10px;"><a id="st2" href="/newOrderSeller.html" style="text-decoration: none;color: black;">0건</a></div>
+					</div>
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #8be3dc;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">배송준비중</div>
+						<div style="font-size: 12px;">송장등록 대기</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #6ed3cb;padding: 5px;margin-top: 10px;"><a id="st3" href="/deliveryReadySeller.html" style="text-decoration: none;color: black;"></a></div>
+					</div>
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #fec9c5;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">배송중</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #ff9c9d;padding: 5px;margin-top: 27px;"><a id="st4" href="/deliveringSeller.html" style="text-decoration: none;color: black;"></a></div>
+					</div>
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #8be3dc;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">배송완료</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #6ed3cb;padding: 5px;margin-top: 27px;"><a id="st5" href="/deliveryEndSeller.html" style="text-decoration: none;color: black;"></a></div>
+					</div>
+					<div align="center" style="width: 1100px;padding-top: 200px;">
+						<div style="padding: 25px 25px 25px 25px;margin-top: 10px;margin-bottom: 40px;border:1px solid #dcdcdc;    background: #f4f4f4;font-size: 15px;" align="left">
+							<p>
+								<div style="font-weight: bold;margin: 3px;width: 100px;float: left;">· 상품선택</div>
+								<input id="itemName" type="text" name="" style="width: 459px;height: 26px;border: 1px solid rgb(204,204,204);" onfocusout="checkNumber2(this)" maxlength="100">
+								<button style="font-size: 11px;height: 22px;background: #FFFFFF;padding: 4px 12px 0px 12px;    border-radius: 1px;border: 1px solid #555;color: #444;border: 1px solid rgb(204,204,204);" onclick="selectListFun()">목록에서 상품선택</button>
+							</p>
+							<p>
+								<div style="font-weight: bold;margin: 3px;width: 100px;float: left;">· 주문일</div>
+								<input type="text" id="datepicker" class="datepicker" style="width: 104px;height: 28px;border:1px solid rgb(204,204,204);color: black;border: 1px solid rgb(204,204,204);" readonly="true"> ~ <input type="text" id="datepicker2" class="datepicker" style="width: 104px;height: 28px;border:1px solid rgb(204,204,204);" readonly="true">
+								<button style="font-size: 13px;height: 26px;background: #FFFFFF;padding: 3px 12px 0 12px;    border-radius: 1px;border: 1px solid #555;color: #444;border: 1px solid rgb(204,204,204);" onclick="todayFun()">오늘</button>
+								<button style="font-size: 13px;height: 26px;background: #FFFFFF;padding: 3px 12px 0 12px;    border-radius: 1px;border: 1px solid #555;color: #444;border: 1px solid rgb(204,204,204);" onclick="threeDayFun()">3일</button>
+								<button style="font-size: 13px;height: 26px;background: #FFFFFF;padding: 3px 12px 0 12px;    border-radius: 1px;border: 1px solid #555;color: #444;border: 1px solid rgb(204,204,204);" onclick="lastWeekFun()">1주일</button>
+							</p>
+							<p>
+								<div style="margin: 3px;width: 100px;float: left;">
+									<select id="searchSelect" style="font-size: 14px;width: 90px;border: 1px solid rgb(204,204,204);">
+										<option>통합검색</option>
+										<option>주문번호</option>
+										<option>구매자명</option>
+										<option>전화번호</option>
+										<!-- <option>결제금액</option> -->
+									</select>
+								</div>
+								<input id="selectInput" type="text" name="" style="width: 459px;height: 26px;border: 1px solid rgb(204,204,204);" onfocusout="checkNumber2(this)" maxlength="20">
+							</p>
+							<p>
+								<div style="font-weight: bold;margin: 3px;width: 100px;float: left;">· 결제수단</div>
+								<div style="float: left;width: 600px;">
+									<select id="depositMethod" style="font-size: 14px;padding: 2px;border: 1px solid rgb(204,204,204);">
+										<option>전체</option>
+										<option>무통장</option>
+										<option>신용카드</option>
+										<option>실시간계좌이체</option>
+									</select>
+								</div>
+								<button style="color: #FFFFFF;font-weight: 600;text-align: center;background: #444;border: 1px solid #333;border-radius: 1px;padding: 6px 20px 6px 20px;width: 150px;" onclick="search()">검 색</button>
+							</p>
+						</div>
+						<div align="left" style="padding: 0px 0px 10px 0px;">
+							<button style="border:1px solid rgb(184,184,184);color: rgb(184,184,184);background-color: white;font-size: 12px;" onclick="allGoNextState()">배송완료</button>
+							<button style="border:1px solid rgb(184,184,184);color: rgb(184,184,184);background-color: white;font-size: 12px;margin-top:3px;" onclick="allGoBeforeState()">송장번호삭제</button>
+						</div>
+						<table id="orderTb" style="border-spacing: 0px;width: 100%;">
+							<tr>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;width: 20px;text-align: center;">
+									<input type="checkbox" name="" id="check_all">
+								</th>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 30px;text-align: center;">
+									No.
+								</th>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 85px;text-align: center;">
+									주문번호
+								</th>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 95px;text-align: center;">
+									<div style="width: 85px;">주문일시</div>(입금확인일)
+								</th>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 75px;text-align: center;">
+									이미지
+								</th>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 210px;text-align: center;">
+									상품명
+								</th>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 45px;text-align: center;">
+									구매수량
+								</th>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 75px;text-align: center;">
+									결제방법
+								</th>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 65px;text-align: center;">
+									구매자명수취인명
+								</th>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 90px;text-align: center;">
+									송장번호
+								</th>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 85px;text-align: center;">
+									배송지
+								</th>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 85px;text-align: center;">
+									연락처
+								</th>
+								<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;text-align: center;">
+									상태변경
+								</th>
+							</tr>
+							<tr id="noOrder">
+								<td colspan="14" style="text-align: center;font-size: 12px;padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);">주문 정보가 없습니다.</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<div style="float:left; margin-top: 50px; margin-left: 300px; color: white;" align="left">
+					<p style="font-size: 12px;">
+						<b>다시 뛰는 사람들</b>
+					</p>
+					<p style="font-size: 11px;">
+						우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+					</p>
+					<p style="font-size: 11px;">
+						| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+					</p>
+				</div>
+				<div style="float:left; margin-top: 50px; margin-left: 99px; color: white;" align="left">
+					<p style="font-size: 12px;">
+						<b>고객센터</b>
+					</p>
+					<p style="font-size: 11px;">
+						| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+					</p>
+					<p style="font-size: 11px;">
+						| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+					</p>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var allOrderLength=0;
+		$(document).ready(function(){
+			$(document.body).append('<div id="dialog" title="알림" style="font-size:13px;padding-top:20px;" align="center"></div>');
+			$( "#dialog" ).dialog({
+				autoOpen: false,
+				width: 400,
+				height: 160,
+				modal: true
+			});
+
+			$(document.body).append('<div id="dialog2" title="" style="font-size:13px;padding-top:20px;" align="center"></div>');
+			$( "#dialog2" ).dialog({
+				autoOpen: false,
+				width: 800,
+				height: 344,
+				modal: true
+			});
+
+			$( ".datepicker" ).datepicker({
+				showButtonPanel: true,
+				changeYear: true,
+				changeMonth: true,
+				showMonthAfterYear: true,
+				monthNamesShort: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+				dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+				currentText: '오늘',
+				closeText: '지우기',
+				onClose: function (dateText, inst) {
+					if ($(window.event.srcElement).hasClass('ui-datepicker-close')){
+	    				document.getElementById(this.id).value = '';
+	 				}
+				},
+				dateFormat: "yy-mm-dd",
+				maxDate: 0,
+				yearRange: "2017:+0"
+			});
+
+			$("#check_all").click(function() {
+				if($(this).prop("checked")==true){
+			 		$("input[name=mycheck]:checkbox").prop("checked", "checked");
+				}
+				else{
+			 		$("input[name=mycheck]:checkbox").prop("checked", "");
+				}
+			});
+
+			$.get("/providerConfirm",function(data){
+				if(data=="success"){
+					for(var i=2;i<6;i++){
+						orderCheck(i);
+					}
+
+					$.post("/orderStateConfirmSeller",{st:4},function(data){
+						if(data[0]!=undefined){
+							$("#noOrder").remove();
+							var sameGood=[];
+
+							var orderNo=data.length;
+							for(var q=1;q<data.length;q++){
+								for(var r=1;q-r>=0;r++){
+									if(data[q].OD_ORDER_NO==data[q-r].OD_ORDER_NO){
+										if(data[q].OD_GD_FK==data[q-r].OD_GD_FK){
+											orderNo--;
+											break;
+										}
+									}
+									else{
+										break;
+									}
+								}
+							}
+
+							for(var i=0;i<data.length;i++){
+								if(i!=0){
+									if(data[i].OD_ORDER_NO!=data[i-1].OD_ORDER_NO){
+										sameGood=[];
+									}
+								}
+								var flag=0;
+								for(var j=0;j<sameGood.length;j++){
+									if(data[i].OD_GD_FK==sameGood[j]){
+										flag=1;
+									}
+								}
+								if(flag==0){
+									sameGood.push(data[i].OD_GD_FK);
+									var amount=data[i].OD_GOOD_AMT;
+									for(var j=i+1;j<data.length;j++){
+										if(data[i].OD_ORDER_NO==data[j].OD_ORDER_NO){
+											if(data[i].OD_GD_FK==data[j].OD_GD_FK){
+												amount+=data[j].OD_GOOD_AMT;
+											}
+										}
+										else{
+											break;
+										}
+									}
+									var buyerPhone=data[i].OD_BUYER_PHONE_NO;
+									var orderNumber=data[i].OD_ORDER_NO;
+									var date=orderNumber.slice(0,14);
+									var depositDate=data[i].OD_DEPOSIT_YMD;
+									var output='';
+									output+='							<tr>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);"><input type="checkbox" name="mycheck" value="'+data[i].OD_ORDER_NO+'" goodNum="'+data[i].OD_GD_FK+'"></td>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align:left;">'+(orderNo--)+'</td>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;font-size:12px;">'+data[i].OD_ORDER_NO+'</td>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;"><div>'+date.slice(0,4)+'/'+date.slice(4,6)+'/'+date.slice(6,8)+' '+date.slice(8,10)+':'+date.slice(10,12)+':'+date.slice(12,14)+'</div><div>('+depositDate.slice(0,4)+'/'+depositDate.slice(4,6)+'/'+depositDate.slice(6,8)+' '+depositDate.slice(8,10)+':'+depositDate.slice(10,12)+':'+depositDate.slice(12,14)+')</div></td>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">';
+									output+='									<img id="img'+data[i].OD_PK+'" src="" style="width: 70px;height: 70px;">';
+									output+='								</td>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: left;">';
+									output+='									<div id="goodName'+data[i].OD_PK+'" style="width: 100%;"></div>';
+											// output+='									<div style="width: 100%;"></div>';
+									output+='								</td>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">'+amount+'개</td>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">'+data[i].OD_DEPOSIT_MTD+'</td>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">';
+									output+='									<div style="width: 100%;">'+data[i].OD_BUYER_NM+'</div>';
+									output+='									<div style="width: 100%;">'+data[i].OD_RECEIVER_NM+'</div>';
+									output+='								</td>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">'+data[i].OD_DELIVERY_NO+'</td>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">'+data[i].OD_RECEIVER_AD1+'</td>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">'+buyerPhone.slice(0,3)+'-'+buyerPhone.slice(3,7)+'-'+buyerPhone.slice(7,11)+'</td>';
+									output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">';
+									output+='									<button style="border:1px solid rgb(184,184,184);color: rgb(184,184,184);background-color: white;font-size: 12px;" onclick="goNextState2('+data[i].OD_ORDER_NO+','+data[i].OD_GD_FK+')">배송완료</button>';
+									//output+='									<button style="border:1px solid rgb(184,184,184);color: rgb(184,184,184);background-color: white;font-size: 12px;margin-top:3px;">주문취소</button>';
+									output+='									<button style="border:1px solid rgb(184,184,184);color: rgb(184,184,184);background-color: white;font-size: 12px;margin-top:3px;" onclick="deleteNumFun('+data[i].OD_ORDER_NO+','+data[i].OD_GD_FK+')">송장번호삭제</button>';
+									output+='								</td>';
+									output+='							</tr>';
+									$("#orderTb").append(output);
+									$.post("/goodConfirm",{good:data[i].OD_GD_FK,moment:data[i].OD_PK},function(data2){
+										$("#img"+data2.moment).attr("src",data2.data[0].GD_MAIN_IM.split(',')[0]);
+										$("#goodName"+data2.moment).append(data2.data[0].GD_GOOD_NM);
+									})
+								}
+							}
+						}
+					})
+				}
+				else{
+					location.href="/login.html?url="+location.href;
+				}
+			})
+		})
+
+		function orderCheck(x){
+			$.post("/orderStateConfirmSeller",{st:x},function(data){
+
+				var orderNum=data.length;
+				for(var o=1;o<data.length;o++){
+					for(var p=1;o-p>=0;p++){
+						if(data[o].OD_ORDER_NO==data[o-p].OD_ORDER_NO){
+							if(data[o].OD_GD_FK==data[o-p].OD_GD_FK){
+								orderNum--;
+								break;
+							}
+						}
+						else{
+							break;
+						}
+					}
+				}
+
+				$("#st"+x).empty().append(orderNum+"건");
+				allOrderLength+=orderNum;
+				$("#all").empty().append(allOrderLength+"건");
+			})
+		}
+
+		function search(){
+			if($("#datepicker").val()==""){
+				alert("날짜를 정확하게 선택해주세요.");
+				return;
+			}
+			if($("#datepicker2").val()==""){
+				alert("날짜를 정확하게 선택해주세요.");
+				return;
+			}
+			var state=4;
+			var itemName=$("#itemName").val();
+			var date1=$("#datepicker").val();
+			date1=date1.split("-");
+			date1=""+date1[0]+date1[1]+date1[2];
+			var date2=$("#datepicker2").val();
+			date2=date2.split("-");
+			date2=""+date2[0]+date2[1]+date2[2];
+			var searchSelect=$("#searchSelect").val();
+			var selectInput=$("#selectInput").val();
+			var depositMethod=$("#depositMethod").val();
+			if(depositMethod=="전체"){
+				depositMethod="";
+			}
+
+			var searchOb;
+			if(searchSelect=="통합검색"){
+				searchOb={state:state,itemName:itemName,date1:date1,date2:date2,orderNum:selectInput,buyerName:selectInput,phoneNum:selectInput,depositPrice:selectInput,depositMethod:depositMethod}
+			}
+			else if(searchSelect=="주문번호"){
+				searchOb={state:state,itemName:itemName,date1:date1,date2:date2,orderNum:selectInput,buyerName:"|&^%$",phoneNum:"|&^%$",depositPrice:"|&^%$",depositMethod:depositMethod}
+			}
+			else if(searchSelect=="구매자명"){
+				searchOb={state:state,itemName:itemName,date1:date1,date2:date2,orderNum:"|&^%$",buyerName:selectInput,phoneNum:"|&^%$",depositPrice:"|&^%$",depositMethod:depositMethod}
+			}
+			else if(searchSelect=="전화번호"){
+				searchOb={state:state,itemName:itemName,date1:date1,date2:date2,orderNum:"|&^%$",buyerName:"|&^%$",phoneNum:selectInput,depositPrice:"|&^%$",depositMethod:depositMethod}
+			}
+			else{
+				searchOb={state:state,itemName:itemName,date1:date1,date2:date2,orderNum:"|&^%$",buyerName:"|&^%$",phoneNum:"|&^%$",depositPrice:selectInput,depositMethod:depositMethod}
+			}
+
+			$.post("/search",searchOb,function(data){
+				if(data[0]!=undefined){
+					var sameGood=[];
+
+					var orderNo=data.length;
+					for(var q=1;q<data.length;q++){
+						for(var r=1;q-r>=0;r++){
+							if(data[q].OD_ORDER_NO==data[q-r].OD_ORDER_NO){
+								if(data[q].OD_GD_FK==data[q-r].OD_GD_FK){
+									orderNo--;
+									break;
+								}
+							}
+							else{
+								break;
+							}
+						}
+					}
+					var output='';
+
+					output+='<tr>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;width: 20px;text-align: center;">';
+					output+='	<input type="checkbox" name="" id="check_all">';
+					output+='	</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 30px;text-align: center;">No.</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 85px;text-align: center;">주문번호</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 95px;text-align: center;"><div style="width: 85px;">주문일시</div>(입금확인일)</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 75px;text-align: center;">이미지</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 210px;text-align: center;">상품명</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 45px;text-align: center;">구매수량</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 75px;text-align: center;">결제방법</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 65px;text-align: center;">구매자명수취인명</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 90px;text-align: center;">송장번호</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 85px;text-align: center;">배송지</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 85px;text-align: center;">연락처</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;text-align: center;">상태변경</th>'
+					output+='</tr>';
+
+					$("#orderTb").empty().append(output);
+					$("#check_all").click(function() {
+						if($(this).prop("checked")==true){
+					 		$("input[name=mycheck]:checkbox").prop("checked", "checked");
+						}
+						else{
+					 		$("input[name=mycheck]:checkbox").prop("checked", "");
+						}
+					});
+
+					for(var i=0;i<data.length;i++){
+						if(i!=0){
+							if(data[i].OD_ORDER_NO!=data[i-1].OD_ORDER_NO){
+								sameGood=[];
+							}
+						}
+						var flag=0;
+						for(var j=0;j<sameGood.length;j++){
+							if(data[i].OD_GD_FK==sameGood[j]){
+								flag=1;
+							}
+						}
+						if(flag==0){
+							sameGood.push(data[i].OD_GD_FK);
+							var amount=data[i].OD_GOOD_AMT;
+							for(var j=i+1;j<data.length;j++){
+								if(data[i].OD_ORDER_NO==data[j].OD_ORDER_NO){
+									if(data[i].OD_GD_FK==data[j].OD_GD_FK){
+										amount+=data[j].OD_GOOD_AMT;
+									}
+								}
+								else{
+									break;
+								}
+							}
+							var buyerPhone=data[i].OD_BUYER_PHONE_NO;
+							var orderNumber=data[i].OD_ORDER_NO;
+							var date=orderNumber.slice(0,14);
+							var depositDate=data[i].OD_DEPOSIT_YMD;
+
+							var output='';
+							output+='							<tr>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);"><input type="checkbox" name="mycheck" value="'+data[i].OD_ORDER_NO+'" goodNum="'+data[i].OD_GD_FK+'"></td>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align:left;">'+(orderNo--)+'</td>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;font-size:12px;">'+data[i].OD_ORDER_NO+'</td>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;"><div>'+date.slice(0,4)+'/'+date.slice(4,6)+'/'+date.slice(6,8)+' '+date.slice(8,10)+':'+date.slice(10,12)+':'+date.slice(12,14)+'</div><div>('+depositDate.slice(0,4)+'/'+depositDate.slice(4,6)+'/'+depositDate.slice(6,8)+' '+depositDate.slice(8,10)+':'+depositDate.slice(10,12)+':'+depositDate.slice(12,14)+')</div></td>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">';
+							output+='									<img id="img'+data[i].OD_PK+'" src="" style="width: 70px;height: 70px;">';
+							output+='								</td>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: left;">';
+							output+='									<div id="goodName'+data[i].OD_PK+'" style="width: 100%;"></div>';
+							// output+='									<div style="width: 100%;"></div>';
+							output+='								</td>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">'+amount+'개</td>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">'+data[i].OD_DEPOSIT_MTD+'</td>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">';
+							output+='									<div style="width: 100%;">'+data[i].OD_BUYER_NM+'</div>';
+							output+='									<div style="width: 100%;">'+data[i].OD_RECEIVER_NM+'</div>';
+							output+='								</td>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">'+data[i].OD_DELIVERY_NO+'</td>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">'+data[i].OD_RECEIVER_AD1+'</td>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">'+buyerPhone.slice(0,3)+'-'+buyerPhone.slice(3,7)+'-'+buyerPhone.slice(7,11)+'</td>';
+							output+='								<td style="padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);text-align: center;">';
+							output+='									<button style="border:1px solid rgb(184,184,184);color: rgb(184,184,184);background-color: white;font-size: 12px;" onclick="goNextState2('+data[i].OD_ORDER_NO+','+data[i].OD_GD_FK+')">배송완료</button>';
+							//output+='									<button style="border:1px solid rgb(184,184,184);color: rgb(184,184,184);background-color: white;font-size: 12px;margin-top:3px;">주문취소</button>';
+							output+='									<button style="border:1px solid rgb(184,184,184);color: rgb(184,184,184);background-color: white;font-size: 12px;margin-top:3px;" onclick="deleteNumFun('+data[i].OD_ORDER_NO+','+data[i].OD_GD_FK+')">송장번호삭제</button>';
+							output+='								</td>';
+							output+='							</tr>';
+							$("#orderTb").append(output);
+							$.post("/goodConfirm",{good:data[i].OD_GD_FK,moment:data[i].OD_PK},function(data2){
+								$("#img"+data2.moment).attr("src",data2.data[0].GD_MAIN_IM.split(',')[0]);
+								$("#goodName"+data2.moment).append(data2.data[0].GD_GOOD_NM);
+							})
+						}
+					}
+				}
+				else{
+					var output='';
+
+					output+='<tr>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;width: 20px;text-align: center;">';
+					output+='	<input type="checkbox" name="">';
+					output+='	</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 30px;text-align: center;">No.</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 85px;text-align: center;">주문번호</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 95px;text-align: center;"><div style="width: 85px;">주문일시</div>(입금확인일)</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 75px;text-align: center;">이미지</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 210px;text-align: center;">상품명</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 45px;text-align: center;">구매수량</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 75px;text-align: center;">결제방법</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 65px;text-align: center;">구매자명수취인명</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 90px;text-align: center;">송장번호</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 85px;text-align: center;">배송지</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;width: 85px;text-align: center;">연락처</th>';
+					output+='	<th style="background-color: #999;padding: 6px 5px 6px 5px;border-top: 1px solid black;border-bottom: 1px solid black;color: white;font-weight: inherit;font-size: 12px;text-align: center;">상태변경</th>'
+					output+='</tr>';
+					output+='<tr id="noOrder">';
+					output+='	<td colspan="13" style="text-align: center;font-size: 12px;padding: 6px 5px 6px 5px;border-bottom: 1px solid rgb(204,204,204);">주문 정보가 없습니다.</td>';
+					output+='</tr>';
+					$("#orderTb").empty().append(output);
+				}
+			})
+		}
+		
+		function selectListFun(){
+			$.get("/itemsList",function(data){
+				var output='';
+				output+='<div style="padding:10px;">';
+				for(var i=0;i<data.length;i++){
+					output+='	<div style="border:1px solid #dddddd;">';
+					output+='		<div style="border-bottom: 1px solid #e9e9e9;padding: 14px 25px;font-size: 12px;color: #444;text-align:left;cursor:pointer;" onclick="selectFun(\''+data[i].GD_GOOD_NM+'\')">';
+					output+='			<span style="font-size:12px;color: #888;">[등록일: '+data[i].GD_REGDATE_YMD+']</span> '+data[i].GD_GOOD_NM;
+					output+='		</div>';
+					output+='	</div>';
+				}
+				output+='</div>';
+				$( "#dialog2" ).empty().append(output).dialog( "open" );
+			})
+		}
+
+		function selectFun(x){
+			$("#dialog2").dialog("close");
+			$("#itemName").val(x);
+		}
+
+		function todayFun(){
+		    var date=getDateStr(new Date());
+
+			$("#datepicker").val(date);
+			$("#datepicker2").val(date);
+		}
+
+		function threeDayFun(){
+			var date=lastDay(2);
+		    var date2=getDateStr(new Date());
+
+			$("#datepicker").val(date);
+			$("#datepicker2").val(date2);
+		}
+
+		function lastWeekFun(){
+			var date=lastDay(6);
+		    var date2=getDateStr(new Date());
+
+			$("#datepicker").val(date);
+			$("#datepicker2").val(date2);
+		}
+
+		/* 날짜 객체 받아서 문자열로 리턴하는 함수 */
+		function getDateStr(myDate){
+
+		    var year  = myDate.getFullYear();
+		    var month = myDate.getMonth() + 1; // 0부터 시작하므로 1더함 더함
+		    var day   = myDate.getDate();
+
+		    if (("" + month).length == 1) { month = "0" + month; }
+		    if (("" + day).length   == 1) { day   = "0" + day;   }
+
+			return (year + '-' + month + '-' + day);
+		}
+
+		/* 오늘 날짜를 문자열로 반환 */
+		function today() {
+		  	var d = new Date()
+		  	return getDateStr(d)
+		}
+
+		/* 오늘로부터 x일전 날짜 반환 */
+		function lastDay(x) {
+		  	var d = new Date()
+		  	var dayOfMonth = d.getDate()
+		  	d.setDate(dayOfMonth - x)
+		  	
+		  	return getDateStr(d)
+		}
+
+		function numberWithCommas(x){
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
+		}
+
+		function goNextState2(orderNumber,goodNum){
+			$.post("/goNextState2",{state:5,orderNumber:orderNumber,goodNum:goodNum},function(data){
+				location.href="/deliveringSeller.html";
+			})
+		}
+
+		function allGoNextState(){
+			var output='';
+			output+='<div>선택한 주문을 모두 배송완료하시겠습니까?</div>';
+			output+='<div style="padding-top:10px;"><button onclick="allGoNextState2()" style="margin-left:5px;">확인</button><button onclick="$( \'#dialog\' ).dialog( \'close\' );" style="margin-left:10px;">취소</button></div>';
+			$( "#dialog" ).empty().append(output).dialog( "open" );
+		}
+
+		function allGoNextState2(){
+			var checkboxArr=[];
+			var checkboxArr2=[];
+			var amountArr=[];
+			$("input[name=mycheck]:checkbox").each(function() { 
+				if($(this).prop("checked")==true){
+		        	checkboxArr.push($(this).val());
+		        	checkboxArr2.push($(this).attr("goodNum"));
+		        	amountArr.push($(this).attr("amount"));
+				}
+		   	});
+		   	if(checkboxArr.length==0){
+		   		alert("제품을 선택해 주세요.");
+		   		$("#dialog").dialog("close");
+		   		return;
+		   	}
+		   	var length=checkboxArr.length;
+		   	for(var i=0;i<checkboxArr.length;i++){
+				$.post("/goNextState2",{state:5,orderNumber:checkboxArr[i],goodNum:checkboxArr2[i],amount:amountArr[i]},function(data){
+					length--;
+					if(length==0){
+						location.href="/deliveringSeller.html";
+					}
+				})
+		   	}
+		}
+
+		function goBeforeState(orderNumber,goodNum){
+			$.post("/goNextState2",{state:3,orderNumber:[orderNumber],goodNum:[goodNum]},function(data){
+				location.href="/deliveringSeller.html";
+			})
+		}
+
+		function allGoBeforeState(){
+			var output='';
+			output+='<div>선택한 주문을 모두 송장번호삭제하시겠습니까?</div>';
+			output+='<div style="padding-top:10px;"><button onclick="allGoBeforeState2()" style="margin-left:5px;">확인</button><button onclick="$( \'#dialog\' ).dialog( \'close\' );" style="margin-left:10px;">취소</button></div>';
+			$( "#dialog" ).empty().append(output).dialog( "open" );
+		}
+
+		function allGoBeforeState2(){
+			var checkboxArr=[];
+			var checkboxArr2=[];
+			$("input[name=mycheck]:checkbox").each(function() { 
+				if($(this).prop("checked")==true){
+		        	checkboxArr.push($(this).val());
+		        	checkboxArr2.push($(this).attr("goodNum"));
+				}
+		   	});
+		   	if(checkboxArr.length==0){
+		   		alert("제품을 선택해 주세요.");
+		   		$("#dialog").dialog("close");
+		   		return;
+		   	}
+			$.post("/goNextState2",{state:3,orderNumber:checkboxArr,goodNum:checkboxArr2},function(data){
+				location.href="/deliveringSeller.html";
+			})
+		}
+
+		function deleteNumFun(orderNumber,goodNum){
+			$.post("/deleteNum",{orderNumber:orderNumber,goodNum:goodNum},function(data){
+				goBeforeState(orderNumber,goodNum);
+			})
+		}
+		
+		function modifyPwFun(pk){
+			var output='';
+			output+='<div>변경하실 비밀번호를 입력해주세요.</div>';
+			output+='<div style="margin-top:5px;"><input type="password" id="modifyPw" maxlength="20" onfocus="preventFocusFun()" onfocusout="pwFocusoutFun()"></div>';
+			output+='<div style="padding-top:10px;"><button onclick="modifyProvider(\''+pk+'\')" style="margin-left:5px;">확인</button><button onclick="$( \'#dialog\' ).dialog( \'close\' );" style="margin-left:10px;">취소</button></div>';
+			$( "#dialog" ).empty().append(output).dialog( "open" );
+		}
+
+		function modifyProvider(pk){
+			var password=$("#modifyPw").val();
+			if(password==""){
+				$("#modifyPw").focus();
+				alert('비밀번호 항목은 필수입니다.');
+				return;
+			}
+			if(password.length<6){
+				$("#modifyPw").focus();
+				dalert('비밀번호 항목은 최소 6자 이상 입력해 주시기 바랍니다.');
+				return;
+			}
+			if(!checkPw(password)){
+				$("#password").focus();
+				alert('비밀번호는 6~20자 영문 대소문자, 숫자, 특수문자 중 2가지 이상 조합이어야 합니다.');
+				return;
+			}
+			$.post("/modifyPwSeller",{password:password},function(data){
+				alert("비밀번호가 변경되었습니다.");
+				location.href="/tradeManageSeller.html";
+			})
+		}
+		
+		function preventFocusFun(){
+			preventSpace();
+		}
+
+		function pwFocusoutFun(){
+			openSpace();
+		}
+		function preventSpace(){
+			window.onkeydown = function() {
+				var kcode = event.keyCode;
+				if(kcode == 32) event.returnValue = false;
+			}
+		}
+		function openSpace(){
+			window.onkeydown = function() {
+				var kcode = event.keyCode;
+				if(kcode == 32) event.returnValue = true;
+			}
+		}
+		//비밀 번호 체크 숫자/영문
+		function checkPw(pw){
+			// var pw="";
+			// if(n==1){
+			// 	pw=$("#mb_password").val();
+			// } else {
+			// 	pw = $("#mb_password2").val();
+			// }
+
+			var chk_num=pw.search(/[0-9]/g);	//숫자
+			var chk_eng=pw.search(/[a-zA-Z]/ig);	//영문
+			//var chk_sp=checkSpecial(pw);	//특수문자
+
+			// if(pw.length<6){
+			// 	return false;
+			// }
+
+			if(chk_num==-1||chk_eng==-1){
+				return false;
+			}
+
+			return true;
+		}
+		
+		function checkNumber2(x)
+		{
+			var str=$(x).val();
+			for(var i=0;i<str.length;i++){
+				if(str[i]=="<"||str[i]==">"||str[i]=="'"||str[i]=="\""||str[i]=="\\"){
+		  			alert("<,>,',\",\\ 문자는 입력하실 수 없습니다.");
+		  			$(x).val("");
+		  			break;
+				}
+			}
+		}
+	</script>
+</body>
+</html>

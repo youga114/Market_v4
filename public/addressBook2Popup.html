@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<script src="js/jquery-3.1.1.js"></script>
+	<link rel="stylesheet" type="text/css" charset="utf-8" href="css/index.css" />
+	<link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.css"/>
+	<script type="text/javascript" src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<title>마을마켓 - 주문/배송 조회</title>
+	<style>
+		.pageButton{
+			background-color: white;
+			border: 1px solid #ee2c28;
+			color: #ee2c28;
+			padding: 6px 12px;
+			cursor: pointer;
+			font-size: 14px;
+			margin: 0px 4px;
+		}
+		.pageButton:hover{
+			background-color: #eee;
+		}
+		.pageButton2{
+			background-color: white;
+			border: 1px solid #cfcfcf;
+			color: #605f60;
+			padding: 6px 12px;
+			cursor: pointer;
+			font-size: 14px;
+			margin: 0px 4px;
+		}
+		.pageButton2:hover{
+			background-color: #eee;
+		}
+	</style>
+	<script>
+		var dataCount=0;
+		$(document).ready(function(){
+			$( "#dialog" ).dialog({
+				autoOpen: false,
+				width: 600
+			});
+
+			var parameterPage=parseInt(getParameterByName("page"));
+			$.get("/bringMyAddress?page="+parameterPage+"&ex=1",function(data){
+				if(data!=''){
+					$("#noAddress").remove();
+					var output='';
+					for(var i=0;i<data.length;i++){
+						var number;
+						if(data[i].AD_NO!=null){
+							number=data[i].AD_NO;
+						}
+						else{
+							number="";
+						}
+						var phone=data[i].AD_PHONE_NO;
+						var ymd=data[i].AD_REGDATE_YMD;
+						output+='<tr>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);">'+ymd.slice(0,4)+'.'+ymd.slice(4,6)+'.'+ymd.slice(6,8)+'</td>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);">'+data[i].AD_NM+'</td>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);text-align:left;">('+data[i].AD_ZIP_NO+') '+data[i].AD_AD1+'</br>'+data[i].AD_AD2+'</td>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);">'+number.slice(0,number.length-8)+'-'+number.slice(number.length-8,number.length-4)+'-'+number.slice(number.length-4,number.length)+'</br>'+phone.slice(0,phone.length-8)+'-'+phone.slice(phone.length-8,phone.length-4)+'-'+phone.slice(phone.length-4,phone.length)+'</td>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);"><button style="background-color:white;border:1px solid #ee2c28;color:#ee2c28;border-radius:3px;cursor:pointer;" onclick="modifyFun('+data[i].AD_PK+')">자주쓰는배송지</button> <button style="background-color:white;border:1px solid #cfcfcf;border-radius:3px;cursor:pointer;" onclick="deleteFun('+data[i].AD_PK+')">삭제</button></td>';
+						output+='</tr>';
+					}
+					$("#addressTb").append(output);
+					$.get("/bringMyAddressCount?ex=1",function(data){
+						var output='';
+						var i=1;
+						while((parameterPage-i)%10!=0){
+							var instant=parameterPage-i;
+							output='<a href="/addressBook2.html?page='+instant+'" class="pageButton2">'+instant+'</a>'+output;
+							i++;
+						}
+						if((parameterPage-i)%10==0&&parameterPage>10){
+							output='<a href="/addressBook2.html?page='+(parameterPage-i)+'" class="pageButton2"><</a>'+output;
+						}
+						output+='<a href="/addressBook2.html?page='+parameterPage+'" class="pageButton">'+parameterPage+'</a>';
+						var i=1;
+						while((parameterPage+i-1)*10<data.count&&(parameterPage+i)%10!=1){
+							var instant=parameterPage+i;
+							output+='<a href="/addressBook2.html?page='+instant+'" class="pageButton2">'+instant+'</a>';
+							i++;
+						}
+						if((parameterPage+i)%10==1){
+							output+='<a href="/addressBook2.html?page='+(parameterPage+i)+'" class="pageButton2">></a>';
+						}
+						dataCount=data.count;
+						$("#page").empty().append(output);
+					})
+				}
+			})
+		})
+
+		function deleteFun(pk){
+			$.post("/deleteAddress",{pk:pk},function(){
+				if((parseInt(getParameterByName("page"))!=1)&&(dataCount%10==1)&&(dataCount/10==parseInt(getParameterByName("page"))-0.9)){
+					location.href="/addressBook.html?page="+(parseInt(getParameterByName("page"))-1);
+				}
+				else{
+					location.href=location.href;
+				}
+			})
+		}
+
+		function getParameterByName(name) {
+		    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		        results = regex.exec(location.search);
+		    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		}
+
+		function modifyFun(pk){
+			$.post("/address2Modify",{pk:pk},function(){
+				if((parseInt(getParameterByName("page"))!=1)&&(dataCount%10==1)&&(dataCount/10==parseInt(getParameterByName("page"))-0.9)){
+					location.href="/addressBook.html?page="+(parseInt(getParameterByName("page"))-1);
+				}
+				else{
+					location.href=location.href;
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<div align="center">
+		<div>
+			<div align='center'>
+				<div style='width: 830px;padding:0px 0px 0px 0px;'>
+					<div style='width:830px;'>
+						<div style='width: 810px;'>
+							<div style="height:10px;"></div>
+							<div style='width:100%;font-size:25px;margin-bottom:15px;text-align:left;'>주소록</div>
+							<table width="98%" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size: 13px;">
+								<tbody>
+									<tr height="30">
+										<td width="10"></td>
+										<td width="20%" style="text-align: center;padding: 2px;border: 1px solid #565656 ;height: 35px;border-bottom: 0px;">
+											<a href="/addressBookPopup.html?page=1" style="color: #515151;">자주쓰는 배송지</a>
+										</td>
+										<td width="20%" style="text-align: center;padding: 2px;border: 1px solid #565656 ;background: #f65c50 !important;height: 35px;border-bottom: 0px;">
+											<a href="" style="color: #fff !important;">최근 배송지</a></td>
+										<td>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div style="height:10px;border-top: 1px solid #565656;"></div>
+							<table id='addressTb' style='width: 790px;border-top:solid 2px;font-size: 12px;border-spacing: 0px;text-align:center;margin-bottom: 20px;'>
+								<tr>
+									<td style="padding:5px 10px 5px 10px;border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);border-right: solid 1px rgb(204,204,204);width:100px;">날짜</td>
+									<td style="padding:5px 10px 5px 10px;border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);border-right: solid 1px rgb(204,204,204);width:80px;">받는분</td>
+									<td style="padding:5px 10px 5px 10px;width: 260px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);">주소</td>
+									<td style="padding:5px 1px 5px 1px;width: 110px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);">연락처</td>
+									<td style="padding:5px 10px 5px 10px;border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);">관리</td>
+								</tr>
+								<tr id="noAddress"><td colspan="5" style="height:100px;">최근 배송지가 없습니다.</td></tr>
+							</table>
+							<div id="page" style="padding-bottom: 20px;"></div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+

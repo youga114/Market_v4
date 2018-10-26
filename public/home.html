@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>마을마켓 - 공지사항</title>
+<script src="/js/jquery-3.1.1.js"></script>
+<script src="/js/header.js"></script>
+<script src="/js/loginCheck.js"></script>
+<link rel="stylesheet" type="text/css" charset="utf-8" href="/css/main.css" />
+<link rel="stylesheet" type="text/css" href="/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+<script type="text/javascript" src="/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="/js/service.js"></script>
+<style>
+	#service_header, #service_header h2{
+		width:1100px;
+	}
+
+	#board_area{
+		position: relative;
+		top:40px;
+		width:1206px;
+	}
+
+	#board_bt_area{
+		width:840px;
+		margin:auto;
+		margin-top: 60px;
+	}
+
+	#board_bt_area table{
+		width:840px;
+		padding:0px;
+		border-spacing:0px 0px;
+		border-style: solid;
+		border: 1px solid darkgray;		
+	}
+
+	#board_bt_area tr{
+		position: relative;
+		padding:0px;
+
+	}
+
+	#board_bt_area td{
+		position: relative;
+		height:100px;
+		width:140px;
+		padding:0px;
+		border-style: solid;
+		border: 1px solid darkgray;
+		cursor: pointer;
+	}
+
+	.img_area{
+		position: relative;
+		margin:auto;
+		width:40px;
+		height:50px;
+	}
+
+	#board_bt_area img{
+		width:40px;
+		margin:0 auto;		
+	}
+
+	#board_bt_area h4{
+		width:140px;
+		margin: auto;
+		text-align: center;
+	}
+
+	#menu_header{
+		width:1100px;
+		margin:auto;
+		margin-top: 60px;
+	}
+</style>
+</head>
+<body>
+	<div id="page-wrapper" align="center">
+		<div>
+			<header id="header">
+				<div class="main-bg isTop">
+					<div class="main-bg-bar">
+						<ul class="main-bg-bar-nav">
+							<li style="border-right: 0;">
+								<a id="cart_a" href="">장바구니</a>
+							</li>
+							<li>
+								<a href="/service/home">고객센터</a>
+							</li>
+							<li>
+								<a id="myInfo_a" href="">마이페이지</a>
+							</li>
+							<li>
+								<a href="/joinAgree.html">회원가입</a>
+							</li>
+							<li>
+								<a id="login_a" href="">로그인</a>
+							</li>
+						</ul>
+					</div>
+					<div class="main-bg-header">
+						<div class="main-bg-header-container">
+							<a href="/" class="main-bg-header-container-logo">
+								<div style="font-family: 'Yoon_러브레터M';font-size: 40px;font-weight: lighter;">마을마켓</div>
+								<div style="font-family: 'Yoon_러브레터M';font-size: 180px;font-weight: lighter;margin-top: -85px;height: 80px;margin-left: 30px;">소소</div>
+							</a>
+							<div id="magnifier" align="right" style="margin-top: 10px;">
+								<span style="border: 1px solid #ddd;padding: 0px 5px;">
+									<img src="img/main/magnifier.png" width="14" height="14">
+									<input type="text" name="search" style="border: none;font-size: 15px;margin-left: 2px;">
+								</span>
+							</div>
+							<div class="main-bg-header-container-catchcopy">
+								<font style="vertical-align: inherit;">
+									상품 하나하나에 이웃의 이야기와 자부심이 있습니다.
+								</font>
+								<br>
+							</div>
+							<div style="text-align: left;">
+								<a href="./" class="main-bg-header-container-home"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">홈</font></font></a>
+								<div class="main-bg-header-container-nav">
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/category.html?high_num=1&view=2">식품</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/category.html?high_num=2&view=2">생활</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											기획
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/news_list">마마톡</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list" style="border-right: 0px;">
+										<font style="vertical-align: inherit;">
+											이웃마을
+										</font>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+
+			<div id="container">
+				<div id="board_area" align="center">
+					<div id="service_header" align="center">
+						<h2>마을마켓 고객센터</h2>
+					</div>
+
+					<div id="board_bt_area" align="center">
+						<table align="center">
+							<tr>
+								<% if(kind == "home"){ %>
+								<td onclick="menu_bt('home');" style="background-color: black;">
+									<div class="img_area"><img src="/img/service_bt/home_w.png" alt="home"></div>
+									<h4 style="color:white">마을마켓이란</h4>
+								</td>
+								<% }else{ %>
+								<td class="board_bt" onclick="menu_bt('home');">
+									<div class="img_area"><img src="/img/service_bt/home.png" alt="home"></div>
+									<h4>마을마켓이란</h4>
+								</td>			
+								<% } %>
+								<% if(kind == "notice"){ %>
+								<td onclick="menu_bt('notice');" style="background-color: black;">
+									<div class="img_area"><img src="/img/service_bt/notice_w.png" alt="notice"></div>
+									<h4 style="color:white">공지사항</h4>
+								</td>
+								<% }else{ %>
+								<td class="board_bt" onclick="menu_bt('notice');">
+									<div class="img_area"><img src="/img/service_bt/notice.png" alt="notice"></div>
+									<h4>공지사항</h4>
+								</td>			
+								<% } %>
+
+								<% if(kind == "faq"){ %>
+								<td onclick="menu_bt('faq');" style="background-color: black;">
+									<div class="img_area"><img src="/img/service_bt/question_w.png" alt="FAQ"></div>
+									<h4 style="color:white">Q&A</h4>
+								</td>
+								<% }else{ %>
+								<td class="board_bt" onclick="menu_bt('faq');">
+									<div class="img_area"><img src="/img/service_bt/question.png" alt="FAQ"></div>
+									<h4>Q&A</h4>
+								</td>							
+								<% } %>
+								<% if(kind == "delivery"){ %>
+								<td onclick="menu_bt('delivery');" style="background-color: black;">
+									<div class="img_area"><img src="/img/service_bt/transport_w.png" alt="delivery"></div>
+									<h4 style="color:white">배송안내</h4>
+								</td>
+								<% }else{ %>
+								<td class="board_bt" onclick="menu_bt('delivery');">
+									<div class="img_area"><img src="/img/service_bt/transport.png" alt="delivery"></div>
+									<h4>배송안내</h4>
+								</td>							
+								<% } %>
+								<% if(kind == "exchange"){ %>
+								<td onclick="menu_bt('exchange');" style="background-color: black;">
+									<div class="img_area"><img src="/img/service_bt/package_w.png" alt="exchange"></div>
+									<h4 style="color:white">교환/반품</h4>
+								</td>
+								<% }else{ %>
+								<td class="board_bt" onclick="menu_bt('exchange');">
+									<div class="img_area"><img src="/img/service_bt/package.png" alt="exchange"></div>
+									<h4>교환/반품</h4>
+								</td>							
+								<% } %>	
+								<% if(kind == "counsel"){ %>
+								<td onclick="menu_bt('counsel');" style="background-color: black;">
+									<div class="img_area"><img src="/img/service_bt/mallin_w.png" alt="counsel"></div>
+									<h4 style="color:white">입점상담</h4>
+								</td>
+								<% }else{ %>
+								<td class="board_bt" onclick="menu_bt('counsel');">
+									<div class="img_area"><img src="/img/service_bt/mallin.png" alt="counsel"></div>
+									<h4>입점상담</h4>
+								</td>							
+								<% } %>																													
+							</tr>
+						</table>
+					</div>
+
+					<div id="menu_header" align="center">
+						<h3>마을마켓 소소란</h3>
+					</div>
+
+					<div id="content_area" align="center">
+					<div style="width:1000px;">
+						<div style="width: 1000px;margin-top: 30px;text-align: left;">
+							<p class="0">마을장 소소를 소개합니다</p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0"><span style="mso-fareast-font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">▪  </span>건강한 삶을 꿈꾸는 오픈마켓</p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0" style="mso-pagination:none;text-autospace:none;mso-padding-alt:0pt 0pt 0pt 0pt;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">고양시에는 농<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">·</span>축산업인과 소상공인<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>그리고 핸드메이드 제품을 생산하는 분들이 많이 계십니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>그 분들 중에는 소비자의 건강을 생각하며 정직하게 제품을 생산하는 경우가 있습니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>어떻게 하면 좀 더 신선한 야채나 과일을 재배할 수 있을까<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">? </span>제품에 들어가는 화학성분을 대체할 천연성분은 과연 무얼까<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">? </span>맛도 좋고 몸에도 좋은 음식을 만들려면 어떻게 해야 할까<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">? </span>이러한 고민을 토대로 생산된 제품은 품질이 우수함에도 불구하고<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>자본을 앞세운 마케팅과 과대광고 등에 밀려 적절한 판로를 찾지 못하는 경우가 많습니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span></p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0" style="mso-pagination:none;text-autospace:none;mso-padding-alt:0pt 0pt 0pt 0pt;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">한편 소비자들은 건강을 챙길 수 있는 제품을 선호합니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>기왕이면 성장촉진제를 사용하지 않은 과일을<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>신선한 야채를<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>천연성분이 들어간 제품을<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>유전자조작을 하지 않은 음식을<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>친환경 제품을 원합니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>그래서 깨알 같이 적혀있는 제품의 성분 표를 읽어보지만<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>막상 품질을 구별하기란 쉬운 일이 아닙니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>또한 집 앞의 대형마트에 가면 손쉽게 제품을 구매할 수 있는데<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>굳이 좋은 제품을 일일이 찾아보는 것도 결코 만만치 않습니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span></p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0" style="mso-pagination:none;text-autospace:none;mso-padding-alt:0pt 0pt 0pt 0pt;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">이에 소소는 좀 새로운 유통문화를 만들어보려고 합니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>단순히 제품만 판매하는 것이 아니라<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>제품에 대한 자부심과 생산자의 진솔한 이야기까지 전달하는 유통<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>건강한 삶을 지향하는 소비자와 생산자가 이웃이 되는 유통<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>그래서 이웃에게 파는 만큼 더 정성껏 생산하고<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>이웃에게 사는 만큼 더 믿을 수 있는<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>공동체 중심의 유통문화<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>그것이 소소의 꿈입니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">.</span></p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0"><span style="mso-fareast-font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">▪  </span>소소한 일상의 행복<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>휘게<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">(hygge) </span>라이프</p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0" style="mso-pagination:none;text-autospace:none;mso-padding-alt:0pt 0pt 0pt 0pt;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">소소가 꿈꾸는 행복은 멀리 있거나<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>화려하거나<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>거창한 것이 아닙니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>오히려 우리 주변에<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>아주 사소한 일상에 있습니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>이에 소소는 <span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">28</span>년 역사의 고양신문과 연계<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>고양지역의 다양한 소식과 유익한 정보를 전달하려고 합니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>검증된 맛 집 정보나 문화행사 안내<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>그리고 크고 작은 뉴스 등등 고양신문이 직접 발로 뛰며 쌓아온 네트워크를 활용한 정보와 소식을 제공할 예정입니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>일상에서 우수한 먹거리와 쓸거리를 찾고<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>주변 사람들과 다양한 정보와 소식을 공유하는 것<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>소박하고 즐거운 시간을 보내는 것<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>따뜻한 이웃과 일상의 즐거움을 찾아가는 것<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>그것이 진정한 휘게<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">(hygge) </span>라이프라 믿기 때문입니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">.</span></p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0" style="mso-pagination:none;text-autospace:none;mso-padding-alt:0pt 0pt 0pt 0pt;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;"><span style="mso-fareast-font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">※ </span>휘게<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">(hygge) </span>라이프 <span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">: </span>사랑하는 사람들과 함께 하는 시간을 소중히 여기며<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>소박한 삶의 여유를 즐기는 라이프 스타일<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">.</span></p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0"><span style="mso-fareast-font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">▪  </span>지역에 환원하는 사회적 기업</p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0" style="mso-pagination:none;text-autospace:none;mso-padding-alt:0pt 0pt 0pt 0pt;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">소소는 지역에 환원하는 사회적 기업입니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>우수한 제품을 생산하는 고양 지역의 생산업체<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">(</span>생산자<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">)</span>를 꾸준히 발굴하는 것은 물론<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>다양한 방법으로 지역과 소통하고자 합니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>또한 수익의 일부는 경제적인 어려움을 겪는 어르신이나 청년들의 일자리 제공<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>소외계층을 위한 행사 및 서비스 제공 등에 사용할 예정입니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">. </span>좀 더디더라도 건강하게<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>좀 투박해도 진실하게<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>그렇게 한 발<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>한 발 내딛는 사회적 기업이 되도록 노력하겠습니다<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">.</span></p><p class="0"><span style="font-family:함초롬바탕;"><!--[if !supportEmptyParas]-->&nbsp;<!--[endif]--><o:p></o:p></span></p><p class="0"><span style="mso-fareast-font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">※ </span>사회적 기업 <span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">: </span>비영리조직과 영리기업의 중간 형태로<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">, </span>사회적 목적을 추구하면서 영업활동을 수행하는 기업<span lang="EN-US" style="font-family:함초롬바탕;mso-font-width:100%;letter-spacing:0pt;mso-text-raise:0pt;">.</span></p>
+						</div>
+					</div>
+						
+					</div>
+				</div>
+			</div>
+
+
+			<footer id="footer">
+				<div class="footer-container">
+					<div class="footer-top" align="center">
+						상품에 대하여 배송, 교환, 반품의 민원 A/S 등은  "다시 뛰는 사람들" 에서 처리하며 모든 책임은 "다시 뛰는 사람들"에 있습니다.​
+	민원 담당자 : 마을마켓 소소 고객센터 /  연락처 : 031-963-2900 
+					</div>
+					<div class="footer-mid" align="left">
+						<p style="font-size: 12px;">
+							<b>다시 뛰는 사람들</b>
+						</p>
+						<p style="font-size: 11px;">
+							우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+						</p>
+						<p style="font-size: 11px;">
+							| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+						</p>
+					</div>
+					<div class="footer-bottom" align="left">
+						<p style="font-size: 12px;">
+							<b>고객센터</b>
+						</p>
+						<p style="font-size: 11px;">
+							| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+						</p>
+						<p style="font-size: 11px;">
+							| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+						</p>
+					</div>
+					<div class="pageTop">
+						<a href="#" class="pageTop-a">
+							<img src="/img/main/pageTop.png" width="100">
+						</a>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>마을마켓 - 관리자페이지</title>
+	<script src="js/jquery-3.1.1.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/admin.css" rel="stylesheet">
+	<script type="text/javascript" src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.css"/>
+</head>
+<style type="text/css">
+th{
+	text-align: center;
+}
+#providerTb tr td{
+	border-bottom: 1px solid rgb(204,204,204);
+}
+</style>
+<body>
+	<div id="page-wrapper">
+		<div>
+			<header align="right">
+				<a href="/logout"><button style="background-color: rgb(154,154,154);border: 0px;font-size: 12px;color: white;width: 70px;height: 30px;margin-top: 18px;margin-right: 20px;">로그아웃</button></a>
+			</header>
+			<div class="left">
+				<ul align="left">
+					<a href="/goodList.html"><li>상품목록</li></a>
+					<a href="/goodRegist.html"><li>상품등록</li></a>
+					<a href="/providerManage.html"><li style="background-color: rgb(12,63,78);">공급자 관리</li></a>
+					<a href="/tradeManage.html"><li>거래 상태별 주문관리</li></a>
+					<a href="/noticeList.html"><li>공지사항 관리</li></a>
+					<a href="/questionList.html"><li>Q&A 관리</li></a>
+					<a href="/slideBannerList.html"><li>슬라이드배너 관리</li></a>
+					<a href="/newsManage"><li>기사 관리</li></a>
+					<a href="/mainManage"><li>메인페이지 관리</li></a>
+					<a href="/counselAdmin.html"><li>입점신청서 관리</li></a>
+				</ul>
+			</div>
+			<div id = "container" align="left">
+				<div style="border-bottom: 2px solid;font-size: 25px;width: 1100px;margin:20px 0px 0px 30px;">공급자 관리</div>
+				<div style="margin:5px 0px 0px 30px;">
+					<div style="color: rgb(0,130,153);font-size: 11px;margin-bottom: 5px;margin-left: 5px;">저장된 공급자명을 상품등록 시에 선택할 수 있습니다.</div>
+					<table style="width: 1100px;text-align: center;" id="providerTb">
+						<tr style="background-color: rgb(135,135,135);color: white;font-size: 13px;">
+							<th style="width: 50px;font-weight: lighter;">
+								No.
+							</th>
+							<th style="width: 120px;font-weight: lighter;">
+								공급자명(필수)
+							</th>
+							<th style="width: 110px;font-weight: lighter;">
+								ID
+							</th>
+							<th style="width: 100px;font-weight: lighter;">
+								비밀번호
+							</th>
+							<th style="width: 110px;font-weight: lighter;">
+								사업자번호
+							</th>
+							<th style="width: 90px;font-weight: lighter;">
+								담당자명
+							</th>
+							<th style="width: 100px;font-weight: lighter;">
+								이메일
+							</th>
+							<th style="width: 100px;font-weight: lighter;">
+								연락처
+							</th>
+							<th style="width: 140px;font-weight: lighter;">
+								메모
+							</th>
+							<th style="font-weight: lighter;">
+								등록/수정
+							</th>
+						</tr>
+						<tr style="font-size: 12px;">
+							<td style="height: 35px;"></td>
+							<td style="padding: 1.5px 10px 1.5px 10px;">
+								<input id="name" type="text" name="" value="" style="height: 20px;width: 110px;" maxlength="20" onfocusout="checkNumber2(this)">
+							</td>
+							<td style="padding: 1.5px 10px 1.5px 10px;">
+								seller<input id="id" type="text" name="id2" value="" style="height: 20px;width: 50px;" maxlength="14" onfocus="preventFocusFun()" onfocusout="pwFocusoutFun(this)">
+							</td>
+							<td style="padding: 1.5px 10px 1.5px 10px;">
+								<input id="password" type="password" name="password2" value="" style="height: 20px;width: 90px;" maxlength="20" onfocus="preventFocusFun()" onfocusout="pwFocusoutFun(this)">
+							</td>
+							<td style="padding: 1.5px 10px 1.5px 10px;">
+								<input id="registration" type="text" name="" value="" style="height: 20px;width: 100px;" maxlength="20" onfocusout="checkNumber2(this)">
+							</td>
+							<td style="padding: 1.5px 10px 1.5px 10px;">
+								<input id="manager" type="text" name="" value="" style="height: 20px;width: 80px;" maxlength="20" onfocusout="checkNumber2(this)">
+							</td>
+							<td style="padding: 1.5px 10px 1.5px 10px;">
+								<input id="email" type="text" name="" value="" style="height: 20px;width: 90px;" maxlength="30" onfocusout="checkNumber2(this)">
+							</td>
+							<td style="padding: 1.5px 10px 1.5px 10px;">
+								<input id="phone" type="text" name="" value="" style="height: 20px;width: 90px;" maxlength="20" onfocusout="checkNumber2(this)">
+							</td>
+							<td style="padding: 1.5px 10px 1.5px 10px;">
+								<input id="memo" type="text" name="" value="" style="height: 20px;width: 130px;" maxlength="1000" onfocusout="checkNumber2(this)">
+							</td>
+							<td style="padding: 1.5px 10px 1.5px 10px;">
+								<button style="cursor: pointer;width: 40px;height: 18px;border: 1px solid rgb(36,166,189);color: rgb(36,166,189);background-color: white;font-size: 11px;" onclick='registFun()'>등록</button>
+							</td>
+						</tr>
+					</table>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<div style="float:left; margin-top: 50px; margin-left: 300px; color: white;" align="left">
+					<p style="font-size: 12px;">
+						<b>다시 뛰는 사람들</b>
+					</p>
+					<p style="font-size: 11px;">
+						우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+					</p>
+					<p style="font-size: 11px;">
+						| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+					</p>
+				</div>
+				<div style="float:left; margin-top: 50px; margin-left: 99px; color: white;" align="left">
+					<p style="font-size: 12px;">
+						<b>고객센터</b>
+					</p>
+					<p style="font-size: 11px;">
+						| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+					</p>
+					<p style="font-size: 11px;">
+						| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+					</p>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$.get("/adminConfirm",function(data){
+				if(data=="success"){
+					$(document.body).append('<div id="dialog" title="알림" style="font-size:13px;padding-top:20px;" align="center"></div>');
+					$( "#dialog" ).dialog({
+						autoOpen: false,
+						width: 400,
+						height: 160,
+						modal: true
+					});
+
+					$.get("/sellerList",function(data2){
+						var fk=[];
+						for(var i=0;i<data2.length;i++){
+							fk.push(data2[i].SEL_US_FK);
+						}
+						$.post("/sellerUserList",{fk:fk},function(data){
+							for(var i=0;i<data.length;i++){
+								for(var j=0;j<data2.length;j++){
+									if(data2[j].SEL_US_FK==data[i].US_PK){
+										var output='';
+										output+='<tr style="font-size: 12px;">';
+										output+='	<td style="height: 35px;">'+(data2.length-i)+'</td>';
+										output+='	<td style="padding: 1.5px 10px 1.5px 10px;">';
+										output+='		<input id="name'+data[i].US_PK+'" type="text" name="" value="'+data2[j].SEL_SELLER_NM+'" style="width: 110px;height: 20px;" maxlength="20" onfocusout="checkNumber2(this)">';
+										output+='	</td>';
+										output+='	<td>'+data[i].US_USER_ID+'</td>';
+										output+='	<td style="padding: 1.5px 10px 1.5px 10px;">';
+										output+='		<button onclick="modifyPwFun(\''+data[i].US_PK+'\')">변경하기</button>';
+										output+='	</td>';
+										output+='	<td style="padding: 1.5px 10px 1.5px 10px;">';
+										output+='		<input id="registration'+data[i].US_PK+'" type="text" name="" value="'+data2[j].SEL_SELLER_REGISTRATION_NO+'" style="width: 100px;height: 20px;" maxlength="20" onfocusout="checkNumber2(this)">';
+										output+='	</td>';
+										output+='	<td style="padding: 1.5px 10px 1.5px 10px;">';
+										output+='		<input id="manager'+data[i].US_PK+'" type="text" name="" value="'+data2[j].SEL_MANAGER_NM+'" style="width: 80px;height: 20px;" maxlength="20" onfocusout="checkNumber2(this)">';
+										output+='	</td>';
+										output+='	<td style="padding: 1.5px 10px 1.5px 10px;">';
+										output+='		<input id="email'+data[i].US_PK+'" type="text" name="" value="'+data2[j].SEL_SELLER_EM+'" style="width: 90px;height: 20px;" maxlength="30" onfocusout="checkNumber2(this)">';
+										output+='	</td>';
+										output+='	<td style="padding: 1.5px 10px 1.5px 10px;">';
+										output+='		<input id="phone'+data[i].US_PK+'" type="text" name="" value="'+data2[j].SEL_PHONE_NO+'" style="width: 90px;height: 20px;" maxlength="20" onfocusout="checkNumber2(this)">';
+										output+='	</td>';
+										output+='	<td style="padding: 1.5px 10px 1.5px 10px;">';
+										output+='		<input id="memo'+data[i].US_PK+'" type="text" name="" value="'+data2[j].SEL_SELLER_EX+'" style="width: 130px;height: 20px;" maxlength="1000" onfocusout="checkNumber2(this)">';
+										output+='	</td>';
+										output+='	<td style="padding: 3px 10px 3px 10px;">';
+										output+='		<button style="cursor: pointer;width: 40px;height: 18px;border: 1px solid rgb(154,154,154);color: rgb(154,154,154);background-color: white;font-size: 11px;" onclick=\'modifyFun("'+data[i].US_PK+'","'+data2[j].SEL_PK+'")\'>수정</button>';
+										output+='		<button style="cursor: pointer;width: 40px;height: 18px;border: 1px solid red;color: red;background-color: white;font-size: 11px;" onclick=\'deleteFun("'+data2[j].SEL_US_FK+'")\'>삭제</button>';
+										output+='	</td>';
+										output+='</tr>';
+
+										$("#providerTb").append(output);
+
+										break;
+									}
+								}
+							}
+						})
+					})
+				}
+				else{
+					location.href="/login.html?url="+location.href;
+				}
+			})
+		})
+
+		function modifyFun(US_PK,x){
+			var name=$("#name"+US_PK).val();
+			var registration=$("#registration"+US_PK).val();
+			var manager=$("#manager"+US_PK).val();
+			var email=$("#email"+US_PK).val();
+			var phone=$("#phone"+US_PK).val();
+			var memo=$("#memo"+US_PK).val();
+			$.post("/modifySeller",{pk:x,name:name,registration:registration,manager:manager,email:email,phone:phone,memo:memo},function(data){
+				location.href="/providerManage.html";
+			})
+		}
+
+		function deleteFun(x){
+			var output='';
+			output+='<div>삭제하시겠습니까?</div>';
+			output+='<div style="padding-top:10px;"><button onclick="deleteSellerFun(\''+x+'\')" style="margin-left:5px;">확인</button><button onclick="$( \'#dialog\' ).dialog( \'close\' );" style="margin-left:10px;">취소</button></div>';
+			$( "#dialog" ).empty().append(output).dialog( "open" );
+		}
+
+		function deleteSellerFun(x){
+			$.post("/deleteSeller",{fk:x},function(data){
+				location.href="/providerManage.html";
+			})
+		}
+
+		function registFun(){
+			var id="seller"+$("#id").val();
+			var password=$("#password").val();
+			var name=$("#name").val();
+			var registration=$("#registration").val();
+			var manager=$("#manager").val();
+			var email=$("#email").val();
+			var phone=$("#phone").val();
+			var memo=$("#memo").val();
+
+			$.post("/idCheck",{id:id},function(data){
+				if(data=='fail'){
+					$("#id").focus();
+				    alert("이미 사용중인 아이디입니다.");
+				    return;
+				}
+				if(password==""){
+					$("#password").focus();
+					alert('비밀번호 항목은 필수입니다.');
+					return;
+				}
+				if(password.length<6){
+					$("#password").focus();
+					alert('비밀번호 항목은 최소 6자 이상 입력해 주시기 바랍니다.');
+					return;
+				}
+				if(!checkPw(password)){
+					$("#password").focus();
+					alert('비밀번호는 6~20자 영문 대소문자, 숫자, 특수문자 중 2가지 이상 조합이어야 합니다.');
+					return;
+				}
+
+				$.post("/registSeller",{id:id,password:password,regdate:today(),name:name,registration:registration,manager:manager,email:email,phone:phone,memo:memo},function(data){
+					location.href="/providerManage.html";
+				})
+			})
+
+		}
+
+		function modifyPwFun(pk){
+			var output='';
+			output+='<div>변경하실 비밀번호를 입력해주세요.</div>';
+			output+='<div style="margin-top:5px;"><input type="password" id="modifyPw" maxlength="20" onfocus="preventFocusFun()" onfocusout="pwFocusoutFun(this)"></div>';
+			output+='<div style="padding-top:10px;"><button onclick="modifyProvider(\''+pk+'\')" style="margin-left:5px;">확인</button><button onclick="$( \'#dialog\' ).dialog( \'close\' );" style="margin-left:10px;">취소</button></div>';
+			$( "#dialog" ).empty().append(output).dialog( "open" );
+		}
+
+		function modifyProvider(pk){
+			var password=$("#modifyPw").val();
+			if(password==""){
+				$("#modifyPw").focus();
+				alert('비밀번호 항목은 필수입니다.');
+				return;
+			}
+			if(password.length<6){
+				$("#modifyPw").focus();
+				dalert('비밀번호 항목은 최소 6자 이상 입력해 주시기 바랍니다.');
+				return;
+			}
+			if(!checkPw(password)){
+				$("#password").focus();
+				alert('비밀번호는 6~20자 영문 대소문자, 숫자, 특수문자 중 2가지 이상 조합이어야 합니다.');
+				return;
+			}
+			$.post("/modifyProvider",{password:password,pk:pk},function(data){
+				alert("비밀번호가 변경되었습니다.");
+				location.href="/providerManage.html";
+			})
+		}
+		
+		function today(){
+		    var date = new Date();
+		    var year  = date.getFullYear();
+		    var month = date.getMonth() + 1; // 0부터 시작하므로 1더함 더함
+		    var day   = date.getDate();
+
+		    if (("" + month).length == 1) { month = "0" + month; }
+		    if (("" + day).length   == 1) { day   = "0" + day;   }
+		  
+			return("" + year + month + day);
+		}
+
+		function preventFocusFun(){
+			preventSpace();
+		}
+
+		function pwFocusoutFun(x){
+			var str=$(x).val();
+			for(var i=0;i<str.length;i++){
+				if(str[i]==" "){
+					alert("공백은 입력하실 수 없습니다.");
+					$(x).val("");
+					break;
+				}
+			}
+			openSpace();
+		}
+		function preventSpace(){
+			window.onkeydown = function() {
+				var kcode = event.keyCode;
+				if(kcode == 32) event.returnValue = false;
+			}
+		}
+		function openSpace(){
+			window.onkeydown = function() {
+				var kcode = event.keyCode;
+				if(kcode == 32) event.returnValue = true;
+			}
+		}
+		//비밀 번호 체크 숫자/영문
+		function checkPw(pw){
+			// var pw="";
+			// if(n==1){
+			// 	pw=$("#mb_password").val();
+			// } else {
+			// 	pw = $("#mb_password2").val();
+			// }
+
+			var chk_num=pw.search(/[0-9]/g);	//숫자
+			var chk_eng=pw.search(/[a-zA-Z]/ig);	//영문
+			//var chk_sp=checkSpecial(pw);	//특수문자
+
+			// if(pw.length<6){
+			// 	return false;
+			// }
+
+			if(chk_num==-1||chk_eng==-1){
+				return false;
+			}
+
+			return true;
+		}
+
+		function checkNumber2(x)
+		{
+			var str=$(x).val();
+			for(var i=0;i<str.length;i++){
+				if(str[i]=="<"||str[i]==">"||str[i]=="\'"||str[i]=="\\"){
+		  			alert("<,>,',\\ 문자는 입력하실 수 없습니다.");
+		  			$(x).val("");
+		  			break;
+				}
+			}
+		} 
+
+	</script>
+</body>
+</html>

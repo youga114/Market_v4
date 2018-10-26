@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>마을마켓 - 공지사항</title>
+<script src="js/header.js"></script>
+<script src="js/loginCheck.js"></script>
+<link rel="stylesheet" type="text/css" charset="utf-8" href="/css/main.css" />
+<link rel="stylesheet" type="text/css" charset="utf-8" href="css/noticeInfo.css" />
+<script src="/js/jquery-3.1.1.js"></script>
+<script src="/js/noticeInfo.js"></script>
+</head>
+
+<body>
+	<div id="page-wrapper" align="center">
+		<div>
+			<header id="header">
+				<div class="main-bg isTop">
+					<div class="main-bg-bar">
+						<ul class="main-bg-bar-nav">
+							<li style="border-right: 0;">
+								<a id="cart_a" href="">장바구니</a>
+							</li>
+							<li>
+								<a href="/service/home">고객센터</a>
+							</li>
+							<li>
+								<a id="myInfo_a" href="">마이페이지</a>
+							</li>
+							<li>
+								<a href="/joinAgree.html">회원가입</a>
+							</li>
+							<li>
+								<a id="login_a" href="">로그인</a>
+							</li>
+						</ul>
+					</div>
+					<div class="main-bg-header">
+						<div class="main-bg-header-container">
+							<a href="/" class="main-bg-header-container-logo">
+								<div style="font-family: 'Yoon_러브레터M';font-size: 40px;font-weight: lighter;">마을마켓</div>
+								<div style="font-family: 'Yoon_러브레터M';font-size: 180px;font-weight: lighter;margin-top: -85px;height: 80px;margin-left: 30px;">소소</div>
+							</a>
+							<div id="magnifier" align="right" style="margin-top: 10px;">
+								<span style="border: 1px solid #ddd;padding: 0px 5px;">
+									<img src="img/main/magnifier.png" width="14" height="14">
+									<input type="text" name="search" style="border: none;font-size: 15px;margin-left: 2px;">
+								</span>
+							</div>
+							<div class="main-bg-header-container-catchcopy">
+								<font style="vertical-align: inherit;">
+									상품 하나하나에 이웃의 이야기와 자부심이 있습니다.
+								</font>
+								<br>
+							</div>
+							<div style="text-align: left;">
+								<a href="./" class="main-bg-header-container-home"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">홈</font></font></a>
+								<div class="main-bg-header-container-nav">
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/category.html?high_num=1&view=2">식품</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/category.html?high_num=2&view=2">생활</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											기획
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/news_list">마마톡</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list" style="border-right: 0px;">
+										<font style="vertical-align: inherit;">
+											이웃마을
+										</font>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+
+			<div id = "container" align="center">
+				<div style="width: 1000px;padding:20px 0px 20px 0px;">
+					<div style="width:830px;">
+						<div style="width: 810px;margin-top: 30px;text-align:left;">
+							<div style="width:100%;font-size:30px;margin-bottom:60px;color: #aaa;">NOTICE</div>
+							<div style="width:100%;border-top:solid 2px #ddd;border-bottom:solid 1px #ddd;font-size: 12px;border-spacing: 0px;color: #555;">
+								<div style="font-weight:bold;font-size:16px;padding:15px 0px 5px 0px;"><%= notice_title %></div>
+								<div style="font-size:12px;padding:5px 0px 15px 0px;"><%= year %>. <%= month %>. <%= day %>.</div>
+							</div>
+							<div style="font-size:12px;padding:25px 0px;color: #777;"><%= contents %></div>
+							<div style="padding:40px 0px;" align="right"><button onclick='location.href="/service/notice/1"' style="border:0px;background-color:#eee;font-size:12px;padding:5px 15px;color:#555;font-weight:bold;cursor:pointer;border-radius:3px;">목록보기</button></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<footer id="footer">
+				<div class="footer-container">
+					<div class="footer-top" align="center">
+						상품에 대하여 배송, 교환, 반품의 민원 A/S 등은  "다시 뛰는 사람들" 에서 처리하며 모든 책임은 "다시 뛰는 사람들"에 있습니다.​
+	민원 담당자 : 마을마켓 소소 고객센터 /  연락처 : 031-963-2900 
+					</div>
+					<div class="footer-mid" align="left">
+						<p style="font-size: 12px;">
+							<b>다시 뛰는 사람들</b>
+						</p>
+						<p style="font-size: 11px;">
+							우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+						</p>
+						<p style="font-size: 11px;">
+							| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+						</p>
+					</div>
+					<div class="footer-bottom" align="left">
+						<p style="font-size: 12px;">
+							<b>고객센터</b>
+						</p>
+						<p style="font-size: 11px;">
+							| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+						</p>
+						<p style="font-size: 11px;">
+							| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+						</p>
+					</div>
+					<div class="pageTop">
+						<a href="#" class="pageTop-a">
+							<img src="/img/main/pageTop.png" width="100">
+						</a>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+</body>
+</html>

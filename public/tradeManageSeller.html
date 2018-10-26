@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>마을마켓 - 판매자페이지</title>
+	<script src="js/jquery-3.1.1.js"></script>
+	<link href="/css/admin.css" rel="stylesheet">
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.css"/>
+</head>
+<body>
+	<div id="page-wrapper">
+		<div>
+			<header align="right">
+				<button style="background-color: rgb(154,154,154);border: 0px;font-size: 12px;color: white;width: 90px;height: 30px;margin-top: 18px;margin-right: 10px;" onclick="modifyPwFun()">비밀번호변경</button>
+				<a href="/logout"><button style="background-color: rgb(154,154,154);border: 0px;font-size: 12px;color: white;width: 70px;height: 30px;margin-top: 18px;margin-right: 20px;">로그아웃</button></a>
+			</header>
+			<div class="left">
+				<ul align="left">
+					<a href="/tradeManageSeller.html"><li style="background-color: rgb(12,63,78);">거래 상태별 주문관리</li></a>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+			<div id = "container" align="left" style="padding-left: 200px;padding-top:5%;">
+				<div style="border-bottom: 2px solid;font-size: 25px;width: 1100px;margin:20px 0px 0px 30px;">
+					전체 주문현황
+				</div>
+				<div style="border: 5px solid #8be3dc;width: 1100px;margin:20px 0px 0px 30px;padding: 10px;">
+					<span style="font-size: 18px;font-weight: bold;margin-left: 20px;">총 주문건수 : <a id="all" href="/tradeManageSeller.html" style="text-decoration: none;color: black;"></a></span>
+				</div>
+				<div style="width: 1100px;margin:20px 0px 0px 30px;">
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #8be3dc;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">신규주문</div>
+						<div style="font-size: 12px;">결제완료된 주문건</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #6ed3cb;padding: 5px;margin-top: 10px;"><a id="st2" href="/newOrderSeller.html" style="text-decoration: none;color: black;"></a></div>
+					</div>
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #8be3dc;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">배송준비중</div>
+						<div style="font-size: 12px;">송장등록 대기</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #6ed3cb;padding: 5px;margin-top: 10px;"><a id="st3" href="/deliveryReadySeller.html" style="text-decoration: none;color: black;"></a></div>
+					</div>
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #8be3dc;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">배송중</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #6ed3cb;padding: 5px;margin-top: 27px;"><a id="st4" href="/deliveringSeller.html" style="text-decoration: none;color: black;"></a></div>
+					</div>
+					<div align="center" style="float: left;width: 16%;border-radius: 2px;background-color: #8be3dc;height: 150px;margin-right: 2px;">
+						<div style="margin-top: 25px;font-weight: bold;font-size: 18px;">배송완료</div>
+						<div style="font-weight: bold;font-size: 22px;background-color: white;width: 65%;height: 50px;border:6px solid #6ed3cb;padding: 5px;margin-top: 27px;"><a id="st5" href="/deliveryEndSeller.html" style="text-decoration: none;color: black;"></a></div>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<div style="float:left; margin-top: 50px; margin-left: 300px; color: white;" align="left">
+					<p style="font-size: 12px;">
+						<b>다시 뛰는 사람들</b>
+					</p>
+					<p style="font-size: 11px;">
+						우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+					</p>
+					<p style="font-size: 11px;">
+						| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+					</p>
+				</div>
+				<div style="float:left; margin-top: 50px; margin-left: 99px; color: white;" align="left">
+					<p style="font-size: 12px;">
+						<b>고객센터</b>
+					</p>
+					<p style="font-size: 11px;">
+						| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+					</p>
+					<p style="font-size: 11px;">
+						| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+					</p>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var allOrderLength=0;
+		$(document).ready(function(){
+			$(document.body).append('<div id="dialog" title="알림" style="font-size:13px;padding-top:20px;" align="center"></div>');
+			$( "#dialog" ).dialog({
+				autoOpen: false,
+				width: 400,
+				height: 160,
+				modal: true
+			});
+
+			$.get("/providerConfirm",function(data){
+				if(data=="success"){
+					for(var i=2;i<6;i++){
+						orderCheck(i);
+					}
+				}
+				else{
+					location.href="/login.html?url="+location.href;
+				}
+			})
+		})
+
+		function orderCheck(x){
+			$.post("/orderStateConfirmSeller",{st:x},function(data){
+
+				var orderNum=data.length;
+				for(var o=1;o<data.length;o++){
+					for(var p=1;o-p>=0;p++){
+						if(data[o].OD_ORDER_NO==data[o-p].OD_ORDER_NO){
+							if(data[o].OD_GD_FK==data[o-p].OD_GD_FK){
+								orderNum--;
+								break;
+							}
+						}
+						else{
+							break;
+						}
+					}
+				}
+
+				$("#st"+x).empty().append(orderNum+"건");
+				allOrderLength+=orderNum;
+				$("#all").empty().append(allOrderLength+"건");
+			})
+		}
+
+		function modifyPwFun(pk){
+			var output='';
+			output+='<div>변경하실 비밀번호를 입력해주세요.</div>';
+			output+='<div style="margin-top:5px;"><input type="password" id="modifyPw" maxlength="20" onfocus="preventFocusFun()" onfocusout="pwFocusoutFun()"></div>';
+			output+='<div style="padding-top:10px;"><button onclick="modifyProvider(\''+pk+'\')" style="margin-left:5px;">확인</button><button onclick="$( \'#dialog\' ).dialog( \'close\' );" style="margin-left:10px;">취소</button></div>';
+			$( "#dialog" ).empty().append(output).dialog( "open" );
+		}
+
+		function modifyProvider(pk){
+			var password=$("#modifyPw").val();
+			if(password==""){
+				$("#modifyPw").focus();
+				alert('비밀번호 항목은 필수입니다.');
+				return;
+			}
+			if(password.length<6){
+				$("#modifyPw").focus();
+				dalert('비밀번호 항목은 최소 6자 이상 입력해 주시기 바랍니다.');
+				return;
+			}
+			if(!checkPw(password)){
+				$("#password").focus();
+				alert('비밀번호는 6~20자 영문 대소문자, 숫자, 특수문자 중 2가지 이상 조합이어야 합니다.');
+				return;
+			}
+			$.post("/modifyPwSeller",{password:password},function(data){
+				alert("비밀번호가 변경되었습니다.");
+				location.href="/tradeManageSeller.html";
+			})
+		}
+		
+		function preventFocusFun(){
+			preventSpace();
+		}
+
+		function pwFocusoutFun(){
+			openSpace();
+		}
+		function preventSpace(){
+			window.onkeydown = function() {
+				var kcode = event.keyCode;
+				if(kcode == 32) event.returnValue = false;
+			}
+		}
+		function openSpace(){
+			window.onkeydown = function() {
+				var kcode = event.keyCode;
+				if(kcode == 32) event.returnValue = true;
+			}
+		}
+		//비밀 번호 체크 숫자/영문
+		function checkPw(pw){
+			// var pw="";
+			// if(n==1){
+			// 	pw=$("#mb_password").val();
+			// } else {
+			// 	pw = $("#mb_password2").val();
+			// }
+
+			var chk_num=pw.search(/[0-9]/g);	//숫자
+			var chk_eng=pw.search(/[a-zA-Z]/ig);	//영문
+			//var chk_sp=checkSpecial(pw);	//특수문자
+
+			// if(pw.length<6){
+			// 	return false;
+			// }
+
+			if(chk_num==-1||chk_eng==-1){
+				return false;
+			}
+
+			return true;
+		}
+	</script>
+</body>
+</html>

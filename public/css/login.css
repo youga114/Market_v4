@@ -1,0 +1,58 @@
+#content{
+	min-width: 900px;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+}
+#login_con{
+	padding: 30px 250px 30px 250px;
+	overflow: hidden;
+	font-size: 13px;
+	font-weight: bold;
+}
+#login_id{
+	margin-top: 10px;
+	text-align: left;
+	width: 400px;
+	float: left;
+}
+#login_password{
+	margin-top: 10px;
+	text-align: left;
+	width: 400px;
+	float: left;
+}
+.login_width{
+	float: left;
+	width: 60px !important;
+}
+.input_text{
+	font-size: 12px;
+	height: 30px;
+	border:1px solid rgb(204,204,204);
+	width: 388px;
+	padding-left: 10px;
+	color: rgb(154,154,154);
+}
+#login_button{
+	float: right;
+	position: relative;
+	top:-25px;
+	left: -60px;
+	width: 50px;
+}
+#button{
+	width: 80px;
+	height: 70px;
+}
+#login_con_top{
+	width: 500px;
+	height: 120px;
+}
+#login_con_bottom span{
+	margin: 0px 15px 0px 15px;
+}
+#fail_message{
+	color:red;
+	height: 20px;
+}

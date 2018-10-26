@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>마을마켓 - 관리자페이지</title>
+	<script src="js/jquery-3.1.1.js"></script>
+	<script src="js/numberWithCommas.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/admin.css" rel="stylesheet">
+	<script type="text/javascript" src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.css"/>
+</head>
+<style type="text/css">
+th{
+	text-align: center;
+}
+#bt_area{
+	width: 300px;
+	font-weight: lighter;
+	text-align: center;
+    border-top: 1px solid rgb(204,204,204);
+	display: inline-flex;
+}
+
+#bt_area div{
+	margin:auto;
+	margin-top:5px;
+}
+
+#bt_area button{
+	width:50px;height: 22px;
+	background-color: white;font-size: 11px;
+}
+
+.bt{
+	width:70px;
+}
+
+#main_cont{
+	padding:0px;
+}
+
+.main_list{
+	position:relative;
+	width:300px;
+	height:260px;
+	border:1px;
+	margin:1px;
+	float:left;
+	text-align: left;
+	border: 1px solid rgb(204,204,204);
+	margin-bottom: 20px;
+}
+
+.main_list p{
+	font-size: 12px;
+	margin-top:5px;
+}
+
+.main_list font{
+	position: relative;
+	margin-top:-5px;
+	cursor: pointer;
+	font-size: 20px;
+	text-decoration: underline;
+}
+
+li{
+	list-style: none;
+}
+.filebox input[type="file"] {
+	position: absolute; 
+	width: 1px; 
+	height: 1px; 
+	padding: 0; 
+	margin: -1px; 
+	overflow: hidden; 
+	clip:rect(0,0,0,0); 
+	border: 0; 
+} 
+.filebox label { 
+	display: inline-block; 
+	padding: .5em .75em; 
+	color: #999; 
+	font-size: inherit; 
+	line-height: normal; 
+	vertical-align: middle; 
+	background-color: #fdfdfd; 
+	cursor: pointer; 
+	border: 1px solid #ebebeb; 
+	border-bottom-color: #e2e2e2; 
+	border-radius: .25em; 
+} /* named upload */ 
+.filebox .upload-name { 
+	display: inline-block; 
+	padding: .5em .75em; /* label의 패딩값과 일치 */ 
+	font-size: inherit; 
+	font-family: inherit; 
+	line-height: normal; 
+	vertical-align: middle; 
+	background-color: #f5f5f5; 
+	border: 1px solid #ebebeb; 
+	border-bottom-color: #e2e2e2; 
+	border-radius: .25em; 
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */ 
+	-moz-appearance: none; 
+	appearance: none; 
+}
+</style>
+<body>
+	<div id="page-wrapper">
+		<div>
+			<header align="right">
+				<a href="/logout"><button style="background-color: rgb(154,154,154);border: 0px;font-size: 12px;color: white;width: 70px;height: 30px;margin-top: 18px;margin-right: 20px;">로그아웃</button></a>
+			</header>
+			<div class="left">
+				<ul align="left">
+					<a href="/goodList.html"><li>상품목록</li></a>
+					<a href="/goodRegist.html"><li>상품등록</li></a>
+					<a href="/providerManage.html"><li>공급자 관리</li></a>
+					<a href="/tradeManage.html"><li>거래 상태별 주문관리</li></a>
+					<a href="/noticeList.html"><li>공지사항 관리</li></a>
+					<a href="/questionList.html"><li>Q&A 관리</li></a>
+					<a href="/slideBannerList.html"><li>슬라이드배너 관리</li></a>
+					<a href="/newsManage"><li>기사 관리</li></a>					
+					<a href="/mainManage"><li style="background-color: rgb(12,63,78);">메인페이지 관리</li></a>	
+					<a href="/counselAdmin.html"><li>입점신청서 관리</li></a>				
+					<li></li>
+				</ul>
+			</div>
+			<div id = "container" align="left">
+				<div style="border-bottom: 2px solid;font-size: 25px;width: 1100px;margin:20px 0px 0px 30px;">추천상품 관리</div>
+				<div style="width:900px;height:600px;margin:5px 0px 0px 30px;">
+					<% for(var i=0;i<6;i++){ %>
+					<% if(rc[i].RC_GD_FK != null){ %>
+					<div id="main_cont" style="width:940px;">
+						<li class="main_list">
+							<% for(var j=0;j<gd.length;j++){ %>
+							<% if(rc[i].RC_GD_FK == gd[j].GD_PK){ %>
+								<img src="<%= gd[j].GD_MAIN_IM.split(',')[0] %>" width="298" height="200">
+							<% } %>
+							<% } %>
+							<div id="bt_area">
+								<div style="display:inline-flex">
+									<div class="bt">
+										<div><button onclick="addRecommendDialog(<%= rc[i].RC_PK %>);" style="border: 1px solid darkblue;color: darkblue;">수정</button></div>	
+									</div>
+									<div class="bt">
+										<div><button style="border: 1px solid #ff6969;color: #ff6969;" onclick="selectGoodFun(<%= rc[i].RC_PK %>)">삭제</button></div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</div>
+					<% }else{ %>
+					<div id="main_cont" style="width:940px;">
+						<li class="main_list">
+							<div style="line-height:200px;text-align:center;width:100%;height:200px;">등록된 상품이 없습니다</div>
+							<div id="bt_area">
+								<div style="display:inline-flex">
+									<div class="bt">
+										<div><button onclick="addRecommendDialog(<%= rc[i].RC_PK %>);" style="border: 1px solid darkblue;color: darkblue;">등록</button></div>	
+									</div>
+									<div class="bt">
+										<div><button style="border: 1px solid #ff6969;color: #ff6969;">삭제</button></div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</div>
+					<% } %>
+					<% } %>
+				</div>
+				<div style="border-bottom: 2px solid;font-size: 25px;width: 1100px;margin:20px 0px 0px 30px;">인기상품 관리</div>
+				<div style="width:900px;height:600px;margin:5px 0px 0px 30px;">
+					<% for(var i=12;i<18;i++){ %>
+					<% if(rc[i].RC_GD_FK != null){ %>
+					<div id="main_cont" style="width:940px;">
+						<li class="main_list">
+							<% for(var j=0;j<gd.length;j++){ %>
+							<% if(rc[i].RC_GD_FK == gd[j].GD_PK){ %>
+								<img src="<%= gd[j].GD_MAIN_IM.split(',')[0] %>" width="298" height="200">
+							<% } %>
+							<% } %>
+							<div id="bt_area">
+								<div style="display:inline-flex">
+									<div class="bt">
+										<div><button onclick="addRecommendDialog(<%= rc[i].RC_PK %>);" style="border: 1px solid darkblue;color: darkblue;">수정</button></div>	
+									</div>
+									<div class="bt">
+										<div><button style="border: 1px solid #ff6969;color: #ff6969;" onclick="selectGoodFun(<%= rc[i].RC_PK %>)">삭제</button></div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</div>
+					<% }else{ %>
+					<div id="main_cont" style="width:940px;">
+						<li class="main_list">
+							<div style="line-height:200px;text-align:center;width:100%;height:200px;">등록된 상품이 없습니다</div>
+							<div id="bt_area">
+								<div style="display:inline-flex">
+									<div class="bt">
+										<div><button onclick="addRecommendDialog(<%= rc[i].RC_PK %>);" style="border: 1px solid darkblue;color: darkblue;">등록</button></div>	
+									</div>
+									<div class="bt">
+										<div><button style="border: 1px solid #ff6969;color: #ff6969;">삭제</button></div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</div>
+					<% } %>
+					<% } %>
+				</div>
+				<div style="border-bottom: 2px solid;font-size: 25px;width: 1100px;margin:20px 0px 0px 30px;">생산자이야기 관리</div>
+				<div style="width:900px;height:300px;margin:5px 0px 0px 30px;">
+					<% for(var i=0;i<2;i++){ %>
+					<% if(st[i].ST_NW_FK != null){ %>
+					<div id="main_cont" style="width:940px;">
+						<li class="main_list">
+							<img src="<%= st[i].ST_STORY_IM %>" width="298" height="200">
+							<div id="bt_area">
+								<div style="display:inline-flex">
+									<div class="bt">
+										<div><button style="border: 1px solid darkblue;color: darkblue;" onclick="addNewsDialog(<%= st[i].ST_PK %>);">수정</button></div>	
+									</div>
+									<div class="bt">
+										<div><button style="border: 1px solid #ff6969;color: #ff6969;" onclick="deleteStoryFun(<%= st[i].ST_PK %>)">삭제</button></div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</div>
+					<% }else{ %>
+					<div id="main_cont" style="width:940px;">
+						<li class="main_list">
+							<div style="line-height:200px;text-align:center;width:100%;height:200px;">등록된 상품이 없습니다</div>
+							<div id="bt_area">
+								<div style="display:inline-flex">
+									<div class="bt">
+										<div><button style="border: 1px solid darkblue;color: darkblue;" onclick="addNewsDialog(<%= st[i].ST_PK %>)">등록</button></div>	
+									</div>
+									<div class="bt">
+										<div><button style="border: 1px solid #ff6969;color: #ff6969;">삭제</button></div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</div>
+					<% } %>
+					<% } %>
+				</div>
+			</div>
+			<footer>
+				<div style="float:left; margin-top: 50px; margin-left: 300px; color: white;" align="left">
+					<p style="font-size: 12px;">
+						<b>다시 뛰는 사람들</b>
+					</p>
+					<p style="font-size: 11px;">
+						우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+					</p>
+					<p style="font-size: 11px;">
+						| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+					</p>
+				</div>
+				<div style="float:left; margin-top: 50px; margin-left: 99px; color: white;" align="left">
+					<p style="font-size: 12px;">
+						<b>고객센터</b>
+					</p>
+					<p style="font-size: 11px;">
+						| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+					</p>
+					<p style="font-size: 11px;">
+						| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+					</p>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$.get("/adminConfirm",function(data){
+				if(data=="success"){
+					$(document.body).append('<div id="dialog_reg" title="등록" style="font-size:13px;padding-top:20px;" align="center"></div>');
+
+					$( "#dialog_reg" ).dialog({
+						autoOpen: false,
+						width: 800,
+						height: 600,
+						modal: true
+					});
+
+
+				}
+				else{
+					location.href="/login.html?url="+location.href;
+				}
+			})
+		})	
+
+		function addRecommendDialog(pk){
+			$.get("/bringAllItem",function(data){
+				var output='';
+				output+='<table style="width:100%;text-align:center;">'
+				output+='<tr>';
+				output+='	<th style="font-weight: lighter;">';
+				output+='		No.';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;">';
+				output+='		이미지';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;">';
+				output+='		상품명';
+				output+='	</th>';
+				output+='	<th style="font-weight: lighter;">';
+				output+='		선택';
+				output+='	</th>';
+				output+='</tr>';
+				for(var i=0;i<data.length;i++){
+					output+='<tr>';
+					output+='	<td>';
+					output+='		'+(data.length-i);
+					output+='	</td>';
+					output+='	<td>';
+					output+='		<img src="'+data[i].GD_MAIN_IM.split(',')[0]+'" width="70px" height="70px;">';
+					output+='	</td>';
+					output+='	<td style="text-align:left;">';
+					output+='		'+data[i].GD_GOOD_NM;
+					output+='	</td>';
+					output+='	<td>';
+					output+='		<div><button style="width:50px;height: 22px;border: 1px solid rgb(36,166,189);color: rgb(36,166,189);background-color: white;font-size: 11px;" onclick=\'selectGoodFun('+pk+','+data[i].GD_PK+')\'>선택</button></div>';
+					output+='	</td>';
+					output+='</tr>';
+				}
+				output+='</table>'
+				$( "#dialog_reg" ).empty().append(output).dialog( "open" );
+			})			
+		}
+
+		function addNewsDialog(pk){
+			$.post("/bringStoryPk",{pk:pk},function(storyData){
+				$.get("/bringNews",function(data){
+					var output='';
+					output+='<form id="registForm" action="/upload_story" method="post" enctype="multipart/form-data">';
+					output+='<table style="width:100%;text-align:center;">';
+					output+='<tr>';
+					output+='<td colspan="4">';
+					output+='<table style="width:100%;text-align:center;margin-bottom:30px;">';
+					output+='<tr>';
+					output+='	<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">메인 제목</td>';
+					output+='	<td style="padding: 5px 10px 5px 10px;text-align:left;">';
+					output+='		<input type="text" value="'+storyData[0].ST_NW_NM+'" name="name" maxlength="100" style="width: 50%;">';
+					output+='	</td>';
+					output+='</tr>';
+					output+='<tr>';
+					output+='	<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">대표이미지</td>';
+					output+='	<td style="padding: 5px 10px 5px 10px;text-align:left;">';
+					output+='		<div class="filebox" style="width: 600px;"><input class="upload-name" value="파일선택" disabled="disabled"> <label for="ex_filename" style="margin: 0;">업로드</label> <input type="file" accept="image/*" id="ex_filename" name="file" class="upload-hidden" multiple required></div>';
+					output+='	</td>';
+					output+='</tr>';
+					output+='</table>';
+					output+='</td>';
+					output+='</tr>';
+					output+='<tr>';
+					output+='	<th style="font-weight: lighter;width:52px;">';
+					output+='		No.';
+					output+='	</th>';
+					output+='	<th style="font-weight: lighter;width:159px;">';
+					output+='		이미지';
+					output+='	</th>';
+					output+='	<th style="font-weight: lighter;">';
+					output+='		기사명';
+					output+='	</th>';
+					output+='	<th style="font-weight: lighter;width:115px;">';
+					output+='		선택';
+					output+='	</th>';
+					output+='</tr>';
+					for(var i=0;i<data.length;i++){
+						output+='<tr>';
+						output+='	<td>';
+						output+='		'+(data.length-i);
+						output+='	</td>';
+						output+='	<td>';
+						output+='		<img src="'+data[i].NEWS_MAIN_IM+'" width="70px" height="70px;">';
+						output+='	</td>';
+						output+='	<td style="text-align:left;">';
+						output+='		'+data[i].NEWS_NM;
+						output+='	</td>';
+						output+='	<td>';
+						output+='		<div><button style="width:50px;height: 22px;border: 1px solid rgb(36,166,189);color: rgb(36,166,189);background-color: white;font-size: 11px;" onclick=\'selectStoryFun('+data[i].NEWS_PK+')\'>선택</button></div>';
+						output+='	</td>';
+						output+='</tr>';
+					}
+					output+='</table>';
+					output+='<input type="hidden" name="pk" value="'+pk+'">';
+					output+='<input type="hidden" name="fk" value="" id="newsPk">';
+					output+='</form>';
+					$( "#dialog_reg" ).empty().append(output).dialog( "open" );
+
+					var fileTarget = $('.filebox .upload-hidden');
+					fileTarget.on('change', function(){
+
+						if(window.FileReader){
+							var filename = $(this)[0].files[0].name;
+						} 
+						else {
+							var filename = $(this).val().split('/').pop().split('\\').pop();
+						}
+						$(this).siblings('.upload-name').val(filename);
+					});
+				})			
+			})
+		}
+
+		function addNewsDialog2(pk){
+			$.post("/bringStoryPk",{pk:pk},function(storyData){
+				$.get("/bringNews",function(data){
+					$.get("/bringAllItem",function(itemData){
+						var output='';
+						output+='<form id="registForm" action="/upload_story" method="post" enctype="multipart/form-data">';
+						output+='<table style="width:100%;text-align:center;">';
+						output+='<tr>';
+						output+='<td colspan="4">';
+						output+='<table style="width:100%;text-align:center;margin-bottom:30px;">';
+						output+='<tr>';
+						output+='	<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">메인 제목</td>';
+						output+='	<td style="padding: 5px 10px 5px 10px;text-align:left;">';
+						output+='		<input type="text" value="'+storyData[0].ST_NW_NM+'" name="name" maxlength="100" style="width: 50%;">';
+						output+='	</td>';
+						output+='</tr>';
+						output+='<tr>';
+						output+='	<td style="background-color: rgb(250,250,235);font-weight: bold;padding: 10px 10px 10px 10px;width: 150px;">대표이미지</td>';
+						output+='	<td style="padding: 5px 10px 5px 10px;text-align:left;">';
+						output+='		<div class="filebox" style="width: 600px;"><input class="upload-name" value="파일선택" disabled="disabled"> <label for="ex_filename" style="margin: 0;">업로드</label> <input type="file" accept="image/*" id="ex_filename" name="file" class="upload-hidden" multiple required></div>';
+						output+='	</td>';
+						output+='</tr>';
+						output+='</table>';
+						output+='<table style="width:100%;text-align:center;border:1px solid rgb(233,233,233);">'
+						output+='<tr>';
+						output+='	<th style="font-weight: lighter;">';
+						output+='		No.';
+						output+='	</th>';
+						output+='	<th style="font-weight: lighter;">';
+						output+='		이미지';
+						output+='	</th>';
+						output+='	<th style="font-weight: lighter;">';
+						output+='		상품명';
+						output+='	</th>';
+						output+='	<th style="font-weight: lighter;">';
+						output+='		선택';
+						output+='	</th>';
+						output+='</tr>';
+						for(var i=0;i<itemData.length;i++){
+							output+='<tr>';
+							output+='	<td>';
+							output+='		'+(itemData.length-i);
+							output+='	</td>';
+							output+='	<td>';
+							output+='		<img src="'+itemData[i].GD_MAIN_IM.split(',')[0]+'" width="70px" height="70px;">';
+							output+='	</td>';
+							output+='	<td style="text-align:left;">';
+							output+='		'+itemData[i].GD_GOOD_NM;
+							output+='	</td>';
+							output+='	<td>';
+							output+='		<div><button style="width:50px;height: 22px;border: 1px solid rgb(36,166,189);color: rgb(36,166,189);background-color: white;font-size: 11px;" onclick=\'selectStoryFun2('+itemData[i].GD_PK+')\'>선택</button></div>';
+							output+='	</td>';
+							output+='</tr>';
+						}
+						output+='</table>'
+						output+='</td>';
+						output+='</tr>';
+						output+='<tr>';
+						output+='	<td height="50">';
+						output+='	</td>';
+						output+='</tr>';
+						output+='<tr>';
+						output+='<td>';
+						output+='<table style="width:100%;text-align:center;border:1px solid rgb(233,233,233);">';
+						output+='	<th style="font-weight: lighter;width:52px;">';
+						output+='		No.';
+						output+='	</th>';
+						output+='	<th style="font-weight: lighter;width:159px;">';
+						output+='		이미지';
+						output+='	</th>';
+						output+='	<th style="font-weight: lighter;">';
+						output+='		기사명';
+						output+='	</th>';
+						output+='	<th style="font-weight: lighter;width:115px;">';
+						output+='		선택';
+						output+='	</th>';
+						output+='</tr>';
+						for(var i=0;i<data.length;i++){
+							output+='<tr>';
+							output+='	<td>';
+							output+='		'+(data.length-i);
+							output+='	</td>';
+							output+='	<td>';
+							output+='		<img src="'+data[i].NEWS_MAIN_IM+'" width="70px" height="70px;">';
+							output+='	</td>';
+							output+='	<td style="text-align:left;">';
+							output+='		'+data[i].NEWS_NM;
+							output+='	</td>';
+							output+='	<td>';
+							output+='		<div><button style="width:50px;height: 22px;border: 1px solid rgb(36,166,189);color: rgb(36,166,189);background-color: white;font-size: 11px;" onclick=\'selectStoryFun('+data[i].NEWS_PK+')\'>선택</button></div>';
+							output+='	</td>';
+							output+='</tr>';
+						}
+						output+='</table>';
+						output+='</td>';
+						output+='</table>';
+						output+='<input type="hidden" name="pk" value="'+pk+'">';
+						output+='<input type="hidden" name="fk" value="" id="newsPk">';
+						output+='<input type="hidden" name="fk2" value="" id="itemPk">';
+						output+='</form>';
+						$( "#dialog_reg" ).empty().append(output).dialog( "open" );
+
+						var fileTarget = $('.filebox .upload-hidden');
+						fileTarget.on('change', function(){
+
+							if(window.FileReader){
+								var filename = $(this)[0].files[0].name;
+							} 
+							else {
+								var filename = $(this).val().split('/').pop().split('\\').pop();
+							}
+							$(this).siblings('.upload-name').val(filename);
+						});
+					})	
+				})			
+			})
+		}
+
+		function selectGoodFun(pk,fk){
+			$.post("/modifyRecommend",{pk:pk,fk:fk},function(data){
+				location.href=location.href;
+			})
+		}
+
+		function deleteStoryFun(pk){
+			$.post("/deleteStory",{pk:pk},function(data){
+				location.href=location.href;
+			})
+		}
+
+		function selectStoryFun(newsPk){
+			if($("#ex_filename").val()==""){
+				return;
+			}
+			$("#newsPk").val(newsPk);
+			$("#registForm").submit();
+		}
+
+		function selectStoryFun2(itemPk){
+			if($("#ex_filename").val()==""){
+				return;
+			}
+			$("#itemPk").val(itemPk);
+			$("#registForm").submit();
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>마을마켓 - 읽을거리</title>
+<link rel="stylesheet" type="text/css" charset="utf-8" href="/css/main.css" />
+<link rel="stylesheet" type="text/css" charset="utf-8" href="/css/noticeInfo.css" />
+<link rel="stylesheet" type="text/css" charset="utf-8" href="/css/readNews.css" />
+<script src="/js/jquery-3.1.1.js"></script>
+<script src="/js/noticeInfo.js"></script>
+<script src="/js/header.js"></script>
+<script src="/js/loginCheck.js"></script>
+<script>
+	$(function(){
+		$('.tapRemove').each(function(){
+		    $(this).html($(this).text());
+		});
+		var news = $('#write_news').val();
+		$('#news_cont').empty();
+		$('#news_cont').append(news);
+	})
+</script>
+</head>
+<body>
+	<div id="page-wrapper" align="center">
+		<div>
+			<header id="header">
+				<div class="main-bg isTop">
+					<div class="main-bg-bar">
+						<ul class="main-bg-bar-nav">
+							<li style="border-right: 0;">
+								<a id="cart_a" href="">장바구니</a>
+							</li>
+							<li>
+								<a href="/service/home">고객센터</a>
+							</li>
+							<li>
+								<a id="myInfo_a" href="">마이페이지</a>
+							</li>
+							<li>
+								<a href="/joinAgree.html">회원가입</a>
+							</li>
+							<li>
+								<a id="login_a" href="">로그인</a>
+							</li>
+						</ul>
+					</div>
+					<div class="main-bg-header">
+						<div class="main-bg-header-container">
+							<a href="/" class="main-bg-header-container-logo">
+								<div style="font-family: 'Yoon_러브레터M';font-size: 40px;font-weight: lighter;">마을마켓</div>
+								<div style="font-family: 'Yoon_러브레터M';font-size: 180px;font-weight: lighter;margin-top: -85px;height: 80px;margin-left: 30px;">소소</div>
+							</a>
+							<div id="magnifier" align="right" style="margin-top: 10px;">
+								<span style="border: 1px solid #ddd;padding: 0px 5px;">
+									<img src="img/main/magnifier.png" width="14" height="14">
+									<input type="text" name="search" style="border: none;font-size: 15px;margin-left: 2px;">
+								</span>
+							</div>
+							<div class="main-bg-header-container-catchcopy">
+								<font style="vertical-align: inherit;">
+									상품 하나하나에 이웃의 이야기와 자부심이 있습니다.
+								</font>
+								<br>
+							</div>
+							<div style="text-align: left;">
+								<a href="./" class="main-bg-header-container-home"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">홈</font></font></a>
+								<div class="main-bg-header-container-nav">
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/category.html?high_num=1&view=2">식품</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/category.html?high_num=2&view=2">생활</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											기획
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/news_list">마마톡</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list" style="border-right: 0px;">
+										<font style="vertical-align: inherit;">
+											이웃마을
+										</font>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+
+			<div id = "container" align="center" style="max-width: 1240px;line-height: 2.1;font-size: 20px;line-height: 2.1;   font-feature-settings: "palt";letter-spacing: 0.8px;">
+				<div class="entry">
+					<div id="news_title" style="width:820px;margin-top: 40px;">
+						<h1><%= news.NEWS_NM %></h1>
+						<p><%= news.NEWS_REGDATE_YMD.slice(0,4) %>.<%= news.NEWS_REGDATE_YMD.slice(4,6) %>.<%= news.NEWS_REGDATE_YMD.slice(6,8) %></p>
+					</div>
+
+					<div id="news_cont" align="left">
+						<input id="write_news" type="text" value="<%= news.NEWS_CONT %>" style="display:none;">
+					</div>
+					<% if(goods.length!=0){ %>
+					<div style="margin-top: 200px;">
+						<h2 style="border-bottom: dotted 1px #5e4d4a;text-align: left;padding: 5px 0 5px 15px;line-height: 1.25;margin: 0 0 15px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><%= news.NEWS_GD_NM %></font></font></h2>
+						<div class="relateditem">
+							<ul class="c-product-list">
+								<% for(var i=0;i<goods.length;i++){ %>
+								<li class="c-product-list__item">
+									<a class="c-product-list__image-wrap c-image-wrap c-image-wrap--link" href="/itemInfo.html?item=<%= goods[i].GD_PK %>">
+										<div class="c-image-box c-image-box--main">
+											<img class="c-image-box__image js-lazyload" src="<%= goods[i].GD_MAIN_IM.split(',')[0] %>">
+										</div>
+									</a>
+									<p>
+										<a class="c-product-list__name" href="/itemInfo.html?item=<%= goods[i].GD_PK %>">
+											<font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><%= goods[i].GD_GOOD_NM %></font></font>
+										</a>
+									</p>
+									<div class="c-product-info__price c-product-list__price">
+										<font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><%= goods[i].GD_SELL_PR %> 원</font></font>
+									</div>
+									<div class="c-product-list__expl">
+										<font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><%= goods[i].GD_GOOD_SNM %></font></font>
+									</div>
+								</li>
+								<% } %>
+							</ul>
+						</div>
+					</div>
+					<% } %>
+				</div>
+				<% if(relateNews.length!=0){ %>
+				<div class="relatedentry">
+					<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">관련 기사</font></font></h3>
+					<ul>
+						<% for(var i=0;i<relateNews.length;i++){ %>
+						<li style="height: 104px;"><a href="/readNews?news_NO=<%= relateNews[i].NEWS_PK %>">
+							<div class="thumb">
+								<img width="110" height="73" src="<%= relateNews[i].NEWS_MAIN_IM %>" class="attachment-110x110 size-110x110 wp-post-image" alt="">							</div>
+							<div class="text">
+								<span class="title">
+									<font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><%= relateNews[i].NEWS_NM %></font></font>
+								</span>
+								<%
+									var newText = relateNews[i].NEWS_CONT.replace(/(<([^>]+)>)/ig,"");
+									for(var j=146;j<newText.length;j++){
+										if(newText[j]!="$"&&newText[j]!="n"&&newText[j]!="b"&&newText[j]!="s"&&newText[j]!="p"&&newText[j]!=";"){
+											break;
+										}
+									}
+								%>
+								<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" class="tapRemove">
+									<%= newText.substring(0,j); %>...
+								</font></font></p>
+							</div>
+						</a></li>
+						<% } %>
+					</ul>
+				</div>
+				<% } %>
+			</div>
+
+			<footer id="footer">
+				<div class="footer-container">
+					<div class="footer-top" align="center">
+						상품에 대하여 배송, 교환, 반품의 민원 A/S 등은  "다시 뛰는 사람들" 에서 처리하며 모든 책임은 "다시 뛰는 사람들"에 있습니다.​
+	민원 담당자 : 마을마켓 소소 고객센터 /  연락처 : 031-963-2900 
+					</div>
+					<div class="footer-mid" align="left">
+						<p style="font-size: 12px;">
+							<b>다시 뛰는 사람들</b>
+						</p>
+						<p style="font-size: 11px;">
+							우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+						</p>
+						<p style="font-size: 11px;">
+							| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+						</p>
+					</div>
+					<div class="footer-bottom" align="left">
+						<p style="font-size: 12px;">
+							<b>고객센터</b>
+						</p>
+						<p style="font-size: 11px;">
+							| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+						</p>
+						<p style="font-size: 11px;">
+							| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+						</p>
+					</div>
+					<div class="pageTop">
+						<a href="#" class="pageTop-a">
+							<img src="/img/main/pageTop.png" width="100">
+						</a>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+</body>
+</html>

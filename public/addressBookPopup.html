@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<script src="js/jquery-3.1.1.js"></script>
+	<link rel="stylesheet" type="text/css" charset="utf-8" href="css/index.css" />
+	<link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.css"/>
+	<script type="text/javascript" src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script src="js/daumAddress.js"></script>
+	<title>마을마켓 - 주문/배송 조회</title>
+	<style>
+		.pageButton{
+			background-color: white;
+			border: 1px solid #ee2c28;
+			color: #ee2c28;
+			padding: 6px 12px;
+			cursor: pointer;
+			font-size: 14px;
+			margin: 0px 4px;
+		}
+		.pageButton:hover{
+			background-color: #eee;
+		}
+		.pageButton2{
+			background-color: white;
+			border: 1px solid #cfcfcf;
+			color: #605f60;
+			padding: 6px 12px;
+			cursor: pointer;
+			font-size: 14px;
+			margin: 0px 4px;
+		}
+		.pageButton2:hover{
+			background-color: #eee;
+		}
+	</style>
+	<script>
+		var dataCount=0;
+		$(document).ready(function(){
+			$( "#dialog" ).dialog({
+				autoOpen: false,
+				width: 600
+			});
+			var parameterPage=parseInt(getParameterByName("page"));
+			$.get("/bringMyAddress?page="+parameterPage+"&ex=0",function(data){
+				if(data!=''){
+					$("#noAddress").remove();
+					var output='';
+					for(var i=0;i<data.length;i++){
+						var number;
+						if(data[i].AD_NO!=null){
+							number=data[i].AD_NO;
+						}
+						else{
+							number="";
+						}
+						var phone=data[i].AD_PHONE_NO;
+						output+='<tr>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-left: solid 1px rgb(204,204,204);border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);">'+data[i].AD_EX+'</td>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);">'+data[i].AD_NM+'</td>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);text-align:left;"><div style="cursor:pointer;" onclick="receiveFun(\''+data[i].AD_NM+'\',\''+data[i].AD_ZIP_NO+'\',\''+data[i].AD_AD1+'\',\''+data[i].AD_AD2+'\',\''+number+'\',\''+phone+'\')">('+data[i].AD_ZIP_NO+') '+data[i].AD_AD1+'</br>'+data[i].AD_AD2+'</div></td>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);">'+number.slice(0,number.length-8)+'-'+number.slice(number.length-8,number.length-4)+'-'+number.slice(number.length-4,number.length)+'</br>'+phone.slice(0,phone.length-8)+'-'+phone.slice(phone.length-8,phone.length-4)+'-'+phone.slice(phone.length-4,phone.length)+'</td>';
+						output+='	<td style="padding:5px 10px 5px 10px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);"><button style="background-color:white;border:1px solid #ee2c28;color:#ee2c28;border-radius:3px;cursor:pointer;" onclick="modifyFun('+data[i].AD_PK+')">수정</button> <button style="background-color:white;border:1px solid #cfcfcf;border-radius:3px;cursor:pointer;" onclick="deleteFun('+data[i].AD_PK+')">삭제</button></td>';
+						output+='</tr>';
+					}
+					$("#addressTb").append(output);
+					$.get("/bringMyAddressCount?ex=0",function(data){
+						var output='';
+						var i=1;
+						while((parameterPage-i)%10!=0){
+							var instant=parameterPage-i;
+							output='<a href="/addressBookPopup.html?page='+instant+'" class="pageButton2">'+instant+'</a>'+output;
+							i++;
+						}
+						if((parameterPage-i)%10==0&&parameterPage>10){
+							output='<a href="/addressBookPopup.html?page='+(parameterPage-i)+'" class="pageButton2"><</a>'+output;
+						}
+						output+='<a href="/addressBookPopup.html?page='+parameterPage+'" class="pageButton">'+parameterPage+'</a>';
+						var i=1;
+						while((parameterPage+i-1)*10<data.count&&(parameterPage+i)%10!=1){
+							var instant=parameterPage+i;
+							output+='<a href="/addressBookPopup.html?page='+instant+'" class="pageButton2">'+instant+'</a>';
+							i++;
+						}
+						if((parameterPage+i)%10==1){
+							output+='<a href="/addressBookPopup.html?page='+(parameterPage+i)+'" class="pageButton2">></a>';
+						}
+						dataCount=data.count;
+						$("#page").empty().append(output);
+					})
+				}
+			})
+		});
+
+		function registFun(){
+			var output='';
+			output+='<table width="100%" border="0" cellpadding="5" cellspacing="0"><colgroup><col width="90"></colgroup><tbody><tr style="height:5px"><td></td><td></td></tr><input type="text" id="pk" name="pk" value="" size="40" hidden><tr><td>설명</td><td><input type="text" id="ex" name="ex" value="" size="40"></td></tr><tr><td>받는분</td><td><input type="text" id="name" name="name" value="" size="15"></td></tr><tr><td rowspan="3">주소</td><td><input type="text" id="sample6_postcode" maxlength="10" name="ad0" value="" size="10" readonly=""><span><button type="button" id="addressFind" onclick="sample6_execDaumPostcode()" style="background-color: white; border:1px solid black;cursor: pointer;border-radius: 2px;">주소찾기</button></span></td></tr><tr><td><input type="text" id="sample6_address" maxlength="100" name="ad1" value="" size="45" readonly=""></td></tr><tr><td><input type="text" id="sample6_address2" maxlength="100" placeholder="상세주소" name="ad2" value="" size="45"></td></tr><tr><td>유선전화</td><td><input type="text" name="number1" value="" size="10" maxlength="4"> - <input type="text" name="number2" value="" size="10" maxlength="4"> - <input type="text" name="number3" value="" size="10" maxlength="4"></td></tr><tr><td>휴대폰</td><td><input type="text" id="phone1" name="phone1" value="" size="10" maxlength="4"> - <input type="text" id="phone2" name="phone2" value="" size="10" maxlength="4"> - <input type="text" id="phone3" name="phone3" value="" size="10" maxlength="4"></td></tr></tbody></table>';
+			$("#myform").attr("action","/addressAdd").empty().append(output);
+			$( "#dialog" ).dialog({ title: "배송지 등록하기" }).dialog( "open" );
+		}
+
+		function confirmFun(){
+			if(!$("#ex").val()){
+				alert("배송지 설명 항목은 필수입니다.");
+				$("#ex").focus();
+				return;
+			}
+			if(!$("#name").val()){
+				alert("받는분 항목은 필수입니다.");
+				$("#name").focus();
+				return;
+			}
+			if(!$("#sample6_postcode").val()){
+				alert("주소 항목은 필수입니다.");
+				$("#addressFind").focus();
+				return;
+			}
+			if(!$("#phone1").val()){
+				alert("휴대폰 항목은 필수입니다.");
+				$("#phone1").focus();
+				return;
+			}
+			if(!$("#phone2").val()){
+				alert("휴대폰 항목은 필수입니다.");
+				$("#phone2").focus();
+				return;
+			}
+			if(!$("#phone3").val()){
+				alert("휴대폰 항목은 필수입니다.");
+				$("#phone3").focus();
+				return;
+			}
+			if(!isNumber($("#phone1").val())){
+				alert("휴대폰번호 항목은 숫자 이외에는 입력할 수 없습니다.");
+				$("#phone1").focus();
+				return;
+			}
+			if(!isNumber($("#phone2").val())){
+				alert("휴대폰번호 항목은 숫자 이외에는 입력할 수 없습니다.");
+				$("#phone2").focus();
+				return;
+			}
+			if(!isNumber($("#phone3").val())){
+				alert("휴대폰번호 항목은 숫자 이외에는 입력할 수 없습니다.");
+				$("#phone3").focus();
+				return;
+			}
+			$("#myform").submit();
+		}
+		//숫자만 입력, 길이 체크
+		function isNumber(num){
+			for(var inx=0;inx<num.length;inx++){
+				if(num.charAt(inx)<'0'||num.charAt(inx)>'9'){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		function modifyFun(pk){
+			$.post("/bringMyAddress",{pk:pk},function(data){
+				var number;
+				if(data[0].AD_NO!=null){
+					number=data[0].AD_NO;
+				}
+				else{
+					number="";
+				}
+				var phone=data[0].AD_PHONE_NO;
+				var output='';
+				output+='<table width="100%" border="0" cellpadding="5" cellspacing="0"><colgroup><col width="90"></colgroup><tbody><tr style="height:5px"><td></td><td></td></tr><input type="text" id="pk" name="pk" value="'+pk+'" size="40" hidden><tr><td>설명</td><td><input type="text" id="ex" name="ex" value="'+data[0].AD_EX+'" size="40"></td></tr><tr><td>받는분</td><td><input type="text" id="name" name="name" value="'+data[0].AD_NM+'" size="15"></td></tr><tr><td rowspan="3">주소</td><td><input type="text" id="sample6_postcode" maxlength="10" name="ad0" value="'+data[0].AD_ZIP_NO+'" size="10" readonly=""><span><button type="button" id="addressFind" onclick="sample6_execDaumPostcode()" style="background-color: white; border:1px solid black;cursor: pointer;border-radius: 2px;">주소찾기</button></span></td></tr><tr><td><input type="text" id="sample6_address" maxlength="100" name="ad1" value="'+data[0].AD_AD1+'" size="45" readonly=""></td></tr><tr><td><input type="text" id="sample6_address2" maxlength="100" placeholder="상세주소" name="ad2" value="'+data[0].AD_AD2+'" size="45"></td></tr><tr><td>유선전화</td><td><input type="text" name="number1" value="'+number.slice(0,number.length-8)+'" size="10" maxlength="4"> - <input type="text" name="number2" value="'+number.slice(number.length-8,number.length-4)+'" size="10" maxlength="4"> - <input type="text" name="number3" value="'+number.slice(number.length-4,number.length)+'" size="10" maxlength="4"></td></tr><tr><td>휴대폰</td><td><input type="text" id="phone1" name="phone1" value="'+phone.slice(0,phone.length-8)+'" size="10" maxlength="4"> - <input type="text" id="phone2" name="phone2" value="'+phone.slice(phone.length-8,phone.length-4)+'" size="10" maxlength="4"> - <input type="text" id="phone3" name="phone3" value="'+phone.slice(phone.length-4,phone.length)+'" size="10" maxlength="4"></td></tr></tbody></table>';
+				$("#myform").attr("action","/addressModify").empty().append(output);
+				$( "#dialog" ).dialog({ title: "배송지 수정하기" }).dialog( "open" );
+			})
+		}
+
+		function deleteFun(pk){
+			$.post("/deleteAddress",{pk:pk},function(){
+				if((parseInt(getParameterByName("page"))!=1)&&(dataCount%10==1)&&(dataCount/10==parseInt(getParameterByName("page"))-0.9)){
+					location.href="/addressBook.html?page="+(parseInt(getParameterByName("page"))-1);
+				}
+				else{
+					location.href=location.href;
+				}
+			})
+		}
+
+		function getParameterByName(name) {
+		    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		        results = regex.exec(location.search);
+		    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		}
+
+		function receiveFun(name,zip,ad1,ad2,number,phone){
+			opener.document.getElementById("receiver").value = name;
+			opener.document.getElementById("sample6_postcode").value = zip;
+			opener.document.getElementById("sample6_address").value = ad1;
+			opener.document.getElementById("sample6_address2").value = ad2;
+			opener.document.getElementById("receiverZipPhone1").value = number.slice(0,number.length-8);
+			opener.document.getElementById("receiverZipPhone2").value = number.slice(number.length-8,number.length-4);
+			opener.document.getElementById("receiverZipPhone3").value = number.slice(number.length-4,number.length);
+			opener.document.getElementById("receiverPhone1").value = phone.slice(0,phone.length-8);
+			opener.document.getElementById("receiverPhone2").value = phone.slice(phone.length-8,phone.length-4);
+			opener.document.getElementById("receiverPhone3").value = phone.slice(phone.length-4,phone.length);
+			window.close();
+		}
+
+	</script>
+</head>
+<body>
+	<div align="center">
+		<div>
+			<div align='center'>
+				<div id="dialog" title="배송지 등록하기">
+					<div id="inAddress" style="width: auto; min-height: 0px; height: 308px;font-size:12px;" class="ui-dialog-content ui-widget-content" scrolltop="0" scrollleft="0">
+						<div style="border-bottom: 2px solid black;padding-bottom: 10px;"><span style=" padding-left:2px;font-size:13px;"><!--  - 자주쓰는 배송지는 최대 30개까지 등록할 수 있습니다. --></span></div>
+						<div style="height:5px;"></div>
+							<form id="myform" action="/addressAdd" method="post">
+							<table width="100%" border="0" cellpadding="5" cellspacing="0">
+								<colgroup><col width="90">
+								</colgroup>
+								<tbody><tr style="height:5px">
+									<td></td>
+									<td></td>
+								</tr>
+								<input type="text" id="pk" name="pk" value="" size="40" hidden>
+								<tr>
+									<td>설명</td>
+									<td><input type="text" id="ex" name="ex" value="" size="40"></td>
+								</tr>
+								<tr>
+									<td>받는분</td>
+									<td><input type="text" id="name" name="name" value="" size="15"></td>
+								</tr>
+								<tr>
+									<td rowspan="3">주소</td>
+									<td>
+										<input type="text" id="sample6_postcode" maxlength="10" name="ad0" value="" size="10" readonly="">
+										<span><button type="button" id="addressFind" onclick="sample6_execDaumPostcode()" style="background-color: white; border:1px solid black;cursor: pointer;border-radius: 2px;">주소찾기</button></span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="text" id="sample6_address" maxlength="100" name="ad1" value="" size="45" readonly="">
+									</td>
+								</tr>
+								<tr>
+									<td><input type="text" id="sample6_address2" maxlength="100" placeholder="상세주소" name="ad2" value="" size="45"></td>
+								</tr>
+								<tr>
+									<td>유선전화</td>
+									<td><input type="text" name="number1" value="" size="10" maxlength="4"> - <input type="text" name="number2" value="" size="10" maxlength="4"> - <input type="text" name="number3" value="" size="10" maxlength="4"></td>
+								</tr>
+
+								<tr>
+									<td>휴대폰</td>
+									<td><input type="text" id="phone1" name="phone1" value="" size="10" maxlength="4"> - <input type="text" id="phone2" name="phone2" value="" size="10" maxlength="4"> - <input type="text" id="phone3" name="phone3" value="" size="10" maxlength="4"></td>
+								</tr>
+								</tbody>
+							</table>
+							</form>
+							</table>
+							<table width="100%" cellpadding="0" cellspacing="0">
+								<tbody>
+									<tr>
+										<td align="center"><span><button id="confirmButton" style="background-color: white; border:1px solid black;cursor: pointer;border-radius: 2px;" onclick="confirmFun()" type="button">확인</button></span></td>
+									</tr>
+								</tbody>
+							</table>
+					</div>
+				</div>
+				<div style='width: 830px;padding:0px 0px 0px 0px;'>
+					<div style='width:830px;'>
+						<div style='width: 810px;'>
+							<div style="height:10px;"></div>
+							<div style='width:100%;font-size:25px;margin-bottom:15px;text-align:left;'>주소록</div>
+							<table width="98%" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size: 13px;">
+								<tbody>
+									<tr height="30">
+										<td width="10"></td>
+										<td width="20%" style="text-align: center;padding: 2px;border: 1px solid #565656 ;background: #f65c50 !important;height: 35px;border-bottom: 0px;">
+											<a href="" style="color: #fff !important;">자주쓰는 배송지</a>
+										</td>
+										<td width="20%" style="text-align: center;padding: 2px;border: 1px solid #565656 ;height: 35px;border-bottom: 0px;">
+											<a href="/addressBook2Popup.html?page=1" style="color: #515151;">최근 배송지</a></td>
+										<td>
+											<span><input type="button" value="등록" style="background-color: #686565 !important;color: white !important;width: 85px !important;height: 30px !important;font-size: 12px;border: 0px;border-radius: 4px;cursor: pointer;float: right;" onclick="registFun()"></span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div style="height:10px;border-top: 1px solid #565656;"></div>
+							<table id='addressTb' style='width: 790px;border-top:solid 2px;font-size: 12px;border-spacing: 0px;text-align:center;margin-bottom: 20px;'>
+								<tr>
+									<td style="padding:5px 10px 5px 10px;width: 180px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);border-left: solid 1px rgb(204,204,204);">배송지설명</td><td style="padding:5px 10px 5px 10px;border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);border-right: solid 1px rgb(204,204,204);width:80px;">받는분</td>
+									<td style="padding:5px 10px 5px 10px;width: 230px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);">주소</td>
+									<td style="padding:5px 1px 5px 1px;width: 110px;border-right: solid 1px rgb(204,204,204);border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);">연락처</td>
+									<td style="padding:5px 10px 5px 10px;border-bottom: solid 1px rgb(204,204,204);background-color:rgb(245,245,245);">관리</td>
+								</tr>
+								<tr id="noAddress"><td colspan="5" style="height:100px;">등록하신 자주쓰는 배송지가 없습니다.</td></tr>
+							</table>
+							<div id="page" style="padding-bottom: 20px;"></div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

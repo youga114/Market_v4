@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>마을마켓</title>
+	<script src="js/jquery-3.1.1.js"></script>
+	<script src="js/header.js"></script>
+	<script src="js/loginCheck.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/numberWithCommas.js"></script>
+	<link rel="stylesheet" type="text/css" charset="utf-8" href="css/main.css" />
+	<link rel="stylesheet" type="text/css" charset="utf-8" href="css/index.css" />
+</head>
+<body>
+	<div id="page-wrapper" align="center">
+		<div>
+			<header id="header">
+				<div class="main-bg isTop">
+					<div class="main-bg-bar">
+						<ul class="main-bg-bar-nav">
+							<li style="border-right: 0;">
+								<a id="cart_a" href="">장바구니</a>
+							</li>
+							<li>
+								<a href="/service/home">고객센터</a>
+							</li>
+							<li>
+								<a id="myInfo_a" href="">마이페이지</a>
+							</li>
+							<li>
+								<a href="/joinAgree.html">회원가입</a>
+							</li>
+							<li>
+								<a id="login_a" href="">로그인</a>
+							</li>
+						</ul>
+					</div>
+					<div class="main-bg-header">
+						<div class="main-bg-header-container">
+							<a href="/" class="main-bg-header-container-logo">
+								<div style="font-family: 'Yoon_러브레터M';font-size: 40px;font-weight: lighter;">마을마켓</div>
+								<div style="font-family: 'Yoon_러브레터M';font-size: 180px;font-weight: lighter;margin-top: -85px;height: 80px;margin-left: 30px;">소소</div>
+							</a>
+							<div id="magnifier" align="right" style="margin-top: 10px;">
+								<span style="border: 1px solid #ddd;padding: 0px 5px;">
+									<img src="img/main/magnifier.png" width="14" height="14">
+									<input type="text" name="search" style="border: none;font-size: 15px;margin-left: 2px;">
+								</span>
+							</div>
+							<div class="main-bg-header-container-catchcopy">
+								<font style="vertical-align: inherit;">
+									상품 하나하나에 이웃의 이야기와 자부심이 있습니다.
+								</font>
+								<br>
+							</div>
+							<div style="text-align: left;">
+								<a href="./" class="main-bg-header-container-home"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">홈</font></font></a>
+								<div class="main-bg-header-container-nav">
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/category.html?high_num=1&view=2">식품</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/category.html?high_num=2&view=2">생활</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											기획
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list">
+										<font style="vertical-align: inherit;">
+											<a href="/news_list">마마톡</a>
+										</font>
+									</dl>
+									<dl class="main-bg-header-container-nav-list" style="border-right: 0px;">
+										<font style="vertical-align: inherit;">
+											이웃마을
+										</font>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+			<div id = "container">
+				<div style="position: relative;margin: 0 auto;box-sizing: content-box;width: 100%;">
+					<div class="slider_panel">
+						<div class="slider_panel-container">
+							<div class="slider_panel-container-mask">
+								<div id="slider_panel" class="slider_panel-container-mask-slides">
+
+								</div>
+								<div id="leftArrow" class="arrow" style="padding: 1%;border-bottom-right-radius: 15px;border-top-right-radius: 15px;" data-index="">
+									<img src="img/main/left.png" style="height: 100%;width: 100%;">
+								</div>
+								<div id="rightArrow" class="arrow" style="left:97%;border-bottom-left-radius: 15px;border-top-left-radius: 15px;" data-index="2">
+									<img src="img/main/right.png" style="height: 100%;width: 100%;">
+								</div>
+							</div>
+							<div class="slider_panel-container-arrows">
+								
+							</div>
+						</div>
+						<div id="sp-buttons" class="slider_panel-buttons">
+							
+						</div>
+					</div>
+				</div>
+				<div class="secondMenu">
+					<ul>
+						<li>
+							<span>EVENT</span>
+						</li>
+						<li>
+							<span><a href="/category.html?view=2">ITEM</a></span>
+						</li>
+						<li>
+							<span><a href="/news_list">NEWS</a></span>
+						</li>
+						<li>
+							<span>STORY</span>
+						</li>
+					</ul>
+				</div>
+
+				<div class="info">
+					<div class="info-inner">
+					  	<h2 style="font-family: 'Yoon_러브레터M';font-size: 25px;font-weight: lighter;">알림</h2>
+					  	<ul id="noticeList">
+
+					    </ul>
+					</div>	
+				</div>
+				<div>
+					<div style="font-size: 25px;margin-top: 40px;font-family: 'Yoon_러브레터M';background-color: white;">
+						<table style="width: 100%;">
+							<tr>
+								<td width="484">
+									<hr>
+								</td>
+								<td>
+									<img src="img/main/leftIcon.png" width="20" height="20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;인기상품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="img/main/rightIcon.png" width="20" height="20">
+								</td>
+								<td width="483">
+									<hr>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="recomendItem">
+						<ul id="popularGoods">
+
+						</ul>
+					</div>
+				</div>
+				<div class="recommendUnderDiv">
+					<div>
+						<table style="width: 100%;" id="story1">
+
+						</table>
+					</div>
+				</div>
+					<div style="font-size: 25px;font-family: 'Yoon_러브레터M';background-color: white;">
+						<table style="width: 100%;">
+							<tr>
+								<td width="486">
+									<hr>
+								</td>
+								<td>
+									<img src="img/main/leftIcon.png" width="20" height="20">&nbsp;&nbsp;&nbsp;소소 상품 추천&nbsp;&nbsp;&nbsp;<img src="img/main/rightIcon.png" width="20" height="20">
+								</td>
+								<td width="486">
+									<hr>
+								</td>
+							</tr>
+						</table>
+					</div>
+				<div>
+					<div class="recomendItem">
+						<ul id="recommendGoods">
+
+						</ul>
+					</div>
+				</div>
+			</div>
+			<footer id="footer" style="margin-top: 0px;">
+				<div class="footer-container">
+					<div class="footer-top" align="center">
+						상품에 대하여 배송, 교환, 반품의 민원 A/S 등은  "다시 뛰는 사람들"에서 처리하며 모든 책임은 "다시 뛰는 사람들"에 있습니다.​
+	민원 담당자 : 마을마켓 소소 고객센터 /  연락처 : 031-963-2900 
+					</div>
+					<div class="footer-mid" align="left">
+						<p style="font-size: 12px;">
+							<b>다시 뛰는 사람들</b>
+						</p>
+						<p style="font-size: 11px;">
+							우)10460 경기도 고양시 덕양구 고양시청로 13-2 성광빌딩 4층
+						</p>
+						<p style="font-size: 11px;">
+							| 대표자: 이영아 | 사업자등록번호: 128-86-63160 | 통신판매업신고: <!--제 2017-고양덕양구-0076호-->
+						</p>
+					</div>
+					<div class="footer-bottom" align="left">
+						<p style="font-size: 12px;">
+							<b>고객센터</b>
+						</p>
+						<p style="font-size: 11px;">
+							| Tel (031)963-2900 | Fax (031)965-2900 | e-mail: webmaster@mygoyang.com
+						</p>
+						<p style="font-size: 11px;">
+							| 월-금: 오전10시 - 오후 6시 (Break hour: 오후 1시 ~ 오후 2시)
+						</p>
+					</div>
+					<div class="pageTop">
+						<a href="#" class="pageTop-a">
+							<img src="/img/main/pageTop.png" width="100">
+						</a>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script>
+		var run;
+		var bannerNum=0;
+		var transF;
+		var transformNum;
+		let selectData=1;
+
+		$(document).ready(function(){
+			$.get("bringBanner",function(data){
+				var output='';
+				for(var i=0;i<data.length;i++){
+					if(i>parseInt(data.length/2)){
+						output+='<div id="judgeSel'+(i+1)+'" class="slider_panel-container-mask-slides-slide';
+					}
+					else{
+						output+='<div id="judgeSel'+(i+1)+'" class="slider_panel-container-mask-slides-slide';
+					}
+					if(i==0){
+						output+=' selected';
+					}
+					output+='"><div class="slider_panel-container-mask-slides-slide-container"><a href="'+data[i].BN_BANNER_LK+'"><img src="'+data[i].BN_BANNER_IM+'" class="slider_panel-container-mask-slides-slide-image"></a></div></div>';
+				}
+				$("#slider_panel").append(output);
+				bannerNum=i;
+				$("#leftArrow").attr("data-index",bannerNum+"");				//왼쪽화살표에 data-index라는 속성에 왼쪽 배너 번호 저장
+
+
+
+				var wantLeft=parseInt(data.length/2+0.5);
+				var imageWidth=parseInt($(".slider_panel-container-mask-slides-slide-image").css("width"));			//이미지의 너비
+				var ocha=(parseInt($(".slider_panel-container-mask").css("width"))-imageWidth)/2;
+				transformNum=-(wantLeft*imageWidth-ocha);
+				$("#slider_panel").css("transform","translate3d("+transformNum+"px,0px,0px)");
+				var moveDiv=selectData;
+				while(1){
+					$("#judgeSel"+moveDiv).css("left",(imageWidth*wantLeft)+"px");
+					moveDiv-=1;
+					wantLeft-=1;
+					if(moveDiv==0){
+						moveDiv=bannerNum;
+					}
+					if(wantLeft==0){
+						wantLeft=bannerNum;
+					}
+					if(moveDiv==selectData){
+						break;
+					}
+				}
+
+				run=setTimeout(setMoveSlider,5000);
+
+				$(".slider_panel-container-mask").hover(function(){
+					clearInterval(run);
+				},function(){
+					clearInterval(run);
+					run=setTimeout(setMoveSlider,5000);
+				})
+
+				$("#rightArrow").click(function(){
+					var data=$(this).attr("data-index");
+					clearInterval(run);
+					run=setTimeout(setMoveSlider,5000);
+					moveSlider(data);
+				})
+				$("#leftArrow").click(function(){
+					var data=$(this).attr("data-index");
+					clearInterval(run);
+					run=setTimeout(setMoveSlider,5000);
+					moveLeftSlider(data);
+				})
+
+				var output='';
+				for(var i=0;i<bannerNum;i++){
+					if(i==0){
+						output+='<div id="judgeSelButton'+(i+1)+'" data-index="'+(i+1)+'" class="slider_panel-button slider_panel-selected-button"></div>';
+					}
+					else{
+						output+='<div id="judgeSelButton'+(i+1)+'" data-index="'+(i+1)+'" class="slider_panel-button"></div>';
+					}
+				}
+				$("#sp-buttons").append(output);
+
+				for(var i=0;i<bannerNum;i++){
+					$("#judgeSelButton"+(i+1)).click(function(){
+						var dataIndex=parseInt($(this).attr("data-index"));
+
+						var rightNum=0;
+						var momentSelectData=selectData;
+						while(momentSelectData!=dataIndex){
+							rightNum++;
+							momentSelectData++;
+							if(momentSelectData>bannerNum){
+								momentSelectData=1;
+							}
+						}
+						var leftNum=0;
+						momentSelectData=selectData;
+						while(momentSelectData!=dataIndex){
+							leftNum++;
+							momentSelectData--;
+							if(momentSelectData<1){
+								momentSelectData=bannerNum;
+							}
+						}
+
+						if(rightNum<=leftNum){
+							clearInterval(run);
+							run=setTimeout(setMoveSlider,5000);
+							moveSlider(dataIndex);
+						}
+						else{
+							clearInterval(run);
+							run=setTimeout(setMoveSlider,5000);
+							moveLeftSlider(dataIndex);
+						}
+					})
+				}
+			})
+
+			$.get("/recommendGoods",function(data){
+				var output='';
+				var lengthNum=0;
+				for(var i=0;i<6;i++){
+					if(data.data[i].RC_GD_FK!=null){
+						lengthNum++;
+						for(var j=0;j<data.data2.length;j++){
+							if(data.data[i].RC_GD_FK==data.data2[j].GD_PK){
+								break;
+							}
+						}
+						output+='<li class="c-product-list__item">';
+						output+='	<a href="/itemInfo.html?item='+data.data2[j].GD_PK+'" class="c-product-list__image-wrap c-image-wrap c-image-wrap--link">';
+						output+='		<div class="image-box image-main">';
+						output+='			<img src="'+data.data2[j].GD_MAIN_IM.split(',')[0]+'" class="image-box-image">';
+						output+='		</div>';
+						// output+='		<div class="image-box image-other">';
+						// output+='			<img src="'+data.data2[j].GD_MAIN_SIM+'" class="image-box-image">';
+						// output+='		</div>';
+						output+='	</a>';
+						output+='	<a href="/itemInfo.html?item='+data.data2[j].GD_PK+'" class="c-product-list__name">';
+						output+='		<font style="vertical-align: inherit;"><font style="vertical-align: inherit;">';
+						output+='			'+data.data2[j].GD_GOOD_NM;
+						output+='		</font></font>';
+						output+='	</a>';
+						output+='	<div class="c-product-info__price c-product-list__price"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">';
+						output+='		<span style="margin-left:8px;"><strong>'+numberWithCommas(data.data2[j].GD_SELL_PR)+'<span style="font-size:10pt;">원</span></strong></span>';
+						output+='	</font></font></div>';
+						output+='	<div class="c-product-list__expl"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">';
+						output+='		'+data.data2[j].GD_GOOD_SNM;
+						output+='	</font></font></div>';
+					}
+				}
+				$('#recommendGoods').empty().append(output);
+
+				if(lengthNum<4){
+					$(".recommendUnderDiv").css("margin-top","400px");
+				}
+				if(lengthNum<1){
+					$(".recommendUnderDiv").css("margin-top","0px");
+				}
+
+				output='';
+				lengthNum=0;
+				for(var i=12;i<18;i++){
+					if(data.data[i].RC_GD_FK!=null){
+						lengthNum++;
+						for(var j=0;j<data.data2.length;j++){
+							if(data.data[i].RC_GD_FK==data.data2[j].GD_PK){
+								break;
+							}
+						}
+						output+='<li class="c-product-list__item">';
+						output+='	<a href="/itemInfo.html?item='+data.data2[j].GD_PK+'" class="c-product-list__image-wrap c-image-wrap c-image-wrap--link">';
+						output+='		<div class="image-box image-main">';
+						output+='			<img src="'+data.data2[j].GD_MAIN_IM.split(',')[0]+'" class="image-box-image">';
+						output+='		</div>';
+						// output+='		<div class="image-box image-other">';
+						// output+='			<img src="'+data.data2[j].GD_MAIN_SIM+'" class="image-box-image">';
+						// output+='		</div>';
+						output+='	</a>';
+						output+='	<a href="/itemInfo.html?item='+data.data2[j].GD_PK+'" class="c-product-list__name">';
+						output+='		<font style="vertical-align: inherit;"><font style="vertical-align: inherit;">';
+						output+='			'+data.data2[j].GD_GOOD_NM;
+						output+='		</font></font>';
+						output+='	</a>';
+						output+='	<div class="c-product-info__price c-product-list__price"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">';
+						output+='		<span style="margin-left:8px;"><strong>'+numberWithCommas(data.data2[j].GD_SELL_PR)+'<span style="font-size:10pt;">원</span></strong></span>';
+						output+='	</font></font></div>';
+						output+='	<div class="c-product-list__expl"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">';
+						output+='		'+data.data2[j].GD_GOOD_SNM;
+						output+='	</font></font></div>';
+					}
+				}
+				$('#popularGoods').empty().append(output);
+
+				if(lengthNum<4){
+					$(".popularUnderDiv").css("margin-top","500px");
+				}
+				if(lengthNum<1){
+					$(".popularUnderDiv").css("margin-top","0px");
+				}
+			});
+
+			$.get("/bringNotice",function(data){
+				var output='';
+				for(var i=data.length-1;i>data.length-4&&i>=0;i--){
+					var date=data[i].NT_REGDATE_YMD;
+					output+='<li style="list-style:none;"><span class="date"><font style="vertical-align: inherit;text-decoration:underline;">'+date.slice(0,4)+'.'+date.slice(4,6)+'.'+date.slice(6,8)+'</font></span><a href="/noticeInfo.html?notice='+data[i].NT_PK+'"><font style="vertical-align: inherit;"><font class="noneTextdecoHover">'+data[i].NT_NOTICE_NM+'</font></font></a></li>';
+				}
+				$("#noticeList").append(output);
+			})
+
+			$.get("/bringStory",function(data){
+				var output='';
+				for(var i=0;i<2;i++){
+					output+='<tr>';
+					if(data[i].ST_NW_FK!=null){
+						output+='	<td width="100%" style="padding:20px 0px;">';
+						output+='		<a href="readNews?&news_NO='+data[i].ST_NW_FK+'"><img src="'+data[i].ST_STORY_IM+'" width="100%" height="250"></a>';
+						output+='	</td>';
+					}
+					output+='</tr>';
+				}
+				$('#story1').empty().append(output);
+			});
+		})
+
+
+		function moveSlider(data){
+			data=parseInt(data);
+			var moveDiv;
+			if(data+1<=bannerNum){
+				moveDiv=data+1;
+			}
+			else{
+				moveDiv=1;
+			}
+			var goBack=data;
+			var imageWidth=parseInt($(".slider_panel-container-mask-slides-slide-image").css("width"));
+			$("#judgeSel"+moveDiv).css("left",parseInt($("#judgeSel"+goBack).css("left"))+imageWidth);
+
+			var momentSelectData=selectData;
+			while(momentSelectData!=data){
+				transformNum-=imageWidth;
+				momentSelectData++;
+				if(momentSelectData>bannerNum){
+					momentSelectData=1;
+				}
+			}
+
+			$("#slider_panel").css("transition","transform 0.7s").css("transform","translate3d("+transformNum+"px,0px,0px)");
+
+			selectData=data;
+			clearInterval(transF);
+			transF=setTimeout(transFun,700);
+			$(".selected").removeClass("selected");
+			$("#judgeSel"+data).addClass("selected");
+			$(".slider_panel-selected-button").removeClass("slider_panel-selected-button");
+			$("#judgeSelButton"+data).addClass("slider_panel-selected-button");
+
+			arrowModifyFun(data);
+		}
+
+		function moveLeftSlider(data){
+			data=parseInt(data);
+			var moveDiv;
+			if(data-1>0){
+				moveDiv=data-1;
+			}
+			else{
+				moveDiv=data-1+bannerNum;
+			}
+			var goBack=data;
+			if(goBack>bannerNum){
+				goBack=1;
+			}
+			var imageWidth=parseInt($(".slider_panel-container-mask-slides-slide-image").css("width"));
+			$("#judgeSel"+moveDiv).css("left",parseInt($("#judgeSel"+goBack).css("left"))-imageWidth);
+
+			var momentSelectData=selectData;
+			while(momentSelectData!=data){
+				transformNum+=imageWidth;
+				momentSelectData--;
+				if(momentSelectData<1){
+					momentSelectData=bannerNum;
+				}
+			}
+
+			$("#slider_panel").css("transition","transform 0.7s").css("transform","translate3d("+transformNum+"px,0px,0px)");
+
+			selectData=data;
+			clearInterval(transF);
+			transF=setTimeout(transFun,700);
+			$(".selected").removeClass("selected");
+			$("#judgeSel"+data).addClass("selected");
+			$(".slider_panel-selected-button").removeClass("slider_panel-selected-button");
+			$("#judgeSelButton"+data).addClass("slider_panel-selected-button");
+
+			arrowModifyFun(data);
+		}
+
+		function arrowModifyFun(data){
+			if(data<=1){
+				$("#leftArrow").attr("data-index",bannerNum);
+			}
+			else{
+				$("#leftArrow").attr("data-index",(parseInt(data)-1));
+			}
+			if(data>=bannerNum){
+				$("#rightArrow").attr("data-index",1);
+			}
+			else{
+				$("#rightArrow").attr("data-index",(parseInt(data)+1));
+			}
+		}
+
+		function setMoveSlider(){
+			var data=$("#rightArrow").attr("data-index");
+			moveSlider(data);
+			clearInterval(run);
+			run=setTimeout(setMoveSlider,5000);
+		}
+
+		function transFun(){
+			var wantLeft=parseInt(bannerNum/2+0.5);
+			var imageWidth=parseInt($(".slider_panel-container-mask-slides-slide-image").css("width"));
+			var ocha=(parseInt($(".slider_panel-container-mask").css("width"))-imageWidth)/2;
+			transformNum=-(wantLeft*imageWidth-ocha);
+			$("#slider_panel").css("transition","transform 0s").css("transform","translate3d("+transformNum+"px,0px,0px)");
+
+			var moveDiv=selectData;
+			while(1){
+				$("#judgeSel"+moveDiv).css("left",(imageWidth*wantLeft)+"px");
+				moveDiv-=1;
+				wantLeft-=1;
+				if(moveDiv==0){
+					moveDiv=bannerNum;
+				}
+				if(wantLeft==0){
+					wantLeft=bannerNum;
+				}
+				if(moveDiv==selectData){
+					break;
+				}
+			}
+		}
+
+
+	</script>
+</body>
+</html>
